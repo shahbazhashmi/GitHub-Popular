@@ -1,4 +1,4 @@
-package gojek.github.db
+package org.gojek.github.db
 
 import android.annotation.SuppressLint
 import android.os.Parcelable

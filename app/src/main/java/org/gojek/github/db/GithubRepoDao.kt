@@ -1,4 +1,4 @@
-package gojek.github.db
+package org.gojek.github.db
 
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

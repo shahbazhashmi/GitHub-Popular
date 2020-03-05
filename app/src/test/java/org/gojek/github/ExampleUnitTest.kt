@@ -1,4 +1,4 @@
-package gojek.github
+package org.gojek.github
 
 import org.junit.Test
 
