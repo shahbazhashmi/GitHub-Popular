@@ -1,4 +1,4 @@
-package org.gojek.github.db
+package org.gojek.github.data
 
 import android.content.Context
 import androidx.room.Database

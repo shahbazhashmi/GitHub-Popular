@@ -1,5 +1,6 @@
-package org.gojek.github.db
+package org.gojek.github.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -11,7 +12,7 @@ import androidx.room.Query
 interface GithubRepoDao {
 
     @Query("SELECT * FROM github_repo")
-    fun getAllGithubRepos(): List<GithubRepo?>?
+    fun getAllGithubRepos(): LiveData<List<GithubRepo?>?>
 
     @Query("DELETE FROM github_repo")
     fun deleteAllGithubRepos()

@@ -14,6 +14,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", '"https://github-trending-api.now.sh/"'
     }
@@ -48,7 +49,11 @@ dependencies {
 
     kapt "com.android.databinding:compiler:$gradle_version"
 
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
