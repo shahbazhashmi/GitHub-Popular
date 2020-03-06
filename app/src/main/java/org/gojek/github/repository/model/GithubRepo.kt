@@ -2,7 +2,10 @@ package org.gojek.github.repository.model
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
@@ -19,41 +22,31 @@ import java.util.*
 @Entity(tableName = "github_repo")
 data class GithubRepo(
     @PrimaryKey
-    @ColumnInfo(name = "url")
     @SerializedName("url")
     var url: String = "",
-    @ColumnInfo(name = "author")
     @SerializedName("author")
     var author: String? = "",
-    @ColumnInfo(name = "avatar")
     @SerializedName("avatar")
     var avatar: String? = "",
-    @ColumnInfo(name = "builtBy")
-    @SerializedName("builtBy")
+    /*@SerializedName("builtBy")
     @TypeConverters(BuiltByConverter::class)
-    var builtBy: List<BuiltBy?>? = listOf(),
-    @ColumnInfo(name = "currentPeriodStars")
+    var builtBy: List<BuiltBy?>? = listOf(),*/
     @SerializedName("currentPeriodStars")
     var currentPeriodStars: Int? = 0,
-    @ColumnInfo(name = "description")
     @SerializedName("description")
     var description: String? = "",
-    @ColumnInfo(name = "forks")
     @SerializedName("forks")
     var forks: Int? = 0,
-    @ColumnInfo(name = "language")
     @SerializedName("language")
     var language: String? = "",
-    @ColumnInfo(name = "languageColor")
     @SerializedName("languageColor")
     var languageColor: String? = "",
-    @ColumnInfo(name = "name")
     @SerializedName("name")
     var name: String? = "",
-    @ColumnInfo(name = "stars")
     @SerializedName("stars")
     var stars: Int? = 0
 ) : Parcelable
+
 
 @SuppressLint("ParcelCreator")
 @Parcelize
@@ -66,9 +59,11 @@ data class BuiltBy(
     var username: String? = ""
 ) : Parcelable
 
+
 /**
  * DataTypeConverter - to save list data locally without typecasting
  */
+
 object BuiltByConverter {
     private val gson = Gson()
     @TypeConverter

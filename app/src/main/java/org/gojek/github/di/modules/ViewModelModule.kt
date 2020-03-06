@@ -1,9 +1,13 @@
 package org.gojek.github.di.modules
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoMap
 import org.gojek.github.di.base.ViewModelFactory
+import org.gojek.github.di.base.ViewModelKey
+import org.gojek.github.ui.githubrepo.GithubRepoViewModel
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
@@ -11,22 +15,11 @@ import org.gojek.github.di.base.ViewModelFactory
 @Module
 abstract class ViewModelModule {
 
-    /**
-     * Binding NewsArticleViewModel using this key "NewsArticleViewModel::class"
-     * So you can get NewsArticleViewModel using "NewsArticleViewModel::class" key from factory
-     *//*
-    @Binds
-    @IntoMap
-    @ViewModelKey(NewsArticleViewModel::class)
-    abstract fun bindNewsArticleViewModel(newsArticleViewModel: NewsArticleViewModel): ViewModel
 
-    *//**
-     * Countries List View Model
-     *//*
     @Binds
     @IntoMap
-    @ViewModelKey(CountriesViewModel::class)
-    abstract fun bindCountriesViewModel(countriesViewModel: CountriesViewModel): ViewModel*/
+    @ViewModelKey(GithubRepoViewModel::class)
+    abstract fun bindGithubRepoViewModel(countriesViewModel: GithubRepoViewModel): ViewModel
 
     /**
      * Binds ViewModels factory to provide ViewModels.

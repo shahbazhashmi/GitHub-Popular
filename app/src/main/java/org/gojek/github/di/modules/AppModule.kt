@@ -5,6 +5,8 @@ import android.content.res.Resources
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.gojek.github.BuildConfig.BASE_URL
 import org.gojek.github.app.AppController
 import org.gojek.github.repository.api.ApiService
@@ -28,10 +30,21 @@ class AppModule {
     @Singleton
     @Provides
     fun provideNewsService(): ApiService {
+
+        val logging = HttpLoggingInterceptor()
+        // set your desired log level
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val httpClient = OkHttpClient.Builder()
+        // add your other interceptors …
+        // add logging as last interceptor
+        httpClient.addInterceptor(logging) // <-- this is the important line!
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactoryForRetrofit())
+            .client(httpClient.build())
             .build()
             .create(ApiService::class.java)
     }
