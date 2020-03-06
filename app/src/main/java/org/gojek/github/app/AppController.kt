@@ -1,24 +1,27 @@
 package org.gojek.github.app
 
+import android.app.Activity
 import android.app.Application
-import android.content.res.Resources
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import org.gojek.github.di.base.AppInjector
+import javax.inject.Inject
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-04.
  */
-class AppController : Application() {
+class AppController : Application(), HasActivityInjector {
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        resourses = resources
+
+        AppInjector.init(this)
     }
 
-    companion object {
-        @get:Synchronized
-        var instance: AppController? = null
-            private set
-        var resourses: Resources? = null
-            private set
-
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return dispatchingAndroidInjector
     }
 }

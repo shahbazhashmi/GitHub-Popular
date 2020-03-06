@@ -1,6 +1,8 @@
 package org.gojek.github.repository.repo
 
+import android.content.Context
 import androidx.lifecycle.LiveData
+import org.gojek.github.app.AppExecutors
 import org.gojek.github.repository.api.ApiService
 import org.gojek.github.repository.api.network.NetworkAndDBBoundResource
 import org.gojek.github.repository.api.network.NetworkResource
@@ -13,9 +15,11 @@ import javax.inject.Inject
 /**
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
-class GithubRepoRepository(
+class GithubRepoRepository @Inject constructor(
     private val githubRepoDao: GithubRepoDao,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val context: Context,
+    private val appExecutors: AppExecutors = AppExecutors()
 ) {
 
     /**
