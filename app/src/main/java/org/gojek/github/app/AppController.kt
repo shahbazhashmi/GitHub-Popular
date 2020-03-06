@@ -1,4 +1,4 @@
-package org.gojek.github
+package org.gojek.github.app
 
 import android.app.Application
 import android.content.res.Resources

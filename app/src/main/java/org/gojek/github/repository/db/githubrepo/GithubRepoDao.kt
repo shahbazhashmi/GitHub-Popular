@@ -1,9 +1,10 @@
-package org.gojek.github.data
+package org.gojek.github.repository.db.githubrepo
 
 import androidx.lifecycle.LiveData
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import org.gojek.github.repository.model.GithubRepo
 
 
 /**
@@ -12,12 +13,15 @@ import androidx.room.Query
 interface GithubRepoDao {
 
     @Query("SELECT * FROM github_repo")
-    fun getAllGithubRepos(): LiveData<List<GithubRepo?>?>
+    fun getAllRepos(): LiveData<List<GithubRepo>>
 
     @Query("DELETE FROM github_repo")
-    fun deleteAllGithubRepos()
+    fun deleteAllRepos()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertGithubRepo(repo: GithubRepo?)
+    fun insertRepo(repo: GithubRepo)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRepos(repos: List<GithubRepo>)
 
 }

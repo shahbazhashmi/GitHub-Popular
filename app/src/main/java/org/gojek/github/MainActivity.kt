@@ -2,8 +2,6 @@ package org.gojek.github
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import org.gojek.github.data.GithubRepoDao
-import org.gojek.github.data.GithubRepoRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,6 +9,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //GithubRepoRepository.getInstance(GithubRepoDao)
     }
 }
