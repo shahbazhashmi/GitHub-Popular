@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import org.gojek.github.repository.api.network.Resource
 import org.gojek.github.repository.model.GithubRepo
 import org.gojek.github.repository.repo.GithubRepoRepository
+import org.gojek.github.ui.loader.LoaderHelper
 import javax.inject.Inject
 
 /**
@@ -14,6 +15,8 @@ class GithubRepoViewModel @Inject constructor(
     private val githubRepoRepository: GithubRepoRepository
 ) : ViewModel() {
 
+    @Inject
+    lateinit var loaderHelper: LoaderHelper
 
     private fun githubRepos(): LiveData<Resource<List<GithubRepo>?>> =
         githubRepoRepository.getGithubRepos()

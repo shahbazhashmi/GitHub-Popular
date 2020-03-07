@@ -21,7 +21,11 @@ class GithubRepoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_github_repo);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_github_repo)
+        binding.vm = githubRepoViewModel
+        githubRepoViewModel.loaderHelper.setRetryListener {
+            getGithubRepos()
+        }
         getGithubRepos()
     }
 
@@ -32,10 +36,11 @@ class GithubRepoActivity : BaseActivity() {
         githubRepoViewModel.getGithubRepos().observe(this) {
             when {
                 it.status.isLoading() -> {
-                    //news_list.showProgressView()
+                    githubRepoViewModel.loaderHelper.showLoading()
                 }
                 it.status.isSuccessful() -> {
                     Log.d(TAG, "success")
+                    githubRepoViewModel.loaderHelper.dismiss()
                     /*it.load(news_list) {
                         // Update the UI as the data has changed
                         it?.let { adapter.replaceItems(it) }
@@ -43,6 +48,7 @@ class GithubRepoActivity : BaseActivity() {
                 }
                 it.status.isError() -> {
                     Log.d(TAG, it.errorMessage.toString())
+                    githubRepoViewModel.loaderHelper.showError(it.errorMessage.toString())
                     /*if (it.errorMessage != null)
                         ToastUtil.showCustomToast(this, it.errorMessage.toString())*/
                 }

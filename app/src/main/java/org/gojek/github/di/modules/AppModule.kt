@@ -13,6 +13,7 @@ import org.gojek.github.repository.api.ApiService
 import org.gojek.github.repository.api.network.LiveDataCallAdapterFactoryForRetrofit
 import org.gojek.github.repository.db.AppDatabase
 import org.gojek.github.repository.db.githubrepo.GithubRepoDao
+import org.gojek.github.ui.loader.LoaderHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -47,6 +48,15 @@ class AppModule {
             .client(httpClient.build())
             .build()
             .create(ApiService::class.java)
+    }
+
+
+    /**
+     * Provides GithubRepoDao an object to access GithubRepo table from Database
+     */
+    @Provides
+    fun provideLoaderHelper(): LoaderHelper {
+        return LoaderHelper()
     }
 
 
