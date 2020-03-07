@@ -11,7 +11,8 @@ import org.gojek.github.repository.api.network.Status
  */
 class LoaderViewModel : ViewModel() {
     var loaderState: ObservableField<Status> = ObservableField()
-    var text: ObservableField<String> = ObservableField()
+    var errorTitle: ObservableField<String> = ObservableField()
+    var errorDescription: ObservableField<String> = ObservableField()
     var isVisible : ObservableField<Boolean> = ObservableField()
 
     var retryClick: () -> Unit = {}

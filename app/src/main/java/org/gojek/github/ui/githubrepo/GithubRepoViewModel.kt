@@ -12,11 +12,10 @@ import javax.inject.Inject
  * Created by Shahbaz Hashmi on 2020-03-06.
  */
 class GithubRepoViewModel @Inject constructor(
-    private val githubRepoRepository: GithubRepoRepository
+    private val githubRepoRepository: GithubRepoRepository,
+    val loaderHelper: LoaderHelper
 ) : ViewModel() {
 
-    @Inject
-    lateinit var loaderHelper: LoaderHelper
 
     private fun githubRepos(): LiveData<Resource<List<GithubRepo>?>> =
         githubRepoRepository.getGithubRepos()

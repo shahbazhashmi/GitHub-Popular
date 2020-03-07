@@ -2,5 +2,6 @@
     <string name="app_name">Gojek-GitHub</string>
     <string name="txt_retry">Retry</string>
     <string name="txt_internet_error">error in Internet connection</string>
-    <string name="txt_something_went_wrong">Something went wrong !</string>
+    <string name="txt_something_went_wrong">Something went wrong..</string>
+    <string name="txt_alien_blocking_signal">An alien is probably blocking your signal.</string>
 </resources>

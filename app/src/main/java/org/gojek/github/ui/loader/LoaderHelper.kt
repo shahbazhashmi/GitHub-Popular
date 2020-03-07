@@ -26,8 +26,9 @@ class LoaderHelper {
         loaderViewModel.isVisible.set(true)
     }
 
-    fun showError(errorText: String?) {
-        loaderViewModel.text.set(errorText)
+    fun showError(errorTitle: String?, errorDescription: String?) {
+        loaderViewModel.errorTitle.set(errorTitle)
+        loaderViewModel.errorDescription.set(errorDescription)
         loaderViewModel.loaderState.set(Status.ERROR)
         loaderViewModel.isVisible.set(true)
     }

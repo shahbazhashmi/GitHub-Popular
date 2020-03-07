@@ -18,28 +18,28 @@
         android:background="@color/app_white">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineLeft"
+            android:id="@+id/guideline_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/spacing_20" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineRight"
+            android:id="@+id/guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/spacing_20" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineTop"
+            android:id="@+id/guideline_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="@dimen/spacing_20" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineBottom"
+            android:id="@+id/guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -47,41 +47,72 @@
 
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progressbar_loader"
             android:visibility="@{vm.loaderState == Status.LOADING}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
-            app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
-            app:layout_constraintRight_toRightOf="@id/guidelineRight"
-            app:layout_constraintTop_toTopOf="@id/guidelineTop" />
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right"
+            app:layout_constraintTop_toTopOf="@id/guideline_top" />
+
+
+        <ImageView
+            android:id="@+id/imageview_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/nointernet_connection"
+            android:visibility="@{vm.loaderState == Status.ERROR}"
+            app:layout_constraintBottom_toTopOf="@+id/button_retry"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right"
+            app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
 
         <TextView
-            android:id="@+id/text_tv"
-            android:visibility="@{vm.loaderState != Status.LOADING}"
-            android:layout_width="0dp"
+            android:id="@+id/textview_error_title"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@{vm.text}"
+            android:layout_marginTop="@dimen/spacing_16"
             android:textColor="@color/app_black"
-            android:textSize="@dimen/font_14"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
-            app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
-            app:layout_constraintRight_toRightOf="@id/guidelineRight"
-            app:layout_constraintTop_toTopOf="@id/guidelineTop" />
+            android:text="@{vm.errorTitle}"
+            android:textSize="@dimen/font_20"
+            android:textStyle="bold"
+            android:visibility="@{vm.loaderState == Status.ERROR}"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/imageview_error" />
+
+        <TextView
+            android:id="@+id/textview_error_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_6"
+            android:text="@{vm.errorDescription}"
+            android:textSize="@dimen/font_16"
+            android:textStyle="normal"
+            android:visibility="@{vm.loaderState == Status.ERROR}"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@+id/textview_error_title" />
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
+            android:id="@+id/button_retry"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
             android:visibility="@{vm.loaderState == Status.ERROR}"
             android:onClick="@{() -> vm.onRetryClick()}"
             android:text="@string/txt_retry"
-            app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
-            app:layout_constraintRight_toRightOf="@id/guidelineRight"
-            app:layout_constraintTop_toBottomOf="@+id/text_tv" />
+            android:background="@drawable/background_round_corner"
+            android:textColor="@color/app_green"
+            android:textSize="@dimen/font_16"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
