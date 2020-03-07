@@ -65,8 +65,8 @@ class AppModule {
      * Provides GithubRepoAdapter an object
      */
     @Provides
-    fun provideGithubRepoAdapter(): GithubRepoAdapter {
-        return GithubRepoAdapter()
+    fun provideGithubRepoAdapter(context: Context): GithubRepoAdapter {
+        return GithubRepoAdapter(context)
     }
 
 

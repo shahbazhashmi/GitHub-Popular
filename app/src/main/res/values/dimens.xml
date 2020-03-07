@@ -10,7 +10,7 @@
     <dimen name="spacing_4">4dp</dimen>
     <dimen name="spacing_2">2dp</dimen>
 
-    <dimen name="repo_image_dimension">40dp</dimen>
+    <dimen name="repo_image_dimension">46dp</dimen>
 
     <dimen name="font_20">20sp</dimen>
     <dimen name="font_18">18sp</dimen>

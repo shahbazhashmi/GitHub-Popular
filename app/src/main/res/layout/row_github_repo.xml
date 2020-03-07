@@ -10,28 +10,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/spacing_14" />
+        app:layout_constraintGuide_begin="@dimen/spacing_20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/spacing_14" />
+        app:layout_constraintGuide_end="@dimen/spacing_20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="@dimen/spacing_14" />
+        app:layout_constraintGuide_begin="@dimen/spacing_20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/spacing_14" />
+        app:layout_constraintGuide_end="@dimen/spacing_20" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_profile"
@@ -39,5 +39,66 @@
         android:layout_height="@dimen/repo_image_dimension"
         app:layout_constraintLeft_toLeftOf="@+id/guideline_left"
         app:layout_constraintTop_toTopOf="@id/guideline_top" />
+
+    <TextView
+        android:id="@+id/textview_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_20"
+        android:singleLine="true"
+        android:textSize="@dimen/font_14"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toRightOf="@id/imageview_profile"
+        app:layout_constraintRight_toRightOf="@id/guideline_right"
+        app:layout_constraintTop_toTopOf="@id/imageview_profile" />
+
+    <TextView
+        android:id="@+id/textview_reponame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@color/app_black"
+        android:textSize="@dimen/font_18"
+        app:layout_constraintBottom_toBottomOf="@+id/imageview_profile"
+        app:layout_constraintLeft_toLeftOf="@id/textview_username"
+        app:layout_constraintRight_toRightOf="@id/guideline_right" />
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:textColor="@color/app_black"
+        android:textSize="@dimen/font_14"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="@id/textview_username"
+        app:layout_constraintRight_toRightOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@+id/textview_reponame" />
+
+
+    <TextView
+        android:id="@+id/textview_attributes"
+        style="@style/repoAttributeStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_6"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintLeft_toLeftOf="@id/textview_username"
+        app:layout_constraintRight_toRightOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@+id/textview_description" />
+
+    <View
+        android:id="@+id/view_dummy"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_20"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/textview_reponame" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
