@@ -9,6 +9,7 @@ import org.gojek.github.repository.api.network.NetworkResource
 import org.gojek.github.repository.api.network.Resource
 import org.gojek.github.repository.db.githubrepo.GithubRepoDao
 import org.gojek.github.repository.model.GithubRepo
+import org.gojek.github.utils.ConnectivityUtil
 import javax.inject.Inject
 
 /**
@@ -37,7 +38,7 @@ class GithubRepoRepository @Inject constructor(
             }
 
             override fun shouldFetch(data: List<GithubRepo>?) =
-                /*fixme - (ConnectivityUtil.isConnected(context))*/ true
+                (ConnectivityUtil.isConnected(context))
 
             override fun loadFromDb() = githubRepoDao.getAllRepos()
 
