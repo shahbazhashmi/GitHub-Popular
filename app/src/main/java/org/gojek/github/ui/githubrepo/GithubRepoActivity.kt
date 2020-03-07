@@ -27,8 +27,6 @@ class GithubRepoActivity : BaseActivity() {
             getGithubRepos()
         }
         getGithubRepos()
-
-        githubRepoViewModel.loaderHelper.showError(getString(R.string.txt_something_went_wrong), getString(R.string.txt_alien_blocking_signal))
     }
 
     private fun getGithubRepos() {
@@ -38,11 +36,11 @@ class GithubRepoActivity : BaseActivity() {
         githubRepoViewModel.getGithubRepos().observe(this) {
             when {
                 it.status.isLoading() -> {
-                    //githubRepoViewModel.loaderHelper.showLoading()
+                    githubRepoViewModel.loaderHelper.showLoading()
                 }
                 it.status.isSuccessful() -> {
                     Log.d(TAG, "success")
-                    //githubRepoViewModel.loaderHelper.dismiss()
+                    githubRepoViewModel.loaderHelper.dismiss()
                     /*it.load(news_list) {
                         // Update the UI as the data has changed
                         it?.let { adapter.replaceItems(it) }
@@ -50,7 +48,7 @@ class GithubRepoActivity : BaseActivity() {
                 }
                 it.status.isError() -> {
                     Log.d(TAG, it.errorMessage.toString())
-                    //githubRepoViewModel.loaderHelper.showError(it.errorMessage.toString())
+                    githubRepoViewModel.loaderHelper.showError(getString(R.string.txt_something_went_wrong), getString(R.string.txt_alien_blocking_signal))
                     /*if (it.errorMessage != null)
                         ToastUtil.showCustomToast(this, it.errorMessage.toString())*/
                 }
