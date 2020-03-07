@@ -2,7 +2,7 @@ package org.gojek.github.repository.api
 
 import androidx.lifecycle.LiveData
 import org.gojek.github.repository.api.network.Resource
-import org.gojek.github.repository.model.GithubRepoSource
+import org.gojek.github.repository.model.GithubRepo
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -16,6 +16,6 @@ interface ApiService {
         @Query("language") language: String = "",
         @Query("since") since: String = "",
         @Query("spoken_language_code") spokenLanguageCode: String = ""
-    ): LiveData<Resource<GithubRepoSource>>
+    ): LiveData<Resource<List<GithubRepo>>>
 
 }

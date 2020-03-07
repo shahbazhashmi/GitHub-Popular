@@ -9,7 +9,6 @@ import org.gojek.github.repository.api.network.NetworkResource
 import org.gojek.github.repository.api.network.Resource
 import org.gojek.github.repository.db.githubrepo.GithubRepoDao
 import org.gojek.github.repository.model.GithubRepo
-import org.gojek.github.repository.model.GithubRepoSource
 import javax.inject.Inject
 
 /**
@@ -29,11 +28,11 @@ class GithubRepoRepository @Inject constructor(
     fun getGithubRepos(): LiveData<Resource<List<GithubRepo>?>> {
 
         return object :
-            NetworkAndDBBoundResource<List<GithubRepo>, GithubRepoSource>(appExecutors) {
-            override fun saveCallResult(item: GithubRepoSource) {
-                if (!item.repos.isEmpty()) {
+            NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
+            override fun saveCallResult(item: List<GithubRepo>) {
+                if (!item.isEmpty()) {
                     githubRepoDao.deleteAllRepos()
-                    githubRepoDao.insertRepos(item.repos)
+                    githubRepoDao.insertRepos(item)
                 }
             }
 
@@ -54,10 +53,10 @@ class GithubRepoRepository @Inject constructor(
      * LiveData<Resource<githubRepoSource>>
      */
     fun getGithubReposFromServerOnly():
-            LiveData<Resource<GithubRepoSource>> {
+            LiveData<Resource<List<GithubRepo>>> {
 
-        return object : NetworkResource<GithubRepoSource>() {
-            override fun createCall(): LiveData<Resource<GithubRepoSource>> {
+        return object : NetworkResource<List<GithubRepo>>() {
+            override fun createCall(): LiveData<Resource<List<GithubRepo>>> {
                 return apiService.getRepos()
             }
 
