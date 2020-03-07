@@ -26,13 +26,15 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
 
     private var githubRepoList: List<GithubRepo> = listOf()
 
+    private var selectedPosition: Int? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         RepoHolder(parent.inflate(R.layout.row_github_repo))
 
     override fun getItemCount() = githubRepoList.size
 
     override fun onBindViewHolder(holder: RepoHolder, position: Int) {
-        holder.bind(githubRepoList[position])
+        holder.bind(position)
     }
 
     /**
@@ -43,55 +45,77 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
         /**
          * Binds the UI with the data and handles clicks
          */
-        fun bind(githubRepo: GithubRepo) = with(itemView) {
+        fun bind(position: Int) = with(itemView) {
+            val isExpanded = selectedPosition == position
+            val githubRepo = githubRepoList[position]
             imageview_profile.load(githubRepo.avatar)
             textview_username.setText(githubRepo.author)
             textview_reponame.setText(githubRepo.name)
-            if (!TextUtils.isEmpty(githubRepo.description)) {
-                textview_description.setText(githubRepo.description)
-                textview_description.visibility = View.VISIBLE
+
+            itemView.setOnClickListener {
+                if (selectedPosition == null) {
+                    selectedPosition = position
+                } else if (selectedPosition == position) {
+                    selectedPosition = null
+                } else {
+                    selectedPosition = position
+                }
+
+                notifyDataSetChanged()
+            }
+
+
+
+            if (isExpanded) {
+
+                if (!TextUtils.isEmpty(githubRepo.description)) {
+                    textview_description.setText(githubRepo.description)
+                    textview_description.visibility = View.VISIBLE
+                } else {
+                    textview_description.visibility = View.GONE
+                }
+
+                var languageSpannable: SpannableString? = null
+                var starSpannable: SpannableString? = null
+                var forkSpannable: SpannableString? = null
+
+                if (!TextUtils.isEmpty(githubRepo.language) && !TextUtils.isEmpty(githubRepo.languageColor)) {
+                    languageSpannable = SpannableString("\u25CF ${githubRepo.language}")
+                    languageSpannable.setSpan(
+                        ForegroundColorSpan(Color.parseColor(githubRepo.languageColor)),
+                        0,
+                        languageSpannable.length - githubRepo.language!!.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+
+                }
+
+                if (githubRepo.stars != null) {
+                    starSpannable =
+                        getAttributeSpannableString(githubRepo.stars!!, R.drawable.star_yellow_16)
+                }
+
+                if (githubRepo.forks != null) {
+                    forkSpannable =
+                        getAttributeSpannableString(githubRepo.forks!!, R.drawable.fork_black_16)
+                }
+
+                if (languageSpannable != null && starSpannable != null && forkSpannable != null) {
+                    textview_attributes.visibility = View.VISIBLE
+                    textview_attributes.setText(
+                        TextUtils.concat(
+                            languageSpannable,
+                            starSpannable,
+                            forkSpannable
+                        )
+                    )
+                } else {
+                    textview_attributes.visibility = View.GONE
+                }
             } else {
                 textview_description.visibility = View.GONE
-            }
-
-            var languageSpannable: SpannableString? = null
-            var starSpannable: SpannableString? = null
-            var forkSpannable: SpannableString? = null
-
-            if (!TextUtils.isEmpty(githubRepo.language) && !TextUtils.isEmpty(githubRepo.languageColor)) {
-                languageSpannable = SpannableString("\u25CF ${githubRepo.language}")
-                languageSpannable.setSpan(
-                    ForegroundColorSpan(Color.parseColor(githubRepo.languageColor)),
-                    0,
-                    languageSpannable.length - githubRepo.language!!.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-
-            }
-
-            if (githubRepo.stars != null) {
-                starSpannable =
-                    getAttributeSpannableString(githubRepo.stars!!, R.drawable.star_yellow_16)
-            }
-
-            if (githubRepo.forks != null) {
-                forkSpannable =
-                    getAttributeSpannableString(githubRepo.forks!!, R.drawable.fork_black_16)
-            }
-
-            if (languageSpannable != null && starSpannable != null && forkSpannable != null) {
-                textview_attributes.visibility = View.VISIBLE
-                textview_attributes.setText(
-                    TextUtils.concat(
-                        languageSpannable,
-                        starSpannable,
-                        forkSpannable
-                    )
-                )
-            } else {
                 textview_attributes.visibility = View.GONE
             }
-
         }
     }
 
