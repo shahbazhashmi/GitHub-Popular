@@ -13,7 +13,7 @@ import javax.inject.Inject
  */
 class GithubRepoViewModel @Inject constructor(
     private val githubRepoRepository: GithubRepoRepository,
-    val loaderHelper: LoaderHelper
+    val loaderHelper: LoaderHelper, val githubRepoAdapter: GithubRepoAdapter
 ) : ViewModel() {
 
 

@@ -40,17 +40,19 @@ class GithubRepoActivity : BaseActivity() {
                 }
                 it.status.isSuccessful() -> {
                     Log.d(TAG, "success")
-                    githubRepoViewModel.loaderHelper.dismiss()
-                    /*it.load(news_list) {
-                        // Update the UI as the data has changed
-                        it?.let { adapter.replaceItems(it) }
-                    }*/
+                    if (it.data == null || it.data!!.isEmpty()) {
+                        githubRepoViewModel.loaderHelper.showError(
+                            getString(R.string.txt_data_not_found),
+                            getString(R.string.txt_try_again_later)
+                        )
+                    } else {
+                        githubRepoViewModel.loaderHelper.dismiss()
+                        githubRepoViewModel.githubRepoAdapter.setData(it.data!!)
+                    }
                 }
                 it.status.isError() -> {
                     Log.d(TAG, it.errorMessage.toString())
                     githubRepoViewModel.loaderHelper.showError(getString(R.string.txt_something_went_wrong), getString(R.string.txt_alien_blocking_signal))
-                    /*if (it.errorMessage != null)
-                        ToastUtil.showCustomToast(this, it.errorMessage.toString())*/
                 }
             }
         }

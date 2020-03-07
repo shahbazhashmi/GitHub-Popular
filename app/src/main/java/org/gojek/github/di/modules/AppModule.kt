@@ -13,6 +13,7 @@ import org.gojek.github.repository.api.ApiService
 import org.gojek.github.repository.api.network.LiveDataCallAdapterFactoryForRetrofit
 import org.gojek.github.repository.db.AppDatabase
 import org.gojek.github.repository.db.githubrepo.GithubRepoDao
+import org.gojek.github.ui.githubrepo.GithubRepoAdapter
 import org.gojek.github.ui.loader.LoaderHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -52,11 +53,20 @@ class AppModule {
 
 
     /**
-     * Provides GithubRepoDao an object to access GithubRepo table from Database
+     * Provides LoaderHelper an object
      */
     @Provides
     fun provideLoaderHelper(): LoaderHelper {
         return LoaderHelper()
+    }
+
+
+    /**
+     * Provides GithubRepoAdapter an object
+     */
+    @Provides
+    fun provideGithubRepoAdapter(): GithubRepoAdapter {
+        return GithubRepoAdapter()
     }
 
 
