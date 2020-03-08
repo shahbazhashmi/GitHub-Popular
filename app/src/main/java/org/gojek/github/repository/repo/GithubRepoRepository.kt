@@ -10,6 +10,7 @@ import org.gojek.github.repository.api.network.Resource
 import org.gojek.github.repository.db.githubrepo.GithubRepoDao
 import org.gojek.github.repository.model.GithubRepo
 import org.gojek.github.utils.ConnectivityUtil
+import org.gojek.github.utils.SharedPreferenceManager
 import javax.inject.Inject
 
 /**
@@ -19,6 +20,7 @@ class GithubRepoRepository @Inject constructor(
     private val githubRepoDao: GithubRepoDao,
     private val apiService: ApiService,
     private val context: Context,
+    private val sharedPreferenceManager: SharedPreferenceManager,
     private val appExecutors: AppExecutors = AppExecutors()
 ) {
 
@@ -32,13 +34,14 @@ class GithubRepoRepository @Inject constructor(
             NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
             override fun saveCallResult(item: List<GithubRepo>) {
                 if (!item.isEmpty()) {
+                    sharedPreferenceManager.setLastUpdatedTimestamp()
                     githubRepoDao.deleteAllRepos()
                     githubRepoDao.insertRepos(item)
                 }
             }
 
             override fun shouldFetch(data: List<GithubRepo>?) =
-                (ConnectivityUtil.isConnected(context))
+                (ConnectivityUtil.isConnected(context)) && sharedPreferenceManager.isLocalDataExpired()
 
             override fun loadFromDb() = githubRepoDao.getAllRepos()
 

@@ -106,4 +106,5 @@ class AppModule {
     @Provides
     @Singleton
     fun providesResources(application: AppController): Resources = application.resources
+
 }
