@@ -2,7 +2,7 @@ package org.gojek.github.ui.githubrepo
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.widget.Toolbar
+import android.view.Menu
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -37,6 +37,12 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
 
         getGithubRepos()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_toolbar, menu)
+        return true
     }
 
     private fun getGithubRepos() {
