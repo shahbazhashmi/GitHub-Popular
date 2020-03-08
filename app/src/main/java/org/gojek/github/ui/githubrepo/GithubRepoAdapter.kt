@@ -137,6 +137,7 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
      * Swap function to set new data on updating
      */
     fun setData(items: List<GithubRepo>) {
+        selectedPosition = null
         githubRepoList = items
         notifyDataSetChanged()
     }
