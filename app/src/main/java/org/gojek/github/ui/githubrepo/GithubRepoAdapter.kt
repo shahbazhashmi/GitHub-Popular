@@ -24,9 +24,12 @@ import javax.inject.Inject
 class GithubRepoAdapter @Inject constructor(val context: Context) :
     RecyclerView.Adapter<GithubRepoAdapter.RepoHolder>() {
 
+    val SELECTED_LIST_POSITION = "selected_list_position"
+    val SELECT_RESET_VALUE = -5
+
     private var githubRepoList: List<GithubRepo> = listOf()
 
-    private var selectedPosition: Int? = null
+    var selectedPosition: Int = SELECT_RESET_VALUE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         RepoHolder(parent.inflate(R.layout.row_github_repo))
@@ -53,10 +56,10 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
             textview_reponame.setText(githubRepo.name)
 
             itemView.setOnClickListener {
-                if (selectedPosition == null) {
+                if (selectedPosition == SELECT_RESET_VALUE) {
                     selectedPosition = position
                 } else if (selectedPosition == position) {
-                    selectedPosition = null
+                    selectedPosition = SELECT_RESET_VALUE
                 } else {
                     selectedPosition = position
                 }
@@ -137,7 +140,10 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
      * Swap function to set new data on updating
      */
     fun setData(items: List<GithubRepo>) {
-        selectedPosition = null
+        // don't reset selection if same list found
+        if (!githubRepoList.equals(items)) {
+            selectedPosition = SELECT_RESET_VALUE
+        }
         githubRepoList = items
         notifyDataSetChanged()
     }

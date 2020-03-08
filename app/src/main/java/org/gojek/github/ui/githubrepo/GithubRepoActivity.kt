@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.gojek.github.R
 import org.gojek.github.databinding.ActivityGithubRepoBinding
@@ -16,10 +17,16 @@ import org.gojek.github.utils.widgets.CustomToolbar
 
 class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
+    val LIST_POSITION = "list_position"
+
     private val TAG = "GithubRepoActivity"
 
     private val githubRepoViewModel by lazy {
         getViewModel<GithubRepoViewModel>()
+    }
+
+    val recyclerViewLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(this)
     }
 
     lateinit var binding : ActivityGithubRepoBinding
@@ -31,12 +38,19 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         setSupportActionBar(binding.toolbar as CustomToolbar)
         setTitle(getString(R.string.txt_trending))
         binding.swipeContainer.setOnRefreshListener(this)
+        binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
         githubRepoViewModel.loaderHelper.setRetryListener {
             getGithubRepos()
         }
 
         getGithubRepos()
-
+        if (savedInstanceState != null) {
+            // scroll to existing position which exist before rotation.
+            binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))
+            // set selected position
+            githubRepoViewModel.githubRepoAdapter.selectedPosition =
+                savedInstanceState.getInt(githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -94,7 +108,6 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                             false
                         )
                     } else {
-                        githubRepoViewModel.loaderHelper.dismiss()
                         githubRepoViewModel.githubRepoAdapter.setData(it.data!!)
                     }
                 }
@@ -114,5 +127,21 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
 
     override fun onRefresh() {
         getGithubReposFromServer()
+    }
+
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putInt(
+            LIST_POSITION,
+            recyclerViewLayoutManager.findFirstVisibleItemPosition()
+        ) // get current recycle view position here.
+        // selected / expanded positon.
+        savedInstanceState.putInt(
+            githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION,
+            githubRepoViewModel.githubRepoAdapter.selectedPosition
+        ) // get current recycle view selected position here.
+        super.onSaveInstanceState(savedInstanceState)
     }
 }
