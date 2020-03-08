@@ -6,4 +6,5 @@
     <string name="txt_alien_blocking_signal">An alien is probably blocking your signal.</string>
     <string name="txt_data_not_found">Data not found..</string>
     <string name="txt_try_again_later">Try again later</string>
+    <string name="txt_trending">Trending</string>
 </resources>

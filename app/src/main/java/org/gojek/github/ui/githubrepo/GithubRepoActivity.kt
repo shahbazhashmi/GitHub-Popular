@@ -2,6 +2,7 @@ package org.gojek.github.ui.githubrepo
 
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -10,6 +11,7 @@ import org.gojek.github.databinding.ActivityGithubRepoBinding
 import org.gojek.github.ui.BaseActivity
 import org.gojek.github.utils.AppUtil
 import org.gojek.github.utils.extensions.getViewModel
+import org.gojek.github.utils.widgets.CustomToolbar
 
 
 class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
@@ -26,6 +28,8 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github_repo)
         binding.vm = githubRepoViewModel
+        setSupportActionBar(binding.toolbar as CustomToolbar)
+        setTitle(getString(R.string.txt_trending))
         binding.swipeContainer.setOnRefreshListener(this)
         githubRepoViewModel.loaderHelper.setRetryListener {
             getGithubRepos()
