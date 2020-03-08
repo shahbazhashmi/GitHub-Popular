@@ -153,9 +153,15 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread co
     @WorkerThread
     protected abstract fun saveCallResult(item: RequestType)
 
+    /**
+     * prefers network call and does not return network call errors
+     */
     @MainThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
+    /**
+     * prefers network call and not returns network call errors
+     */
     @MainThread
     protected abstract fun mustFetch(data: ResultType?): Boolean
 

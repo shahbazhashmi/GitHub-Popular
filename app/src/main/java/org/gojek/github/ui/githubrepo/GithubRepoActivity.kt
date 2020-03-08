@@ -36,7 +36,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github_repo)
         binding.vm = githubRepoViewModel
         setSupportActionBar(binding.toolbar as CustomToolbar)
-        setTitle(getString(R.string.txt_trending))
+        title = getString(R.string.txt_trending)
         binding.swipeContainer.setOnRefreshListener(this)
         binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
         githubRepoViewModel.loaderHelper.setRetryListener {

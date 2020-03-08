@@ -93,7 +93,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textview_description" />
 
     <View
-        android:id="@+id/view_dummy"
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_20"
         app:layout_constraintBottom_toTopOf="@+id/divider"

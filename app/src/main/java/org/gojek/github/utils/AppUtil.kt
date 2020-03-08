@@ -26,7 +26,7 @@ object AppUtil {
             val handler = Handler(Looper.getMainLooper())
             handler.post(
                 Toast.makeText(
-                    context.getApplicationContext(),
+                    context.applicationContext,
                     message,
                     if (longDuration) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
                 )::show

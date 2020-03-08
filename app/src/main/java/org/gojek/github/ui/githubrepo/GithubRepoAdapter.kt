@@ -52,8 +52,8 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
             val isExpanded = selectedPosition == position
             val githubRepo = githubRepoList[position]
             imageview_profile.load(githubRepo.avatar)
-            textview_username.setText(githubRepo.author)
-            textview_reponame.setText(githubRepo.name)
+            textview_username.text = githubRepo.author
+            textview_reponame.text = githubRepo.name
 
             itemView.setOnClickListener {
                 if (selectedPosition == SELECT_RESET_VALUE) {
@@ -72,7 +72,7 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
             if (isExpanded) {
 
                 if (!TextUtils.isEmpty(githubRepo.description)) {
-                    textview_description.setText(githubRepo.description)
+                    textview_description.text = githubRepo.description
                     textview_description.visibility = View.VISIBLE
                 } else {
                     textview_description.visibility = View.GONE
@@ -105,12 +105,10 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
 
                 if (languageSpannable != null || starSpannable != null || forkSpannable != null) {
                     textview_attributes.visibility = View.VISIBLE
-                    textview_attributes.setText(
-                        TextUtils.concat(
-                            languageSpannable ?: "",
-                            starSpannable ?: "",
-                            forkSpannable ?: ""
-                        )
+                    textview_attributes.text = TextUtils.concat(
+                        languageSpannable ?: "",
+                        starSpannable ?: "",
+                        forkSpannable ?: ""
                     )
                 } else {
                     textview_attributes.visibility = View.GONE
