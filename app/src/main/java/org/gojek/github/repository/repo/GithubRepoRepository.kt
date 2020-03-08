@@ -28,7 +28,7 @@ class GithubRepoRepository @Inject constructor(
      * Fetch the repos from database if exist else fetch from web
      * and persist them in the database
      */
-    fun getGithubRepos(): LiveData<Resource<List<GithubRepo>?>> {
+    fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
 
         return object :
             NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
@@ -40,8 +40,15 @@ class GithubRepoRepository @Inject constructor(
                 }
             }
 
-            override fun shouldFetch(data: List<GithubRepo>?) =
-                (ConnectivityUtil.isConnected(context)) && sharedPreferenceManager.isLocalDataExpired()
+            override fun shouldFetch(data: List<GithubRepo>?): Boolean {
+                if (ConnectivityUtil.isConnected(context)) {
+                    if (callApiForcefully || sharedPreferenceManager.isLocalDataExpired()) {
+                        return true
+                    }
+                    return false
+                }
+                return false
+            }
 
             override fun loadFromDb() = githubRepoDao.getAllRepos()
 

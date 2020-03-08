@@ -18,13 +18,13 @@ class GithubRepoViewModel @Inject constructor(
 
 
     private fun githubRepos(): LiveData<Resource<List<GithubRepo>?>> =
-        githubRepoRepository.getGithubRepos()
+        githubRepoRepository.getGithubRepos(false)
 
     fun getGithubRepos() = githubRepos()
 
 
     private fun githubReposFromOnlyServer() =
-        githubRepoRepository.getGithubReposFromServerOnly()
+        githubRepoRepository.getGithubRepos(true)
 
     fun getGithubReposFromServer() = githubReposFromOnlyServer()
 
