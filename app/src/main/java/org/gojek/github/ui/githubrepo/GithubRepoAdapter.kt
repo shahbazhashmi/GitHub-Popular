@@ -100,13 +100,13 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
                         getAttributeSpannableString(githubRepo.forks!!, R.drawable.fork_black_16)
                 }
 
-                if (languageSpannable != null && starSpannable != null && forkSpannable != null) {
+                if (languageSpannable != null || starSpannable != null || forkSpannable != null) {
                     textview_attributes.visibility = View.VISIBLE
                     textview_attributes.setText(
                         TextUtils.concat(
-                            languageSpannable,
-                            starSpannable,
-                            forkSpannable
+                            languageSpannable ?: "",
+                            starSpannable ?: "",
+                            forkSpannable ?: ""
                         )
                     )
                 } else {
