@@ -40,12 +40,11 @@ class GithubRepoRepository @Inject constructor(
                 }
             }
 
+            override fun mustFetch(data: List<GithubRepo>?) = callApiForcefully
+
             override fun shouldFetch(data: List<GithubRepo>?): Boolean {
-                if (ConnectivityUtil.isConnected(context)) {
-                    if (callApiForcefully || sharedPreferenceManager.isLocalDataExpired()) {
-                        return true
-                    }
-                    return false
+                if (ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
+                    return true
                 }
                 return false
             }

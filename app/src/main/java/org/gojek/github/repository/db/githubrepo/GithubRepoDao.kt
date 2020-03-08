@@ -14,6 +14,9 @@ import org.gojek.github.repository.model.GithubRepo
 @Dao
 interface GithubRepoDao {
 
+    @Query("SELECT COUNT(*) FROM github_repo")
+    fun getCount(): Int
+
     @Query("SELECT * FROM github_repo")
     fun getAllRepos(): LiveData<List<GithubRepo>>
 

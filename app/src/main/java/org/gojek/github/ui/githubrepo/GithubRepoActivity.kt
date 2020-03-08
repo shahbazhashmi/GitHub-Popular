@@ -55,7 +55,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                     githubRepoViewModel.loaderHelper.showLoading()
                 }
                 it.status.isSuccessful() -> {
-                    Log.d(TAG, "success")
+                    Log.d(TAG, "data success")
                     if (it.data == null || it.data!!.isEmpty()) {
                         githubRepoViewModel.loaderHelper.showError(
                             getString(R.string.txt_data_not_found),
@@ -85,7 +85,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                     binding.swipeContainer.isRefreshing = true
                 }
                 it.status.isSuccessful() -> {
-                    Log.d(TAG, "success")
+                    Log.d(TAG, "data success")
                     binding.swipeContainer.isRefreshing = false
                     if (it.data == null || it.data!!.isEmpty()) {
                         AppUtil.showToast(
