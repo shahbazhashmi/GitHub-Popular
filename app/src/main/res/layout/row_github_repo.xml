@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/app_white">
@@ -69,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_4"
         android:textColor="@color/app_black"
+        android:lineSpacingExtra="@dimen/spacing_2"
         android:textSize="@dimen/font_14"
         android:textStyle="normal"
         app:layout_constraintLeft_toLeftOf="@id/textview_username"
@@ -98,7 +102,7 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/app_grey"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
