@@ -17,14 +17,12 @@ import javax.inject.Inject
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
 class GithubRepoRepository @Inject constructor(
-    private val githubRepoDao: GithubRepoDao?,
-    private val apiService: ApiService?,
-    private val context: Context?,
-    private val sharedPreferenceManager: SharedPreferenceManager?,
-    private val appExecutors: AppExecutors? = AppExecutors()
+    private val githubRepoDao: GithubRepoDao,
+    private val apiService: ApiService,
+    private val context: Context,
+    private val sharedPreferenceManager: SharedPreferenceManager,
+    private val appExecutors: AppExecutors = AppExecutors()
 ) {
-
-    constructor() : this(null, null, null, null, null)
 
     /**
      * Fetch the repos from database if exist else fetch from web
@@ -33,28 +31,28 @@ class GithubRepoRepository @Inject constructor(
     fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
 
         return object :
-            NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors!!) {
+            NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
             override fun saveCallResult(item: List<GithubRepo>) {
                 if (!item.isEmpty()) {
-                    sharedPreferenceManager!!.setLastUpdatedTimestamp()
-                    githubRepoDao!!.deleteAllRepos()
-                    githubRepoDao!!.insertRepos(item)
+                    sharedPreferenceManager.setLastUpdatedTimestamp()
+                    githubRepoDao.deleteAllRepos()
+                    githubRepoDao.insertRepos(item)
                 }
             }
 
             override fun mustFetch(data: List<GithubRepo>?) = callApiForcefully
 
             override fun shouldFetch(data: List<GithubRepo>?): Boolean {
-                if (ConnectivityUtil.isConnected(context!!) && sharedPreferenceManager!!.isLocalDataExpired()) {
+                if (ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
                     return true
                 }
                 return false
             }
 
-            override fun loadFromDb() = githubRepoDao!!.getAllRepos()
+            override fun loadFromDb() = githubRepoDao.getAllRepos()
 
             override fun createCall() =
-                apiService!!.getRepos()
+                apiService.getRepos()
 
         }.asLiveData()
     }
@@ -69,7 +67,7 @@ class GithubRepoRepository @Inject constructor(
 
         return object : NetworkResource<List<GithubRepo>>() {
             override fun createCall(): LiveData<Resource<List<GithubRepo>>> {
-                return apiService!!.getRepos()
+                return apiService.getRepos()
             }
 
         }.asLiveData()

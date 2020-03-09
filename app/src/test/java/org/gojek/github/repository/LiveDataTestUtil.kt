@@ -1,7 +1,6 @@
 package org.gojek.github.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import org.gojek.github.repository.api.network.Resource
 import org.gojek.github.repository.api.network.Status
@@ -41,12 +40,15 @@ fun <T> LiveData<T>.getOrAwaitValue(
 }
 
 
-fun <T> LiveData<Resource<List<T>?>>.observeForApiTesting(block: (Resource<List<T>?>) -> Unit) {
-    val time: Long = 10
+fun <T> LiveData<Resource<List<T>>>.observeForApiTesting(
+    timeout: Long,
+    block: (Resource<List<T>>) -> Unit
+) {
+    val time: Long = timeout
     val timeUnit: TimeUnit = TimeUnit.SECONDS
     val latch = CountDownLatch(1)
-    val observer = object : Observer<Resource<List<T>?>> {
-        override fun onChanged(o: Resource<List<T>?>) {
+    val observer = object : Observer<Resource<List<T>>> {
+        override fun onChanged(o: Resource<List<T>>) {
             if(o.status != Status.LOADING) {
                 // added try to avoid below TimeoutException
                 // in case of AssertionException
