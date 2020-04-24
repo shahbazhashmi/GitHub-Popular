@@ -14,8 +14,10 @@ import kotlinx.android.synthetic.main.row_github_repo.view.*
 import org.gojek.github.R
 import org.gojek.github.repository.model.GithubRepo
 import org.gojek.github.utils.CenteredImageSpan
+import org.gojek.github.utils.extensions.autoNotify
 import org.gojek.github.utils.extensions.inflate
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 
 /**
@@ -27,7 +29,9 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
     val SELECTED_LIST_POSITION = "selected_list_position"
     val SELECT_RESET_VALUE = -5
 
-    private var githubRepoList: List<GithubRepo> = listOf()
+    private var githubRepoList: List<GithubRepo> by Delegates.observable(emptyList()) { _, oldList, newList ->
+        autoNotify(oldList, newList) { o, n -> o.url == n.url }
+    }
 
     var selectedPosition: Int = SELECT_RESET_VALUE
 
@@ -139,7 +143,7 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
      */
     fun setData(items: List<GithubRepo>) {
         // don't reset selection if same list found
-        if (!githubRepoList.equals(items)) {
+        if (githubRepoList != items) {
             selectedPosition = SELECT_RESET_VALUE
         }
         githubRepoList = items
