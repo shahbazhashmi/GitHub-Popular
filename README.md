@@ -1,6 +1,6 @@
 # GitHub-Popular
 
-#### This Repository can be also used a [Template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
+#### This Repository can be also used as a [Template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template)
 
 Sample app to demonstrate offline feature using Kotlin, Repository pattern, Room Database, Retrofit, Dagger2, LiveData, Expresso, ViewModel and DataBinding.
 
