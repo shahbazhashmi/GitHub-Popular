@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "org.gojek.github"
+        applicationId "org.github.popular"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1

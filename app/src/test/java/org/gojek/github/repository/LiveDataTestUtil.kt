@@ -1,9 +1,7 @@
-package org.gojek.github.repository
+package org.github.popular.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import org.gojek.github.repository.api.network.Resource
-import org.gojek.github.repository.api.network.Status
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -49,13 +47,12 @@ fun <T> LiveData<Resource<List<T>>>.observeForApiTesting(
     val latch = CountDownLatch(1)
     val observer = object : Observer<Resource<List<T>>> {
         override fun onChanged(o: Resource<List<T>>) {
-            if(o.status != Status.LOADING) {
+            if (o.status != Status.LOADING) {
                 // added try to avoid below TimeoutException
                 // in case of AssertionException
                 try {
                     block(o)
-                }
-                finally {
+                } finally {
                     latch.countDown()
                     this@observeForApiTesting.removeObserver(this)
                 }

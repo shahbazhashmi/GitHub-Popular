@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="org.gojek.github.repository.api.network.Status" />
+        <import type="org.github.popular.repository.api.network.Status" />
 
         <variable
             name="vm"
-            type="org.gojek.github.ui.loader.LoaderViewModel" />
+            type="org.github.popular.ui.loader.LoaderViewModel" />
     </data>
 
     <ScrollView

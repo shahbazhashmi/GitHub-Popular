@@ -1,4 +1,4 @@
-package org.gojek.github
+package org.github.popular
 
 import android.view.View
 import androidx.test.espresso.PerformException

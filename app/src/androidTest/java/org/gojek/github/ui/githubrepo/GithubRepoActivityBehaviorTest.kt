@@ -1,4 +1,4 @@
-package org.gojek.github.ui.githubrepo
+package org.github.popular.ui.githubrepo
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
@@ -9,10 +9,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import org.gojek.github.R
-import org.gojek.github.clickChildViewWithId
-import org.gojek.github.waitId
-import org.gojek.github.withCustomConstraints
+import org.github.popular.R
+import org.github.popular.clickChildViewWithId
+import org.github.popular.waitId
+import org.github.popular.withCustomConstraints
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

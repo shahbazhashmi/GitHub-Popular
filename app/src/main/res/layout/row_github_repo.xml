@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/row_parent_lt"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/app_white">
+    android:background="@color/app_white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"
@@ -72,8 +72,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_4"
-        android:textColor="@color/app_black"
         android:lineSpacingExtra="@dimen/spacing_2"
+        android:textColor="@color/app_black"
         android:textSize="@dimen/font_14"
         android:textStyle="normal"
         app:layout_constraintLeft_toLeftOf="@id/textview_username"
