@@ -4,7 +4,10 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import org.github.popular.app.AppExecutors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
@@ -20,7 +23,7 @@ import org.github.popular.app.AppExecutors
  * @param <ResultType>
  * @param <RequestType>
 </RequestType></ResultType> */
-abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread constructor(private val appExecutors: AppExecutors) {
+abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread constructor() {
 
     /**
      * The final result LiveData
@@ -67,14 +70,13 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread co
             result.removeSource(dbSource)
             result.removeSource(apiResponse)
 
-            response?.apply {
-                if (status.isSuccessful()) {
-                    appExecutors.diskIO().execute {
-
-                        processResponse(this)?.let { requestType ->
+            response?.also { data ->
+                if (data.status.isSuccessful()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        processResponse(data)?.let { requestType ->
                             saveCallResult(requestType)
                         }
-                        appExecutors.mainThread().execute {
+                        withContext(Dispatchers.Main) {
                             // we specially request a new live data,
                             // otherwise we will get immediately last cached value,
                             // which may not be updated with latest results received from network.
@@ -86,7 +88,7 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread co
                 } else {
                     onFetchFailed()
                     result.addSource(if (mustFetch) apiResponse else dbSource) {
-                        result.setValue(Resource.error(errorMessage))
+                        result.setValue(Resource.error(data.errorMessage))
                     }
                 }
             }

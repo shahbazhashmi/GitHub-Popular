@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.github.popular.BuildConfig.BASE_URL
-import org.github.popular.app.AppExecutors
 import org.github.popular.repository.api.ApiService
 import org.github.popular.repository.api.network.LiveDataCallAdapterFactoryForRetrofit
 import org.github.popular.repository.api.network.Status
@@ -43,8 +42,6 @@ class GithubRepoRepositoryTest {
     @Mock
     lateinit var sharedPreferences: SharedPreferences
 
-    @Mock
-    lateinit var appExecutors: _root_ide_package_.org.github.popular.app.AppExecutors
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -59,7 +56,7 @@ class GithubRepoRepositoryTest {
             .addCallAdapterFactory(_root_ide_package_.org.github.popular.repository.api.network.LiveDataCallAdapterFactoryForRetrofit())
             .build()
             .create(_root_ide_package_.org.github.popular.repository.api.ApiService::class.java)
-        githubRepoRepository = GithubRepoRepository(githubRepoDao, apiService, context, sharedPreferenceManager, appExecutors)
+        githubRepoRepository = GithubRepoRepository(githubRepoDao, apiService, context, sharedPreferenceManager)
     }
 
 

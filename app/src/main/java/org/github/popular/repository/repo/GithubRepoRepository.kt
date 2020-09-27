@@ -2,7 +2,6 @@ package org.github.popular.repository.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import org.github.popular.app.AppExecutors
 import org.github.popular.repository.api.ApiService
 import org.github.popular.repository.api.network.NetworkAndDBBoundResource
 import org.github.popular.repository.api.network.NetworkResource
@@ -20,8 +19,7 @@ class GithubRepoRepository @Inject constructor(
     private val githubRepoDao: GithubRepoDao,
     private val apiService: ApiService,
     private val context: Context,
-    private val sharedPreferenceManager: SharedPreferenceManager,
-    private val appExecutors: AppExecutors = AppExecutors()
+    private val sharedPreferenceManager: SharedPreferenceManager
 ) {
 
     /**
@@ -31,7 +29,7 @@ class GithubRepoRepository @Inject constructor(
     fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
 
         return object :
-            NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
+            NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>() {
             override fun saveCallResult(item: List<GithubRepo>) {
                 if (!item.isEmpty()) {
                     sharedPreferenceManager.setLastUpdatedTimestamp()
