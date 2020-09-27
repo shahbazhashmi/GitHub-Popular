@@ -33,7 +33,7 @@ class GithubRepoRepository @Inject constructor(
         return object :
             NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
             override fun saveCallResult(item: List<GithubRepo>) {
-                if (!item.isEmpty()) {
+                if (item.isNotEmpty()) {
                     sharedPreferenceManager.setLastUpdatedTimestamp()
                     githubRepoDao.deleteAllRepos()
                     githubRepoDao.insertRepos(item)
