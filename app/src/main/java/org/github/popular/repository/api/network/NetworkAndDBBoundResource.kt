@@ -39,11 +39,11 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread co
 
             if (mustFetch(data)) {
 
-                fetchFromNetworkOnly(dbSource)
+                fetchFromNetwork(dbSource, true)
 
             } else if (shouldFetch(data)) {
 
-                fetchFromNetwork(dbSource)
+                fetchFromNetwork(dbSource, false)
 
             } else {
 
@@ -56,7 +56,7 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread co
      * Fetch the data from network and persist into DB and then
      * send it back to UI.
      */
-    private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
+    private fun fetchFromNetwork(dbSource: LiveData<ResultType>, mustFetch: Boolean) {
         val apiResponse = createCall()
         // we re-attach dbSource as a new source, it will dispatch its latest value quickly
         result.addSource(dbSource) {
@@ -85,48 +85,7 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread co
                     }
                 } else {
                     onFetchFailed()
-                    result.addSource(dbSource) {
-                        result.setValue(Resource.error(errorMessage))
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Fetch the data from network only and persist into DB and then
-     * send it back to UI.
-     */
-    private fun fetchFromNetworkOnly(dbSource: LiveData<ResultType>) {
-        val apiResponse = createCall()
-        // we re-attach dbSource as a new source, it will dispatch its latest value quickly
-        result.addSource(dbSource) {
-            result.setValue(Resource.loading())
-        }
-
-        result.addSource(apiResponse) { response ->
-            result.removeSource(dbSource)
-            result.removeSource(apiResponse)
-
-            response?.apply {
-                if (status.isSuccessful()) {
-                    appExecutors.diskIO().execute {
-
-                        processResponse(this)?.let { requestType ->
-                            saveCallResult(requestType)
-                        }
-                        appExecutors.mainThread().execute {
-                            // we specially request a new live data,
-                            // otherwise we will get immediately last cached value,
-                            // which may not be updated with latest results received from network.
-                            result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.success(newData))
-                            }
-                        }
-                    }
-                } else {
-                    onFetchFailed()
-                    result.addSource(apiResponse) {
+                    result.addSource(if (mustFetch) apiResponse else dbSource) {
                         result.setValue(Resource.error(errorMessage))
                     }
                 }
