@@ -2,11 +2,14 @@ package org.github.popular.repository.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import org.github.popular.repository.api.ApiService
+import androidx.lifecycle.liveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.github.popular.repository.api.ApiServiceHelper
 import org.github.popular.repository.api.network.NetworkAndDBBoundResource
-import org.github.popular.repository.api.network.NetworkResource
 import org.github.popular.repository.api.network.Resource
-import org.github.popular.repository.db.githubrepo.GithubRepoDao
+import org.github.popular.repository.db.GithubRepoDbHelper
 import org.github.popular.repository.model.GithubRepo
 import org.github.popular.utils.ConnectivityUtil
 import org.github.popular.utils.SharedPreferenceManager
@@ -16,8 +19,8 @@ import javax.inject.Inject
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
 class GithubRepoRepository @Inject constructor(
-    private val githubRepoDao: GithubRepoDao,
-    private val apiService: ApiService,
+    private val githubRepoDbHelper: GithubRepoDbHelper,
+    private val apiServiceHelper: ApiServiceHelper,
     private val context: Context,
     private val sharedPreferenceManager: SharedPreferenceManager
 ) {
@@ -33,8 +36,10 @@ class GithubRepoRepository @Inject constructor(
             override fun saveCallResult(item: List<GithubRepo>) {
                 if (!item.isEmpty()) {
                     sharedPreferenceManager.setLastUpdatedTimestamp()
-                    githubRepoDao.deleteAllRepos()
-                    githubRepoDao.insertRepos(item)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        githubRepoDbHelper.deleteAllRepos()
+                        githubRepoDbHelper.insertRepos(item)
+                    }
                 }
             }
 
@@ -47,10 +52,14 @@ class GithubRepoRepository @Inject constructor(
                 return false
             }
 
-            override fun loadFromDb() = githubRepoDao.getAllRepos()
+            override fun loadFromDb() = liveData(Dispatchers.Main) {
+                emit(githubRepoDbHelper.getAllRepos())
+            }
 
-            override fun createCall() =
-                apiService.getRepos()
+            override fun createCall() = liveData<Resource<List<GithubRepo>>>(Dispatchers.Main) {
+                emit(apiServiceHelper.getRepos())
+            }
+
 
         }.asLiveData()
     }
@@ -60,15 +69,15 @@ class GithubRepoRepository @Inject constructor(
      * and persist them in the database
      * LiveData<Resource<githubRepoSource>>
      */
-    fun getGithubReposFromServerOnly():
-            LiveData<Resource<List<GithubRepo>>> {
+    /* fun getGithubReposFromServerOnly():
+             LiveData<Resource<List<GithubRepo>>> {
 
-        return object : NetworkResource<List<GithubRepo>>() {
-            override fun createCall(): LiveData<Resource<List<GithubRepo>>> {
-                return apiService.getRepos()
-            }
+         return object : NetworkResource<List<GithubRepo>>() {
+             override fun createCall(): LiveData<Resource<List<GithubRepo>>> {
+                 return apiServiceHelper.getRepos()
+             }
 
-        }.asLiveData()
-    }
+         }.asLiveData()
+     }*/
 
 }
