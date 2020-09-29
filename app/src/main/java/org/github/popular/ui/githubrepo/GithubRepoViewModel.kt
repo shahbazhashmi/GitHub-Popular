@@ -16,5 +16,7 @@ class GithubRepoViewModel @Inject constructor(
     fun loadGithubRepos(callApiForcefully: Boolean) =
         githubRepoRepository.getGithubRepos(callApiForcefully)
 
+    fun testApi() = githubRepoRepository.ApiTestMethod()
+
 
 }

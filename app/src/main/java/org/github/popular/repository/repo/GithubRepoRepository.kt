@@ -1,10 +1,12 @@
 package org.github.popular.repository.repo
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.github.popular.repository.api.ApiServiceHelper
 import org.github.popular.repository.api.network.NetworkAndDBBoundResource
@@ -24,7 +26,7 @@ class GithubRepoRepository @Inject constructor(
     private val context: Context,
     private val sharedPreferenceManager: SharedPreferenceManager
 ) {
-
+    private val TAG = "GithubRepoRepository"
     /**
      * Fetch the repos from database if exist else fetch from web
      * and persist them in the database
@@ -62,6 +64,17 @@ class GithubRepoRepository @Inject constructor(
 
 
         }.asLiveData()
+    }
+
+    fun ApiTestMethod() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val apiResult = apiServiceHelper.getRepos()
+                Log.d(TAG, apiResult.data.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     /**
