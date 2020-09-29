@@ -1,12 +1,8 @@
 package org.github.popular.ui.githubrepo
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import org.github.popular.repository.api.network.Resource
-import org.github.popular.repository.model.GithubRepo
 import org.github.popular.repository.repo.GithubRepoRepository
 import org.github.popular.ui.loader.LoaderHelper
-
 import javax.inject.Inject
 
 /**
@@ -17,16 +13,8 @@ class GithubRepoViewModel @Inject constructor(
     val loaderHelper: LoaderHelper, val githubRepoAdapter: GithubRepoAdapter
 ) : ViewModel() {
 
+    fun loadGithubRepos(callApiForcefully: Boolean) =
+        githubRepoRepository.getGithubRepos(callApiForcefully)
 
-    private fun githubRepos(): LiveData<Resource<List<GithubRepo>?>> =
-        githubRepoRepository.getGithubRepos(false)
-
-    fun getGithubRepos() = githubRepos()
-
-
-    private fun githubReposFromOnlyServer() =
-        githubRepoRepository.getGithubRepos(true)
-
-    fun getGithubReposFromServer() = githubReposFromOnlyServer()
 
 }
