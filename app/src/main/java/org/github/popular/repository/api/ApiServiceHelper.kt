@@ -11,4 +11,10 @@ class ApiServiceHelper(val apiService: ApiService) {
         spokenLanguageCode: String = ""
     ) = apiService.getRepos(language, since, spokenLanguageCode)
 
+    suspend fun getReposTest(
+        language: String = "",
+        since: String = "",
+        spokenLanguageCode: String = ""
+    ) = apiService.getReposTest(language, since, spokenLanguageCode)
+
 }

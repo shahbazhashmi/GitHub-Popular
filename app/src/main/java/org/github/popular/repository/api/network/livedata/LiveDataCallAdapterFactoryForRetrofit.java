@@ -1,4 +1,4 @@
-package org.github.popular.repository.api.network;
+package org.github.popular.repository.api.network.livedata;
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
@@ -6,6 +6,8 @@ package org.github.popular.repository.api.network;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+
+import org.github.popular.repository.api.network.Resource;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;

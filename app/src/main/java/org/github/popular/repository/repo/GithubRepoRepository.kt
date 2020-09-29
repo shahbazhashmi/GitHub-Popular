@@ -58,7 +58,7 @@ class GithubRepoRepository @Inject constructor(
                 emit(githubRepoDbHelper.getAllRepos())
             }
 
-            override fun createCall() = liveData<Resource<List<GithubRepo>>>(Dispatchers.Main) {
+            override fun createCall() = liveData(Dispatchers.Main) {
                 emit(apiServiceHelper.getRepos())
             }
 
@@ -69,8 +69,8 @@ class GithubRepoRepository @Inject constructor(
     fun ApiTestMethod() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val apiResult = apiServiceHelper.getRepos()
-                Log.d(TAG, apiResult.data.toString())
+                val apiResult = apiServiceHelper.getReposTest()
+                Log.d(TAG, apiResult.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
