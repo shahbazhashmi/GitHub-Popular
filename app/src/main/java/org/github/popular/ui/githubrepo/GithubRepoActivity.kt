@@ -8,6 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.github.popular.R
 import org.github.popular.databinding.ActivityGithubRepoBinding
 import org.github.popular.ui.BaseActivity
@@ -40,10 +43,14 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         binding.swipeContainer.setOnRefreshListener(this)
         binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
         githubRepoViewModel.loaderHelper.setRetryListener {
-            getGithubRepos()
+            CoroutineScope(Dispatchers.Main).launch {
+                getGithubRepos()
+            }
         }
 
-        getGithubRepos()
+        CoroutineScope(Dispatchers.Main).launch {
+            getGithubRepos()
+        }
         if (savedInstanceState != null) {
             // scroll to existing position which exist before rotation.
             binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))
@@ -59,16 +66,14 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         return true
     }
 
-    private fun getGithubRepos(callApiForcefully: Boolean = false) {
-        githubRepoViewModel.testApi()
-        return
+    private suspend fun getGithubRepos(callApiForcefully: Boolean = false) {
 
         /*
         * Observing for data change, Cater DB and Network Both
         * */
-        githubRepoViewModel.loadGithubRepos(callApiForcefully).observe(this, Observer {
+        githubRepoViewModel.githubRepoRepository.getGithubRepos(callApiForcefully).observe(this, Observer {
             when {
-                it.status.isLoading() -> {
+                it!!.status.isLoading() -> {
                     if (callApiForcefully) {
                         binding.swipeContainer.isRefreshing = true
                     } else {
@@ -114,7 +119,9 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
 
 
     override fun onRefresh() {
-        getGithubRepos(true)
+        CoroutineScope(Dispatchers.Main).launch {
+            getGithubRepos(true)
+        }
     }
 
 

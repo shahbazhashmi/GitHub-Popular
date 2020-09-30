@@ -31,9 +31,9 @@ class GithubRepoRepository @Inject constructor(
      * Fetch the repos from database if exist else fetch from web
      * and persist them in the database
      */
-    fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
+    suspend fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
 
-        return object :
+        /*return object :
             NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>() {
             override fun saveCallResult(item: List<GithubRepo>) {
                 if (!item.isEmpty()) {
@@ -61,18 +61,33 @@ class GithubRepoRepository @Inject constructor(
             override fun createCall() = apiServiceHelper.getRepos()
 
 
-        }.asLiveData()
-    }
+        }.asLiveData()*/
 
-    fun ApiTestMethod() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val apiResult = apiServiceHelper.getReposTest()
-                Log.d(TAG, apiResult.toString())
-            } catch (e: Exception) {
-                e.printStackTrace()
+        return object :
+            NetworkAndDBBoundResource<List<GithubRepo>?, List<GithubRepo>>() {
+            override suspend fun saveCallResults(items: List<GithubRepo>?) {
+                if (items != null && !items.isEmpty()) {
+                    sharedPreferenceManager.setLastUpdatedTimestamp()
+                        githubRepoDbHelper.deleteAllRepos()
+                        githubRepoDbHelper.insertRepos(items)
+
+                }
             }
-        }
+
+            override fun shouldFetch(data: List<GithubRepo>?): Boolean {
+                if (ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
+                    return true
+                }
+                if(data == null || data.isEmpty()) {
+                    return true
+                }
+                return false
+            }
+
+            override suspend fun loadFromDb(): List<GithubRepo> = githubRepoDbHelper.getAllRepos()
+
+            override suspend fun createCall(): Resource<List<GithubRepo>> = apiServiceHelper.getRepos()
+        }.build().asLiveData()
     }
 
     /**

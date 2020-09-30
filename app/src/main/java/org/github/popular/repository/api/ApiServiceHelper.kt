@@ -5,16 +5,10 @@ package org.github.popular.repository.api
  */
 class ApiServiceHelper(val apiService: ApiService) {
 
-    fun getRepos(
+    suspend fun getRepos(
         language: String = "",
         since: String = "",
         spokenLanguageCode: String = ""
     ) = apiService.getRepos(language, since, spokenLanguageCode)
-
-    suspend fun getReposTest(
-        language: String = "",
-        since: String = "",
-        spokenLanguageCode: String = ""
-    ) = apiService.getReposTest(language, since, spokenLanguageCode)
 
 }
