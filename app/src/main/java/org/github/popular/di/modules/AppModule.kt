@@ -11,6 +11,7 @@ import org.github.popular.BuildConfig.BASE_URL
 import org.github.popular.app.AppController
 import org.github.popular.repository.api.ApiService
 import org.github.popular.repository.api.ApiServiceHelper
+import org.github.popular.repository.api.network.resource.ResourceCallAdapterFactory
 import org.github.popular.repository.db.AppDatabase
 import org.github.popular.repository.db.GithubRepoDbHelper
 import org.github.popular.repository.db.githubrepo.GithubRepoDao
@@ -46,7 +47,7 @@ class AppModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            //.addCallAdapterFactory(LiveDataCallAdapterFactoryForRetrofit())
+            .addCallAdapterFactory(ResourceCallAdapterFactory())
             .client(httpClient.build())
             .build()
             .create(ApiService::class.java)

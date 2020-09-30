@@ -61,11 +61,12 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
 
     private fun getGithubRepos(callApiForcefully: Boolean = false) {
         githubRepoViewModel.testApi()
+        return
 
         /*
         * Observing for data change, Cater DB and Network Both
         * */
-        /*githubRepoViewModel.loadGithubRepos(callApiForcefully).observe(this, Observer {
+        githubRepoViewModel.loadGithubRepos(callApiForcefully).observe(this, Observer {
             when {
                 it.status.isLoading() -> {
                     if (callApiForcefully) {
@@ -108,7 +109,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                     }
                 }
             }
-        })*/
+        })
     }
 
 
