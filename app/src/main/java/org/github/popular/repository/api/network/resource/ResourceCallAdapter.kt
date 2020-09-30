@@ -8,7 +8,7 @@ import java.lang.reflect.Type
 /**
  * Created by Shahbaz Hashmi on 30/09/20.
  */
-class ResourceAdapter(
+class ResourceCallAdapter(
     private val type: Type
 ): CallAdapter<Type, Call<Resource<Type>>> {
     override fun responseType() = type

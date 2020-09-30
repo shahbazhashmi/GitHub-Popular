@@ -58,9 +58,7 @@ class GithubRepoRepository @Inject constructor(
                 emit(githubRepoDbHelper.getAllRepos())
             }
 
-            override fun createCall() = liveData(Dispatchers.Main) {
-                emit(apiServiceHelper.getRepos())
-            }
+            override fun createCall() = apiServiceHelper.getRepos()
 
 
         }.asLiveData()

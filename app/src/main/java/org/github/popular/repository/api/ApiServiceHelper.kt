@@ -5,7 +5,7 @@ package org.github.popular.repository.api
  */
 class ApiServiceHelper(val apiService: ApiService) {
 
-    suspend fun getRepos(
+    fun getRepos(
         language: String = "",
         since: String = "",
         spokenLanguageCode: String = ""

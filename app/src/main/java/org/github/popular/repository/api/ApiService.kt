@@ -12,11 +12,11 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("repositories")
-    suspend fun getRepos(
+    fun getRepos(
         @Query("language") language: String = "",
         @Query("since") since: String = "",
         @Query("spoken_language_code") spokenLanguageCode: String = ""
-    ): Resource<List<GithubRepo>>
+    ): LiveData<Resource<List<GithubRepo>>>
 
     @GET("repositories")
     suspend fun getReposTest(
