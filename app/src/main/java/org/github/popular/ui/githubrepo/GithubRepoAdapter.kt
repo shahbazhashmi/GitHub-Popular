@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ import kotlin.properties.Delegates
  */
 class GithubRepoAdapter @Inject constructor(val context: Context) :
     RecyclerView.Adapter<GithubRepoAdapter.RepoHolder>() {
+
+    private val TAG = "GithubRepoAdapter"
 
     val SELECTED_LIST_POSITION = "selected_list_position"
     val SELECT_RESET_VALUE = -5
@@ -88,12 +91,16 @@ class GithubRepoAdapter @Inject constructor(val context: Context) :
 
                 if (!TextUtils.isEmpty(githubRepo.language) && !TextUtils.isEmpty(githubRepo.languageColor)) {
                     languageSpannable = SpannableString("\u25CF ${githubRepo.language}")
-                    languageSpannable.setSpan(
-                        ForegroundColorSpan(Color.parseColor(githubRepo.languageColor)),
-                        0,
-                        languageSpannable.length - githubRepo.language!!.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
+                    try {
+                        languageSpannable.setSpan(
+                            ForegroundColorSpan(Color.parseColor(githubRepo.languageColor)),
+                            0,
+                            languageSpannable.length - githubRepo.language!!.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.toString())
+                    }
 
                 }
 

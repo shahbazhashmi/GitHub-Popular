@@ -8,9 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.github.popular.R
 import org.github.popular.databinding.ActivityGithubRepoBinding
 import org.github.popular.ui.BaseActivity
@@ -20,7 +17,7 @@ import org.github.popular.utils.extensions.getViewModel
 
 class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    val LIST_POSITION = "list_position"
+    private val LIST_POSITION = "list_position"
 
     private val TAG = "GithubRepoActivity"
 
@@ -28,7 +25,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         getViewModel<GithubRepoViewModel>()
     }
 
-    val recyclerViewLayoutManager: LinearLayoutManager by lazy {
+    private val recyclerViewLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this)
     }
 
@@ -43,12 +40,6 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         binding.swipeContainer.setOnRefreshListener(this)
         binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
         githubRepoViewModel.loaderHelper.setRetryListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                getGithubRepos()
-            }
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
             getGithubRepos()
         }
         if (savedInstanceState != null) {
@@ -58,6 +49,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
             githubRepoViewModel.githubRepoAdapter.selectedPosition =
                 savedInstanceState.getInt(githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION)
         }
+        getGithubRepos()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,12 +58,14 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         return true
     }
 
-    private suspend fun getGithubRepos(callApiForcefully: Boolean = false) {
+    private fun getGithubRepos(callApiForcefully: Boolean = false) {
+
+        githubRepoViewModel.loadGithubRepos(callApiForcefully)
 
         /*
-        * Observing for data change, Cater DB and Network Both
-        * */
-        githubRepoViewModel.githubRepoRepository.getGithubRepos(callApiForcefully).observe(this, Observer {
+       * Observing for data change, Cater DB and Network Both
+       * */
+        githubRepoViewModel.repoLiveData?.observe(this, Observer {
             when {
                 it!!.status.isLoading() -> {
                     if (callApiForcefully) {
@@ -82,16 +76,17 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                 }
                 it.status.isSuccessful() -> {
                     Log.d(TAG, "data success")
-                    if (binding.swipeContainer.isRefreshing) {
-                        binding.swipeContainer.isRefreshing = false
-                    }
                     if (it.data == null || it.data!!.isEmpty()) {
                         githubRepoViewModel.loaderHelper.showError(
                             getString(R.string.txt_data_not_found),
                             getString(R.string.txt_try_again_later)
                         )
                     } else {
-                        githubRepoViewModel.loaderHelper.dismiss()
+                        if (binding.swipeContainer.isRefreshing) {
+                            binding.swipeContainer.isRefreshing = false
+                        } else {
+                            githubRepoViewModel.loaderHelper.dismiss()
+                        }
                         githubRepoViewModel.githubRepoAdapter.setData(it.data!!)
                     }
                 }
@@ -99,8 +94,6 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                     Log.d(TAG, it.errorMessage.toString())
                     if (binding.swipeContainer.isRefreshing) {
                         binding.swipeContainer.isRefreshing = false
-                    }
-                    if (callApiForcefully) {
                         AppUtil.showToast(
                             this,
                             "${getString(R.string.txt_something_went_wrong)} - ${getString(R.string.txt_alien_blocking_signal)}",
@@ -119,9 +112,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
 
 
     override fun onRefresh() {
-        CoroutineScope(Dispatchers.Main).launch {
-            getGithubRepos(true)
-        }
+        getGithubRepos(true)
     }
 
 

@@ -52,12 +52,12 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
                      */
                     setValue(Resource.success(loadFromDb()))
                 } else {
-                    throw Exception(apiResponse.errorMessage ?: "something went wrong")
+                    throw Exception(apiResponse.errorMessage ?: "API Exception Occurred")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "An error happened: $e")
                 if (mustFetch() || !isLocalDataAvailable(dbResult)) {
-                    setValue(Resource.error(e.message ?: "something went wrong"))
+                    setValue(Resource.error(e.message ?: e.toString()))
                 } else {
                     setValue(Resource.success(dbResult))
                 }
@@ -70,7 +70,6 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
 
     fun asLiveData() = result as LiveData<Resource<ResultType>>
 
-    // ---
 
     private suspend fun fetchFromNetwork(): Resource<RequestType> {
         Log.d(NetworkAndDBBoundResource::class.java.name, "Fetch data from network")

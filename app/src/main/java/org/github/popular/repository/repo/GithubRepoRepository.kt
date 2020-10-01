@@ -60,20 +60,4 @@ class GithubRepoRepository @Inject constructor(
         }.build().asLiveData()
     }
 
-    /**
-     * Fetch the repos from database if exist else fetch from web
-     * and persist them in the database
-     * LiveData<Resource<githubRepoSource>>
-     */
-    /* fun getGithubReposFromServerOnly():
-             LiveData<Resource<List<GithubRepo>>> {
-
-         return object : NetworkResource<List<GithubRepo>>() {
-             override fun createCall(): LiveData<Resource<List<GithubRepo>>> {
-                 return apiServiceHelper.getRepos()
-             }
-
-         }.asLiveData()
-     }*/
-
 }
