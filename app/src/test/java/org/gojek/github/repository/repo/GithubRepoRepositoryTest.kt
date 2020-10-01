@@ -4,12 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.github.popular.BuildConfig.BASE_URL
-import org.github.popular.app.AppExecutors
-import org.github.popular.repository.api.ApiService
-import org.github.popular.repository.api.network.LiveDataCallAdapterFactoryForRetrofit
+import org.github.popular.repository.api.network.livedata.LiveDataCallAdapterFactoryForRetrofit
 import org.github.popular.repository.api.network.Status
 import org.github.popular.repository.db.githubrepo.GithubRepoDao
-import org.github.popular.repository.observeForApiTesting
 import org.github.popular.utils.SharedPreferenceManager
 import org.junit.Before
 import org.junit.Rule
@@ -43,8 +40,6 @@ class GithubRepoRepositoryTest {
     @Mock
     lateinit var sharedPreferences: SharedPreferences
 
-    @Mock
-    lateinit var appExecutors: _root_ide_package_.org.github.popular.app.AppExecutors
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -56,10 +51,10 @@ class GithubRepoRepositoryTest {
         apiService = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(_root_ide_package_.org.github.popular.repository.api.network.LiveDataCallAdapterFactoryForRetrofit())
+            .addCallAdapterFactory(LiveDataCallAdapterFactoryForRetrofit())
             .build()
             .create(_root_ide_package_.org.github.popular.repository.api.ApiService::class.java)
-        githubRepoRepository = GithubRepoRepository(githubRepoDao, apiService, context, sharedPreferenceManager, appExecutors)
+        githubRepoRepository = GithubRepoRepository(githubRepoDao, apiService, context, sharedPreferenceManager)
     }
 
 

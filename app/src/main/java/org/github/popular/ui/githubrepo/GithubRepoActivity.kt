@@ -13,12 +13,11 @@ import org.github.popular.databinding.ActivityGithubRepoBinding
 import org.github.popular.ui.BaseActivity
 import org.github.popular.utils.AppUtil
 import org.github.popular.utils.extensions.getViewModel
-import org.github.popular.utils.widgets.CustomToolbar
 
 
 class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    val LIST_POSITION = "list_position"
+    private val LIST_POSITION = "list_position"
 
     private val TAG = "GithubRepoActivity"
 
@@ -26,7 +25,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         getViewModel<GithubRepoViewModel>()
     }
 
-    val recyclerViewLayoutManager: LinearLayoutManager by lazy {
+    private val recyclerViewLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this)
     }
 
@@ -43,8 +42,6 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         githubRepoViewModel.loaderHelper.setRetryListener {
             getGithubRepos()
         }
-
-        getGithubRepos()
         if (savedInstanceState != null) {
             // scroll to existing position which exist before rotation.
             binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))
@@ -52,6 +49,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
             githubRepoViewModel.githubRepoAdapter.selectedPosition =
                 savedInstanceState.getInt(githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION)
         }
+        getGithubRepos()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,14 +58,21 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         return true
     }
 
-    private fun getGithubRepos() {
+    private fun getGithubRepos(callApiForcefully: Boolean = false) {
+
+        githubRepoViewModel.loadGithubRepos(callApiForcefully)
+
         /*
-        * Observing for data change, Cater DB and Network Both
-        * */
-        githubRepoViewModel.getGithubRepos().observe(this, Observer {
+       * Observing for data change, Cater DB and Network Both
+       * */
+        githubRepoViewModel.repoLiveData?.observe(this, Observer {
             when {
-                it.status.isLoading() -> {
-                    githubRepoViewModel.loaderHelper.showLoading()
+                it!!.status.isLoading() -> {
+                    if (callApiForcefully) {
+                        binding.swipeContainer.isRefreshing = true
+                    } else {
+                        githubRepoViewModel.loaderHelper.showLoading()
+                    }
                 }
                 it.status.isSuccessful() -> {
                     Log.d(TAG, "data success")
@@ -77,52 +82,29 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                             getString(R.string.txt_try_again_later)
                         )
                     } else {
-                        githubRepoViewModel.loaderHelper.dismiss()
+                        if (binding.swipeContainer.isRefreshing) {
+                            binding.swipeContainer.isRefreshing = false
+                        } else {
+                            githubRepoViewModel.loaderHelper.dismiss()
+                        }
                         githubRepoViewModel.githubRepoAdapter.setData(it.data!!)
                     }
                 }
                 it.status.isError() -> {
                     Log.d(TAG, it.errorMessage.toString())
-                    githubRepoViewModel.loaderHelper.showError(
-                        getString(R.string.txt_something_went_wrong),
-                        getString(R.string.txt_alien_blocking_signal)
-                    )
-                }
-            }
-        })
-    }
-
-
-    private fun getGithubReposFromServer() {
-        /*
-        * Observing for data change from Network
-        * */
-        githubRepoViewModel.getGithubReposFromServer().observe(this, Observer {
-            when {
-                it.status.isLoading() -> {
-                    binding.swipeContainer.isRefreshing = true
-                }
-                it.status.isSuccessful() -> {
-                    Log.d(TAG, "data success")
-                    binding.swipeContainer.isRefreshing = false
-                    if (it.data == null || it.data!!.isEmpty()) {
+                    if (binding.swipeContainer.isRefreshing) {
+                        binding.swipeContainer.isRefreshing = false
                         AppUtil.showToast(
                             this,
-                            "${getString(R.string.txt_data_not_found)} - ${getString(R.string.txt_try_again_later)}",
+                            "${getString(R.string.txt_something_went_wrong)} - ${getString(R.string.txt_alien_blocking_signal)}",
                             false
                         )
                     } else {
-                        githubRepoViewModel.githubRepoAdapter.setData(it.data!!)
+                        githubRepoViewModel.loaderHelper.showError(
+                            getString(R.string.txt_something_went_wrong),
+                            getString(R.string.txt_alien_blocking_signal)
+                        )
                     }
-                }
-                it.status.isError() -> {
-                    binding.swipeContainer.isRefreshing = false
-                    Log.d(TAG, it.errorMessage.toString())
-                    AppUtil.showToast(
-                        this,
-                        "${getString(R.string.txt_something_went_wrong)} - ${getString(R.string.txt_alien_blocking_signal)}",
-                        false
-                    )
                 }
             }
         })
@@ -130,7 +112,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
 
 
     override fun onRefresh() {
-        getGithubReposFromServer()
+        getGithubRepos(true)
     }
 
 

@@ -8,7 +8,7 @@ package org.github.popular.repository.api.network
  * A generic class that holds a value with its loading status.
  * @param <T>
 </T> */
-data class Resource<ResultType>(
+data class Resource< ResultType>(
     var status: Status,
     var data: ResultType? = null,
     var errorMessage: String? = null
