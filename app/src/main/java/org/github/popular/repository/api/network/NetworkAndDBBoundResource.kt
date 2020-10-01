@@ -1,10 +1,12 @@
 package org.github.popular.repository.api.network
 
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import org.github.popular.app.AppExecutors
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
@@ -20,154 +22,87 @@ import org.github.popular.app.AppExecutors
  * @param <ResultType>
  * @param <RequestType>
 </RequestType></ResultType> */
-abstract class NetworkAndDBBoundResource<ResultType, RequestType> @MainThread constructor(private val appExecutors: AppExecutors) {
+abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
 
-    /**
-     * The final result LiveData
-     */
-    private val result = MediatorLiveData<Resource<ResultType?>>()
+    private val TAG = "NetworkAndDBBoundResource"
 
-    init {
-        // Send loading state to UI
-        result.value = Resource.loading()
+    private val result = MutableLiveData<Resource<ResultType>>()
+    private val supervisorJob = SupervisorJob()
 
-        val dbSource = this.loadFromDb()
+    suspend fun build(): NetworkAndDBBoundResource<ResultType, RequestType> {
+        withContext(Dispatchers.Main) {
+            result.value =
+                Resource.loading()
+        }
+        CoroutineScope(coroutineContext).launch(supervisorJob) {
+            handleData()
+        }
+        return this
+    }
 
-        result.addSource(dbSource) { data ->
-
-            result.removeSource(dbSource) // Once done data loading remove source
-
-            if (mustFetch(data)) {
-
-                fetchFromNetworkOnly(dbSource)
-
-            } else if (shouldFetch(data)) {
-
-                fetchFromNetwork(dbSource)
-
-            } else {
-
-                result.addSource(dbSource) { newData -> setValue(Resource.success(newData)) }
+    private suspend fun handleData() {
+        val dbResult = loadFromDb()
+        if (mustFetch() || shouldFetch(dbResult)) {
+            try {
+                val apiResponse = fetchFromNetwork()
+                if (apiResponse.status.isSuccessful()) {
+                    saveCallResults(processResponse(apiResponse))
+                    /**
+                     * publish new data
+                     */
+                    setValue(Resource.success(loadFromDb()))
+                } else {
+                    throw Exception(apiResponse.errorMessage ?: "API Exception Occurred")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "An error happened: $e")
+                if (mustFetch() || !isLocalDataAvailable(dbResult)) {
+                    setValue(Resource.error(e.message ?: e.toString()))
+                } else {
+                    setValue(Resource.success(dbResult))
+                }
             }
+        } else {
+            Log.d(TAG, "Return data from local database")
+            setValue(Resource.success(dbResult))
         }
     }
 
-    /**
-     * Fetch the data from network and persist into DB and then
-     * send it back to UI.
-     */
-    private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
+    fun asLiveData() = result as LiveData<Resource<ResultType>>
+
+
+    private suspend fun fetchFromNetwork(): Resource<RequestType> {
+        Log.d(NetworkAndDBBoundResource::class.java.name, "Fetch data from network")
         val apiResponse = createCall()
-        // we re-attach dbSource as a new source, it will dispatch its latest value quickly
-        result.addSource(dbSource) {
-            result.setValue(Resource.loading())
-        }
-
-        result.addSource(apiResponse) { response ->
-            result.removeSource(dbSource)
-            result.removeSource(apiResponse)
-
-            response?.apply {
-                if (status.isSuccessful()) {
-                    appExecutors.diskIO().execute {
-
-                        processResponse(this)?.let { requestType ->
-                            saveCallResult(requestType)
-                        }
-                        appExecutors.mainThread().execute {
-                            // we specially request a new live data,
-                            // otherwise we will get immediately last cached value,
-                            // which may not be updated with latest results received from network.
-                            result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.success(newData))
-                            }
-                        }
-                    }
-                } else {
-                    onFetchFailed()
-                    result.addSource(dbSource) {
-                        result.setValue(Resource.error(errorMessage))
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Fetch the data from network only and persist into DB and then
-     * send it back to UI.
-     */
-    private fun fetchFromNetworkOnly(dbSource: LiveData<ResultType>) {
-        val apiResponse = createCall()
-        // we re-attach dbSource as a new source, it will dispatch its latest value quickly
-        result.addSource(dbSource) {
-            result.setValue(Resource.loading())
-        }
-
-        result.addSource(apiResponse) { response ->
-            result.removeSource(dbSource)
-            result.removeSource(apiResponse)
-
-            response?.apply {
-                if (status.isSuccessful()) {
-                    appExecutors.diskIO().execute {
-
-                        processResponse(this)?.let { requestType ->
-                            saveCallResult(requestType)
-                        }
-                        appExecutors.mainThread().execute {
-                            // we specially request a new live data,
-                            // otherwise we will get immediately last cached value,
-                            // which may not be updated with latest results received from network.
-                            result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.success(newData))
-                            }
-                        }
-                    }
-                } else {
-                    onFetchFailed()
-                    result.addSource(apiResponse) {
-                        result.setValue(Resource.error(errorMessage))
-                    }
-                }
-            }
-        }
+        Log.e(NetworkAndDBBoundResource::class.java.name, "Data fetched from network")
+        return apiResponse
     }
 
     @MainThread
-    private fun setValue(newValue: Resource<ResultType?>) {
-        if (result.value != newValue) result.value = newValue
-    }
-
-    protected fun onFetchFailed() {}
-
-    fun asLiveData(): LiveData<Resource<ResultType?>> {
-        return result
+    private fun setValue(newValue: Resource<ResultType>) {
+        Log.d(NetworkAndDBBoundResource::class.java.name, "Resource: "+newValue)
+        if (result.value != newValue) result.postValue(newValue)
     }
 
     @WorkerThread
-    private fun processResponse(response: Resource<RequestType>): RequestType? {
-        return response.data
-    }
+    protected fun processResponse(response: Resource<RequestType>): RequestType? = response.data
 
     @WorkerThread
-    protected abstract fun saveCallResult(item: RequestType)
+    protected abstract suspend fun saveCallResults(items: RequestType?)
 
-    /**
-     * prefers network call and does not return network call errors
-     */
     @MainThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
-    /**
-     * prefers network call and not returns network call errors
-     */
     @MainThread
-    protected abstract fun mustFetch(data: ResultType?): Boolean
+    protected abstract fun mustFetch(): Boolean
 
     @MainThread
-    protected abstract fun loadFromDb(): LiveData<ResultType>
+    protected abstract fun isLocalDataAvailable(data: ResultType?): Boolean
 
     @MainThread
-    protected abstract fun createCall(): LiveData<Resource<RequestType>>
+    protected abstract suspend fun loadFromDb(): ResultType
+
+    @MainThread
+    protected abstract suspend fun createCall(): Resource<RequestType>
+
 }

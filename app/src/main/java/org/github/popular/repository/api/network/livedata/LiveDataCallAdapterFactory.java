@@ -1,11 +1,9 @@
-package org.github.popular.repository.api.network;
-
-/**
- * Created by Shahbaz Hashmi on 2020-03-06.
- */
+package org.github.popular.repository.api.network.livedata;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+
+import org.github.popular.repository.api.network.Resource;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -14,7 +12,10 @@ import java.lang.reflect.Type;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 
-public class LiveDataCallAdapterFactoryForRetrofit extends CallAdapter.Factory {
+/**
+ * Created by Shahbaz Hashmi on 30/09/20.
+ */
+public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
 
     @Override
     public CallAdapter<?, ?> get(@NonNull Type returnType, @NonNull Annotation[] annotations, @NonNull Retrofit retrofit) {
