@@ -2,6 +2,8 @@ package org.github.popular.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import org.github.popular.repository.api.network.Resource
+import org.github.popular.repository.api.network.Status
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException

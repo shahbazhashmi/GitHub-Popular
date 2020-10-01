@@ -17,8 +17,8 @@ import javax.inject.Inject
 class GithubRepoRepository @Inject constructor(
     private val githubRepoDbHelper: GithubRepoDbHelper,
     private val apiServiceHelper: ApiServiceHelper,
-    private val context: Context,
-    private val sharedPreferenceManager: SharedPreferenceManager
+    private val sharedPreferenceManager: SharedPreferenceManager,
+    private val context: Context?
 ) {
     private val TAG = "GithubRepoRepository"
     /**
@@ -39,10 +39,10 @@ class GithubRepoRepository @Inject constructor(
             }
 
             override fun shouldFetch(data: List<GithubRepo>?): Boolean {
-                if (ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
+                if (context != null && ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
                     return true
                 }
-                if (!isLocalDataAvailable(data)) {
+                if (!isDataAvailable(data)) {
                     return true
                 }
                 return false
@@ -50,7 +50,7 @@ class GithubRepoRepository @Inject constructor(
 
             override fun mustFetch(): Boolean = callApiForcefully
 
-            override fun isLocalDataAvailable(data: List<GithubRepo>?): Boolean =
+            override fun isDataAvailable(data: List<GithubRepo>?): Boolean =
                 data != null && data.isNotEmpty()
 
             override suspend fun loadFromDb(): List<GithubRepo> = githubRepoDbHelper.getAllRepos()
