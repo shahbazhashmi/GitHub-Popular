@@ -2,6 +2,8 @@ package org.github.popular.repository.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.github.popular.repository.api.ApiServiceHelper
 import org.github.popular.repository.api.network.NetworkAndDBBoundResource
 import org.github.popular.repository.api.network.Resource
@@ -30,11 +32,12 @@ class GithubRepoRepository @Inject constructor(
         return object :
             NetworkAndDBBoundResource<List<GithubRepo>?, List<GithubRepo>>() {
             override suspend fun saveCallResults(items: List<GithubRepo>?) {
-                if (items != null && items.isNotEmpty()) {
-                    sharedPreferenceManager.setLastUpdatedTimestamp()
-                    githubRepoDbHelper.deleteAllRepos()
-                    githubRepoDbHelper.insertRepos(items)
-
+                withContext(Dispatchers.IO) {
+                    if (items != null && items.isNotEmpty()) {
+                        sharedPreferenceManager.setLastUpdatedTimestamp()
+                        githubRepoDbHelper.deleteAllRepos()
+                        githubRepoDbHelper.insertRepos(items)
+                    }
                 }
             }
 
@@ -53,10 +56,14 @@ class GithubRepoRepository @Inject constructor(
             override fun isDataAvailable(data: List<GithubRepo>?): Boolean =
                 data != null && data.isNotEmpty()
 
-            override suspend fun loadFromDb(): List<GithubRepo> = githubRepoDbHelper.getAllRepos()
+            override suspend fun loadFromDb(): List<GithubRepo> = withContext(Dispatchers.IO) {
+                githubRepoDbHelper.getAllRepos()
+            }
 
             override suspend fun createCall(): Resource<List<GithubRepo>> =
-                apiServiceHelper.getRepos()
+                withContext(Dispatchers.IO) {
+                    apiServiceHelper.getRepos()
+                }
         }.build().asLiveData()
     }
 

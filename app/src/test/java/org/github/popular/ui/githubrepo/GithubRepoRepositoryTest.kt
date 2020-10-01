@@ -2,16 +2,13 @@ package org.github.popular.ui.githubrepo
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import org.github.popular.repository.api.ApiServiceHelper
 import org.github.popular.repository.api.network.Resource
-import org.github.popular.repository.db.GithubRepoDbHelper
 import org.github.popular.repository.model.GithubRepo
 import org.github.popular.repository.repo.GithubRepoRepository
 import org.github.popular.ui.githubrepo.mockitoutils.TestCoroutineRule
-import org.github.popular.utils.SharedPreferenceManager
-import org.junit.Assert
+import org.github.popular.ui.loader.LoaderHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +16,9 @@ import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
+
 
 /**
  * Created by Shahbaz Hashmi on 01/10/20.
@@ -35,22 +34,45 @@ class GithubRepoRepositoryTest {
     val testCoroutineRule = TestCoroutineRule()
 
     @Mock
-    private lateinit var apiRepoObserver: Observer<Resource<List<GithubRepo>>>
+    private lateinit var apiRepoObserver: Observer<Resource<List<GithubRepo>?>>
 
+    @Mock
     lateinit var mockRepository: GithubRepoRepository
+
+    lateinit var viewModel: GithubRepoViewModel
 
     @Before
     fun setUp() {
-        //mockRepository = GithubRepoRepository(Mockito.mock(GithubRepoDbHelper::class.java), Mockito.mock(ApiServiceHelper::class.java), Mockito.mock(
-        mockRepository = Mockito.mock(GithubRepoRepository::class.java)
+        viewModel = GithubRepoViewModel(
+            mockRepository, Mockito.mock(LoaderHelper::class.java), Mockito.mock(
+                GithubRepoAdapter::class.java
+            )
+        )
+        viewModel.repoLiveData?.observeForever(apiRepoObserver)
     }
 
     @Test
-    fun fetchRepos() {
+    fun fetchRepoTest() {
         testCoroutineRule.runBlockingTest {
-            val repoData = mockRepository.getGithubRepos(true)
-            Assert.assertEquals(repoData, "datascsc")
+            doReturn(emptyList<Resource<List<GithubRepo>?>>())
+                .`when`(mockRepository)
+                .getGithubRepos(true).value
+            viewModel.loadGithubRepos(true)
+            viewModel.repoLiveData?.observeForever(apiRepoObserver)
+            verify(mockRepository).getGithubRepos(true)
+            verify(apiRepoObserver).onChanged(Resource.success(emptyList()))
+            viewModel.repoLiveData?.removeObserver(apiRepoObserver)
+            /*val repoData = mockRepository.getGithubRepos(true)
+            Assert.assertEquals(repoData, "datascsc")*/
         }
+    }
+
+    @Test
+    fun test() {
+        // using Mockito.mock() method
+        val mockList = mock(MutableList::class.java)
+        `when`(mockList.size).thenReturn(5)
+        assertTrue(mockList.size == 5)
     }
 
 }
