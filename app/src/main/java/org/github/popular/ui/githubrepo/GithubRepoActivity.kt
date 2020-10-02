@@ -39,15 +39,16 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         title = getString(R.string.txt_trending)
         binding.swipeContainer.setOnRefreshListener(this)
         binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
-        githubRepoViewModel.loaderHelper.setRetryListener {
-            getGithubRepos()
-        }
         if (savedInstanceState != null) {
             // scroll to existing position which exist before rotation.
             binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))
             // set selected position
             githubRepoViewModel.githubRepoAdapter.selectedPosition =
                 savedInstanceState.getInt(githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION)
+        }
+        attachDataChangeListener()
+        githubRepoViewModel.loaderHelper.setRetryListener {
+            getGithubRepos()
         }
         getGithubRepos()
     }
@@ -59,18 +60,14 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
     }
 
     private fun getGithubRepos(callApiForcefully: Boolean = false) {
+        githubRepoViewModel.fetchGithubRepos(callApiForcefully)
+    }
 
-        githubRepoViewModel.loadGithubRepos(callApiForcefully)
-
-        /*
-       * Observing for data change, Cater DB and Network Both
-       * */
-        githubRepoViewModel.repoLiveData?.observe(this, Observer {
+    private fun attachDataChangeListener() {
+        githubRepoViewModel.repos.observe(this, Observer {
             when {
                 it!!.status.isLoading() -> {
-                    if (callApiForcefully) {
-                        binding.swipeContainer.isRefreshing = true
-                    } else {
+                    if (!binding.swipeContainer.isRefreshing) {
                         githubRepoViewModel.loaderHelper.showLoading()
                     }
                 }
@@ -110,8 +107,8 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         })
     }
 
-
     override fun onRefresh() {
+        binding.swipeContainer.isRefreshing = true
         getGithubRepos(true)
     }
 

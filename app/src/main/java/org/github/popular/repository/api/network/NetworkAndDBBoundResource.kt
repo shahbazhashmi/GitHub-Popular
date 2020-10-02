@@ -56,7 +56,7 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "An error happened: $e")
-                if (mustFetch() || !isLocalDataAvailable(dbResult)) {
+                if (mustFetch() || !isDataAvailable(dbResult)) {
                     setValue(Resource.error(e.message ?: e.toString()))
                 } else {
                     setValue(Resource.success(dbResult))
@@ -72,15 +72,15 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
 
 
     private suspend fun fetchFromNetwork(): Resource<RequestType> {
-        Log.d(NetworkAndDBBoundResource::class.java.name, "Fetch data from network")
+        Log.d(TAG, "Fetch data from network")
         val apiResponse = createCall()
-        Log.e(NetworkAndDBBoundResource::class.java.name, "Data fetched from network")
+        Log.e(TAG, "Data fetched from network")
         return apiResponse
     }
 
     @MainThread
     private fun setValue(newValue: Resource<ResultType>) {
-        Log.d(NetworkAndDBBoundResource::class.java.name, "Resource: "+newValue)
+        Log.d(TAG, "Resource: "+newValue)
         if (result.value != newValue) result.postValue(newValue)
     }
 
@@ -97,7 +97,7 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
     protected abstract fun mustFetch(): Boolean
 
     @MainThread
-    protected abstract fun isLocalDataAvailable(data: ResultType?): Boolean
+    protected abstract fun isDataAvailable(data: ResultType?): Boolean
 
     @MainThread
     protected abstract suspend fun loadFromDb(): ResultType
