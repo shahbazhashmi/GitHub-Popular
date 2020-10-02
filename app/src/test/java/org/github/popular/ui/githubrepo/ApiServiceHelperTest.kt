@@ -20,7 +20,7 @@ class ApiServiceHelperTest {
     }
 
     @Test
-    fun fetchApiTest() = runBlocking {
+    fun getReposTest() = runBlocking {
         val apiResponse = apiServiceHelper.getRepos()
         if (apiResponse.status.isSuccessful()) {
             Assert.assertTrue("data fetched successfully", true)
