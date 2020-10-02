@@ -1,6 +1,8 @@
-package org.github.popular.repository.api.network
+package org.github.popular.repository.api.network.livedata
 
 import androidx.lifecycle.LiveData
+import org.github.popular.repository.api.network.Resource
+import org.github.popular.repository.api.network.toResource
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback

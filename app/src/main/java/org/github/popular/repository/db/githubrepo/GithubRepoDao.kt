@@ -15,18 +15,18 @@ import org.github.popular.repository.model.GithubRepo
 interface GithubRepoDao {
 
     @Query("SELECT COUNT(*) FROM github_repo")
-    fun getCount(): Int
+    suspend fun getCount(): Int
 
     @Query("SELECT * FROM github_repo")
-    fun getAllRepos(): LiveData<List<GithubRepo>>
+    suspend fun getAllRepos(): List<GithubRepo>
 
     @Query("DELETE FROM github_repo")
-    fun deleteAllRepos()
+    suspend fun deleteAllRepos()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRepo(repo: GithubRepo): Long
+    suspend fun insertRepo(repo: GithubRepo): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRepos(repos: List<GithubRepo>): List<Long>
+    suspend fun insertRepos(repos: List<GithubRepo>): List<Long>
 
 }

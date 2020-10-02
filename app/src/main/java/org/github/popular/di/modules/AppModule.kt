@@ -10,11 +10,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.github.popular.BuildConfig.BASE_URL
 import org.github.popular.app.AppController
 import org.github.popular.repository.api.ApiService
-import org.github.popular.repository.api.network.LiveDataCallAdapterFactoryForRetrofit
+import org.github.popular.repository.api.ApiServiceHelper
+import org.github.popular.repository.api.network.resource.ResourceCallAdapterFactory
 import org.github.popular.repository.db.AppDatabase
+import org.github.popular.repository.db.GithubRepoDbHelper
 import org.github.popular.repository.db.githubrepo.GithubRepoDao
 import org.github.popular.ui.githubrepo.GithubRepoAdapter
 import org.github.popular.ui.loader.LoaderHelper
+import org.github.popular.utils.AppUtil
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -31,25 +34,7 @@ class AppModule {
      */
     @Singleton
     @Provides
-    fun provideNewsService(): ApiService {
-
-        val logging = HttpLoggingInterceptor()
-        // set your desired log level
-        logging.level = HttpLoggingInterceptor.Level.BODY
-
-        val httpClient = OkHttpClient.Builder()
-        // add your other interceptors …
-        // add logging as last interceptor
-        httpClient.addInterceptor(logging) // <-- this is the important line!
-
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(LiveDataCallAdapterFactoryForRetrofit())
-            .client(httpClient.build())
-            .build()
-            .create(ApiService::class.java)
-    }
+    fun provideNewsService(): ApiService = AppUtil.getApiService()
 
 
     /**
@@ -106,5 +91,15 @@ class AppModule {
     @Provides
     @Singleton
     fun providesResources(application: AppController): Resources = application.resources
+
+    @Provides
+    @Singleton
+    fun providesGithubRepoDbHelper(githubRepoDao: GithubRepoDao): GithubRepoDbHelper =
+        GithubRepoDbHelper(githubRepoDao)
+
+
+    @Provides
+    @Singleton
+    fun providesApiServiceHelper(apiService: ApiService) = ApiServiceHelper(apiService)
 
 }

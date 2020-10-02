@@ -2,12 +2,12 @@ package org.github.popular.repository.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import org.github.popular.app.AppExecutors
-import org.github.popular.repository.api.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.github.popular.repository.api.ApiServiceHelper
 import org.github.popular.repository.api.network.NetworkAndDBBoundResource
-import org.github.popular.repository.api.network.NetworkResource
 import org.github.popular.repository.api.network.Resource
-import org.github.popular.repository.db.githubrepo.GithubRepoDao
+import org.github.popular.repository.db.GithubRepoDbHelper
 import org.github.popular.repository.model.GithubRepo
 import org.github.popular.utils.ConnectivityUtil
 import org.github.popular.utils.SharedPreferenceManager
@@ -17,60 +17,54 @@ import javax.inject.Inject
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
 class GithubRepoRepository @Inject constructor(
-    private val githubRepoDao: GithubRepoDao,
-    private val apiService: ApiService,
-    private val context: Context,
+    private val githubRepoDbHelper: GithubRepoDbHelper,
+    private val apiServiceHelper: ApiServiceHelper,
     private val sharedPreferenceManager: SharedPreferenceManager,
-    private val appExecutors: AppExecutors = AppExecutors()
+    private val context: Context?
 ) {
-
+    private val TAG = "GithubRepoRepository"
     /**
      * Fetch the repos from database if exist else fetch from web
      * and persist them in the database
      */
-    fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
+    suspend fun getGithubRepos(callApiForcefully: Boolean): LiveData<Resource<List<GithubRepo>?>> {
 
         return object :
-            NetworkAndDBBoundResource<List<GithubRepo>, List<GithubRepo>>(appExecutors) {
-            override fun saveCallResult(item: List<GithubRepo>) {
-                if (!item.isEmpty()) {
-                    sharedPreferenceManager.setLastUpdatedTimestamp()
-                    githubRepoDao.deleteAllRepos()
-                    githubRepoDao.insertRepos(item)
+            NetworkAndDBBoundResource<List<GithubRepo>?, List<GithubRepo>>() {
+            override suspend fun saveCallResults(items: List<GithubRepo>?) {
+                withContext(Dispatchers.IO) {
+                    if (items != null && items.isNotEmpty()) {
+                        sharedPreferenceManager.setLastUpdatedTimestamp()
+                        githubRepoDbHelper.deleteAllRepos()
+                        githubRepoDbHelper.insertRepos(items)
+                    }
                 }
             }
 
-            override fun mustFetch(data: List<GithubRepo>?) = callApiForcefully
-
             override fun shouldFetch(data: List<GithubRepo>?): Boolean {
-                if (ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
+                if (context != null && ConnectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired()) {
+                    return true
+                }
+                if (!isDataAvailable(data)) {
                     return true
                 }
                 return false
             }
 
-            override fun loadFromDb() = githubRepoDao.getAllRepos()
+            override fun mustFetch(): Boolean = callApiForcefully
 
-            override fun createCall() =
-                apiService.getRepos()
+            override fun isDataAvailable(data: List<GithubRepo>?): Boolean =
+                data != null && data.isNotEmpty()
 
-        }.asLiveData()
-    }
-
-    /**
-     * Fetch the repos from database if exist else fetch from web
-     * and persist them in the database
-     * LiveData<Resource<githubRepoSource>>
-     */
-    fun getGithubReposFromServerOnly():
-            LiveData<Resource<List<GithubRepo>>> {
-
-        return object : NetworkResource<List<GithubRepo>>() {
-            override fun createCall(): LiveData<Resource<List<GithubRepo>>> {
-                return apiService.getRepos()
+            override suspend fun loadFromDb(): List<GithubRepo> = withContext(Dispatchers.IO) {
+                githubRepoDbHelper.getAllRepos()
             }
 
-        }.asLiveData()
+            override suspend fun createCall(): Resource<List<GithubRepo>> =
+                withContext(Dispatchers.IO) {
+                    apiServiceHelper.getRepos()
+                }
+        }.build().asLiveData()
     }
 
 }
