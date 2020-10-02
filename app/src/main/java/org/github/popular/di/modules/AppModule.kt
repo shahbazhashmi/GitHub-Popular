@@ -5,21 +5,15 @@ import android.content.res.Resources
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import org.github.popular.BuildConfig.BASE_URL
 import org.github.popular.app.AppController
 import org.github.popular.repository.api.ApiService
 import org.github.popular.repository.api.ApiServiceHelper
-import org.github.popular.repository.api.network.resource.ResourceCallAdapterFactory
 import org.github.popular.repository.db.AppDatabase
-import org.github.popular.repository.db.GithubRepoDbHelper
-import org.github.popular.repository.db.githubrepo.GithubRepoDao
+import org.github.popular.repository.db.DatabaseDaoHelper
+import org.github.popular.repository.db.githubrepo.databaseDao
 import org.github.popular.ui.githubrepo.GithubRepoAdapter
 import org.github.popular.ui.loader.LoaderHelper
 import org.github.popular.utils.AppUtil
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 /**
@@ -70,7 +64,7 @@ class AppModule {
      */
     @Singleton
     @Provides
-    fun provideUserDao(db: AppDatabase): GithubRepoDao {
+    fun provideUserDao(db: AppDatabase): databaseDao {
         return db.githubRepoDao()
     }
 
@@ -94,8 +88,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesGithubRepoDbHelper(githubRepoDao: GithubRepoDao): GithubRepoDbHelper =
-        GithubRepoDbHelper(githubRepoDao)
+    fun providesGithubRepoDbHelper(databaseDao: databaseDao): DatabaseDaoHelper =
+        DatabaseDaoHelper(databaseDao)
 
 
     @Provides

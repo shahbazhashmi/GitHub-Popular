@@ -6,7 +6,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.github.popular.repository.db.githubrepo.GithubRepoDao
+import org.github.popular.repository.db.githubrepo.databaseDao
 import org.github.popular.repository.model.BuiltBy
 import org.github.popular.repository.model.GithubRepo
 import java.lang.reflect.Type
@@ -19,7 +19,7 @@ import java.util.*
 @TypeConverters(BuiltByConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun githubRepoDao(): GithubRepoDao
+    abstract fun githubRepoDao(): databaseDao
 
 }
 

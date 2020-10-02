@@ -12,10 +12,10 @@ import org.github.popular.repository.model.GithubRepo
  * Created by Shahbaz Hashmi on 2020-03-04.
  */
 @Dao
-interface GithubRepoDao {
+interface databaseDao {
 
     @Query("SELECT COUNT(*) FROM github_repo")
-    suspend fun getCount(): Int
+    suspend fun getRepoCount(): Int
 
     @Query("SELECT * FROM github_repo")
     suspend fun getAllRepos(): List<GithubRepo>
