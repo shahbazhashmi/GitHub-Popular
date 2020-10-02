@@ -17,6 +17,7 @@ import org.github.popular.repository.db.GithubRepoDbHelper
 import org.github.popular.repository.db.githubrepo.GithubRepoDao
 import org.github.popular.ui.githubrepo.GithubRepoAdapter
 import org.github.popular.ui.loader.LoaderHelper
+import org.github.popular.utils.AppUtil
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -33,25 +34,7 @@ class AppModule {
      */
     @Singleton
     @Provides
-    fun provideNewsService(): ApiService {
-
-        val logging = HttpLoggingInterceptor()
-        // set your desired log level
-        logging.level = HttpLoggingInterceptor.Level.BODY
-
-        val httpClient = OkHttpClient.Builder()
-        // add your other interceptors …
-        // add logging as last interceptor
-        httpClient.addInterceptor(logging) // <-- this is the important line!
-
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(ResourceCallAdapterFactory())
-            .client(httpClient.build())
-            .build()
-            .create(ApiService::class.java)
-    }
+    fun provideNewsService(): ApiService = AppUtil.getApiService()
 
 
     /**
