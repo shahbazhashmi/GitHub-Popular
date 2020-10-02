@@ -1,4 +1,4 @@
-package org.github.popular.ui.githubrepo.mockitoutils
+package org.github.popular.ui.githubrepo.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -8,10 +8,10 @@ import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
 /**
- * Created by Shahbaz Hashmi on 01/10/20.
+ * Created by Shahbaz Hashmi on 02/10/20.
  */
 @ExperimentalCoroutinesApi
-class TestCoroutineRule : TestRule {
+class MockTestCoroutineRule : TestRule {
 
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
 
