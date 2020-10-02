@@ -1,23 +1,21 @@
 package org.github.popular.ui
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
  */
-abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
+abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun supportFragmentInjector() = dispatchingAndroidInjector
-
+    override fun androidInjector() = dispatchingAndroidInjector
 }
