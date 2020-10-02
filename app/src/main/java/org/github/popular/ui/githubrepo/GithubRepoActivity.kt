@@ -60,7 +60,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
     }
 
     private fun getGithubRepos(callApiForcefully: Boolean = false) {
-        githubRepoViewModel.loadGithubRepos(callApiForcefully)
+        githubRepoViewModel.fetchGithubRepos(callApiForcefully)
     }
 
     private fun attachDataChangeListener() {

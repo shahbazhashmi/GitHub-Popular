@@ -24,7 +24,7 @@ class GithubRepoViewModel @Inject constructor(
     val repos: LiveData<Resource<List<GithubRepo>?>> get() = _repos
 
 
-    fun loadGithubRepos(callApiForcefully: Boolean) = viewModelScope.launch {
+    fun fetchGithubRepos(callApiForcefully: Boolean) = viewModelScope.launch {
         _repos.removeSource(reposSource)
             reposSource = githubRepoRepository.getGithubRepos(callApiForcefully)
             _repos.addSource(reposSource) {
