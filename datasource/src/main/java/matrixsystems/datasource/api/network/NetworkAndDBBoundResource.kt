@@ -6,6 +6,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
+import matrixsystems.core.model.Resource
 import kotlin.coroutines.coroutineContext
 
 /**

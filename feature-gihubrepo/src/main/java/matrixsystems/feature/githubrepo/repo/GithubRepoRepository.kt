@@ -9,7 +9,7 @@ import matrixsystems.core.utils.ConnectivityUtil
 import matrixsystems.datasource.BuildConfig
 import matrixsystems.datasource.api.ApiServiceHelper
 import matrixsystems.datasource.api.network.NetworkAndDBBoundResource
-import matrixsystems.datasource.api.network.Resource
+import matrixsystems.core.model.Resource
 import matrixsystems.datasource.db.DatabaseDaoHelper
 import matrixsystems.datasource.model.GithubRepo
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
-internal class GithubRepoRepository @Inject constructor(
+class GithubRepoRepository @Inject constructor(
     private val databaseDaoHelper: DatabaseDaoHelper,
     private val apiServiceHelper: ApiServiceHelper,
     private val sharedPreferenceManager: SharedPreferenceManager,

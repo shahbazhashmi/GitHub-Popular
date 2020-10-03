@@ -1,4 +1,4 @@
-package matrixsystems.datasource.api.network
+package matrixsystems.core.model
 
 import matrixsystems.core.constants.Status
 

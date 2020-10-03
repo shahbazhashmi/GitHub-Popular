@@ -40,8 +40,18 @@ dependencies {
     implementation Deps.androidx_swiperefreshlayout
     implementation Deps.material
     implementation Deps.coil
+
+    /**
+     * testing dependencies
+     */
+    testImplementation Deps.kotlinx_coroutines_test
+    testImplementation Deps.arch_core_testing
     testImplementation Deps.junit
+    testImplementation Deps.nharmaan_mockito_kotlin
+    androidTestImplementation Deps.mockito_android
+    androidTestImplementation Deps.support_test_runner
+    androidTestImplementation Deps.support_test_rules
     androidTestImplementation Deps.androidx_test_ext_junit
     androidTestImplementation Deps.androidx_espresso
-
+    androidTestImplementation Deps.espresso_contrib
 }

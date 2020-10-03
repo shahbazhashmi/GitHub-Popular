@@ -1,6 +1,6 @@
 package matrixsystems.datasource.api.network.resource
 
-import matrixsystems.datasource.api.network.Resource
+import matrixsystems.core.model.Resource
 import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback

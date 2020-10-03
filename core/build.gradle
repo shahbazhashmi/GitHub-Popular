@@ -34,8 +34,4 @@ dependencies {
     implementation Deps.androidx_lifecycle_livedata_ktx
     implementation Deps.androidx_lifecycle_viewmodel_ktx
     implementation Deps.androidx_constraintlayout
-    testImplementation Deps.junit
-    androidTestImplementation Deps.androidx_test_ext_junit
-    androidTestImplementation Deps.androidx_espresso
-
 }

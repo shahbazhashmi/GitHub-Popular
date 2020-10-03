@@ -1,6 +1,6 @@
 package matrixsystems.datasource.api
 
-import matrixsystems.datasource.api.network.Resource
+import matrixsystems.core.model.Resource
 import matrixsystems.datasource.model.GithubRepo
 import retrofit2.http.GET
 import retrofit2.http.Query

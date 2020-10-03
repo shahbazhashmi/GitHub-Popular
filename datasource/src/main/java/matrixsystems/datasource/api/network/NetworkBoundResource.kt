@@ -3,6 +3,7 @@ package matrixsystems.datasource.api.network
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import matrixsystems.core.model.Resource
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
