@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import matrixsystems.core.SharedPreferenceManager
+import matrixsystems.core.ui.loader.LoaderHelper
 import javax.inject.Singleton
 
 /**
@@ -12,6 +13,16 @@ import javax.inject.Singleton
  */
 @Module
 class CoreModule {
+
+    /**
+     * Provides LoaderHelper an object
+     */
+    @Provides
+    fun provideLoaderHelper(): LoaderHelper {
+        return LoaderHelper()
+    }
+
+
     /**
      * Provides Preferences object with MODE_PRIVATE
      */

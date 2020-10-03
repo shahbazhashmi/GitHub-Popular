@@ -3,6 +3,7 @@ package org.github.popular.ui.githubrepo
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import matrixsystems.feature.githubrepo.repolist.GithubRepoViewModel
 import org.github.popular.repository.api.network.Resource
 import org.github.popular.repository.api.network.Status
 import org.github.popular.repository.model.GithubRepo

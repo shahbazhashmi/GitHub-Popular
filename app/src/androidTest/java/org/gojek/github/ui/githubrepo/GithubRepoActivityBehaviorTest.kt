@@ -9,6 +9,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
+import matrixsystems.feature.githubrepo.repolist.GithubRepoActivity
+import matrixsystems.feature.githubrepo.repolist.GithubRepoAdapter
 import org.github.popular.R
 import org.github.popular.clickChildViewWithId
 import org.github.popular.waitId

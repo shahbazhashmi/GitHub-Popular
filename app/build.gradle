@@ -22,7 +22,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':datasource')
+    api project(':feature-gihubrepo')
 
     kapt Deps.androidx_room_compiler
     kapt Deps.databinding_compiler

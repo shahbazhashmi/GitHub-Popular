@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="matrixsystems.feature.githubrepo">
+
+    <application>
+        <activity android:name="matrixsystems.feature.githubrepo.repolist.GithubRepoActivity">
+        </activity>
+    </application>
+</manifest>

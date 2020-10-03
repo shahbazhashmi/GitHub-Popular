@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import dagger.android.AndroidInjection
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
+import matrixsystems.core.di.base.Injectable
 import org.github.popular.app.AppController
 import org.github.popular.di.components.DaggerAppComponent
 

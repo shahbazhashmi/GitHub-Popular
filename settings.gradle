@@ -1,3 +1,4 @@
+include ':feature-gihubrepo'
 include ':datasource'
 include ':core'
 include ':app'

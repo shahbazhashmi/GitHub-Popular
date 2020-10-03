@@ -4,35 +4,17 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
-import matrixsystems.datasource.di.modules.DataSourceModule
+import matrixsystems.feature.githubrepo.di.modules.GithubRepoModule
 import org.github.popular.app.AppController
-import org.github.popular.ui.githubrepo.GithubRepoAdapter
-import org.github.popular.ui.loader.LoaderHelper
+import matrixsystems.feature.githubrepo.repolist.GithubRepoAdapter
 import javax.inject.Singleton
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
  */
 
-@Module(includes = [DataSourceModule::class, ActivityModule::class, ViewModelModule::class])
+@Module(includes = [ActivityModule::class, ViewModelModule::class])
 class AppModule {
-
-    /**
-     * Provides LoaderHelper an object
-     */
-    @Provides
-    fun provideLoaderHelper(): LoaderHelper {
-        return LoaderHelper()
-    }
-
-
-    /**
-     * Provides GithubRepoAdapter an object
-     */
-    @Provides
-    fun provideGithubRepoAdapter(context: Context): GithubRepoAdapter {
-        return GithubRepoAdapter(context)
-    }
 
     /**
      * Application application level context.

@@ -1,5 +1,7 @@
 package matrixsystems.datasource.api.network
 
+import matrixsystems.core.constants.Status
+
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
  */
