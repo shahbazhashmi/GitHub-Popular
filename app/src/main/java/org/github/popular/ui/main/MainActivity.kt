@@ -24,8 +24,8 @@ class MainActivity : BaseActivity() {
         binding.vm = mainViewModel
         binding.lifecycleOwner = this
 
-        launch_btn.setOnClickListener {
-            startActivity(Intent(this, RepoListActivity::class.java))
-        }
+        val intent = Intent(this, RepoListActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

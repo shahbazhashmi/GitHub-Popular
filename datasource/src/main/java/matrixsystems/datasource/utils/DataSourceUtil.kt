@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
  */
+// todo - provide it using dagger
 object DataSourceUtil {
     fun getApiService() : ApiService {
         val logging = HttpLoggingInterceptor()

@@ -11,7 +11,7 @@ import matrixsystems.datasource.model.GithubRepo
  * Created by Shahbaz Hashmi on 2020-03-04.
  */
 @Dao
-interface databaseDao {
+interface DatabaseDao {
 
     @Query("SELECT COUNT(*) FROM github_repo")
     suspend fun getRepoCount(): Int

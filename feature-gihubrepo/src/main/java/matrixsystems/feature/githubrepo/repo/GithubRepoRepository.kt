@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
-class GithubRepoRepository @Inject constructor(
+internal class GithubRepoRepository @Inject constructor(
     private val databaseDaoHelper: DatabaseDaoHelper,
     private val apiServiceHelper: ApiServiceHelper,
     private val sharedPreferenceManager: SharedPreferenceManager,

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Shahbaz Hashmi on 30/09/20.
  */
-class ResourceResourceCall<T : Any>(proxy: Call<T>) : ResourceCallDelegate<T, Resource<T>>(proxy) {
+internal class ResourceResourceCall<T : Any>(proxy: Call<T>) : ResourceCallDelegate<T, Resource<T>>(proxy) {
     override fun enqueueImpl(callback: Callback<Resource<T>>) = proxy.enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>, response: Response<T>) {
             val code = response.code()

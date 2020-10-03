@@ -9,7 +9,7 @@ import matrixsystems.datasource.api.ApiService
 import matrixsystems.datasource.api.ApiServiceHelper
 import matrixsystems.datasource.db.AppDatabase
 import matrixsystems.datasource.db.DatabaseDaoHelper
-import matrixsystems.datasource.db.githubrepo.databaseDao
+import matrixsystems.datasource.db.githubrepo.DatabaseDao
 import matrixsystems.datasource.utils.DataSourceUtil
 import javax.inject.Singleton
 
@@ -40,13 +40,13 @@ class DataSourceModule {
      */
     @Singleton
     @Provides
-    fun provideUserDao(db: AppDatabase): databaseDao {
+    fun provideUserDao(db: AppDatabase): DatabaseDao {
         return db.githubRepoDao()
     }
 
     @Provides
     @Singleton
-    fun providesGithubRepoDbHelper(databaseDao: databaseDao): DatabaseDaoHelper =
+    fun providesGithubRepoDbHelper(databaseDao: DatabaseDao): DatabaseDaoHelper =
         DatabaseDaoHelper(databaseDao)
 
 

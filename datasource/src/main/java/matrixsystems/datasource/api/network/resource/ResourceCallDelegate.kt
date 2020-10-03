@@ -9,7 +9,7 @@ import retrofit2.Response
  * Created by Shahbaz Hashmi on 30/09/20.
  */
 
-abstract class ResourceCallDelegate<TIn, TOut>(
+internal abstract class ResourceCallDelegate<TIn, TOut>(
     protected val proxy: Call<TIn>
 ) : Call<TOut> {
     override fun execute(): Response<TOut> = throw NotImplementedError()

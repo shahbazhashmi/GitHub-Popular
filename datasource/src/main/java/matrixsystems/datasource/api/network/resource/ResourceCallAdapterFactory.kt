@@ -10,7 +10,7 @@ import java.lang.reflect.Type
 /**
  * Created by Shahbaz Hashmi on 30/09/20.
  */
-class ResourceCallAdapterFactory : CallAdapter.Factory() {
+internal class ResourceCallAdapterFactory : CallAdapter.Factory() {
     override fun get(
         returnType: Type,
         annotations: Array<Annotation>,

@@ -1,7 +1,6 @@
 package org.github.popular.ui.githubrepo
 
 import kotlinx.coroutines.runBlocking
-import org.github.popular.repository.api.ApiServiceHelper
 import org.github.popular.utils.AppUtil
 import org.junit.Assert
 import org.junit.Before

@@ -13,7 +13,7 @@ import androidx.lifecycle.MediatorLiveData
  * only from network.
  *
  */
-abstract class NetworkResource<RequestType> @MainThread constructor() {
+internal abstract class NetworkResource<RequestType> @MainThread constructor() {
 
     /**
      * The final result LiveData
