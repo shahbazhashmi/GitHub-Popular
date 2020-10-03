@@ -1,4 +1,4 @@
-package matrixsystems.feature.githubrepo.testutils
+package matrixsystems.core.testutils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

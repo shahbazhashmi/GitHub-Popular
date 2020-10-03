@@ -1,4 +1,4 @@
-package matrixsystems.feature.githubrepo.extensions
+package matrixsystems.core.testutils
 
 import android.view.View
 import androidx.test.espresso.PerformException

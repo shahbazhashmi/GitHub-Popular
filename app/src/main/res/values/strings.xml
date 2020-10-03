@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">GitHub-Popular</string>
-    <string name="txt_retry">Retry</string>
-    <string name="txt_something_went_wrong">Something went wrong..</string>
 </resources>

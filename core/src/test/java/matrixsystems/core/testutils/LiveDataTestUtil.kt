@@ -1,4 +1,4 @@
-package matrixsystems.feature.githubrepo.testutils
+package matrixsystems.core.testutils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

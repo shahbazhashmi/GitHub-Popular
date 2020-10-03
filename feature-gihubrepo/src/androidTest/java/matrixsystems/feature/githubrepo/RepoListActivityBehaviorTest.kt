@@ -9,9 +9,9 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import matrixsystems.feature.githubrepo.extensions.clickChildViewWithId
-import matrixsystems.feature.githubrepo.extensions.waitId
-import matrixsystems.feature.githubrepo.extensions.withCustomConstraints
+import matrixsystems.core.testutils.clickChildViewWithId
+import matrixsystems.core.testutils.waitId
+import matrixsystems.core.testutils.withCustomConstraints
 import matrixsystems.feature.githubrepo.ui.repolist.RepoListActivity
 import matrixsystems.feature.githubrepo.ui.repolist.RepoListAdapter
 import org.junit.Rule

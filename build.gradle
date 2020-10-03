@@ -12,7 +12,6 @@ buildscript {
     dependencies {
         classpath Deps.gradle
         classpath Deps.kotlin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -25,8 +24,11 @@ allprojects {
         
     }
 
-    afterEvaluate { project ->
-        if (project.hasProperty('android')) {
+    /**
+     * keep same configuration for all modules
+     */
+    afterEvaluate { module ->
+        if (module.hasProperty('android')) {
 
             android {
                 buildToolsVersion Config.buildTools
@@ -51,6 +53,15 @@ allprojects {
                 }
                 testOptions {
                     unitTests.returnDefaultValues = true
+                }
+                /**
+                 * provide test utils only to feature module
+                 */
+                if(module.name.startsWith('feature')) {
+                    sourceSets {
+                        test.java.srcDirs += ["${project(':core').projectDir}/src/test/java/matrixsystems/core/testutils"]
+                        androidTest.java.srcDirs += ["${project(':core').projectDir}/src/androidTest/java/matrixsystems/core/testutils"]
+                    }
                 }
             }
         }
