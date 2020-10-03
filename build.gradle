@@ -35,6 +35,7 @@ allprojects {
                 compileSdkVersion Config.compileSdk
 
                 defaultConfig {
+                    multiDexEnabled true
                     minSdkVersion Config.minSdk
                     targetSdkVersion Config.targetSdk
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
