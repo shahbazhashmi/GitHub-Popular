@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import matrixsystems.core.extensions.getViewModel
 import matrixsystems.core.ui.BaseActivity
-import matrixsystems.feature.githubrepo.repolist.GithubRepoActivity
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListActivity
 import org.github.popular.R
 import org.github.popular.databinding.ActivityMainBinding
 
@@ -25,7 +25,7 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
 
         launch_btn.setOnClickListener {
-            startActivity(Intent(this, GithubRepoActivity::class.java))
+            startActivity(Intent(this, RepoListActivity::class.java))
         }
     }
 }

@@ -1,10 +1,10 @@
-package matrixsystems.datasource.repo
+package matrixsystems.feature.githubrepo.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import matrixsystems.core.ConnectivityUtil
+import matrixsystems.utils.ConnectivityUtil
 import matrixsystems.core.SharedPreferenceManager
 import matrixsystems.datasource.BuildConfig
 import matrixsystems.datasource.api.ApiServiceHelper

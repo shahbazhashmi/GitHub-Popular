@@ -1,4 +1,4 @@
-package matrixsystems.core
+package matrixsystems.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

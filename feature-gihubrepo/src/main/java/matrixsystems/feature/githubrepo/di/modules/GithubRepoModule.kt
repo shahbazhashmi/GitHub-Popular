@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import matrixsystems.datasource.di.modules.DataSourceModule
-import matrixsystems.feature.githubrepo.repolist.GithubRepoAdapter
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListAdapter
 
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
@@ -16,8 +16,8 @@ class GithubRepoModule {
      * Provides GithubRepoAdapter an object
      */
     @Provides
-    fun provideGithubRepoAdapter(context: Context): GithubRepoAdapter {
-        return GithubRepoAdapter(context)
+    fun provideGithubRepoAdapter(context: Context): RepoListAdapter {
+        return RepoListAdapter(context)
     }
 
 

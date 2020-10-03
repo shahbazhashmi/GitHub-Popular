@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="matrixsystems.feature.githubrepo.repolist.GithubRepoActivity">
+    tools:context=".ui.repolist.RepoListActivity">
 
     <data>
 
         <variable
             name="vm"
-            type="matrixsystems.feature.githubrepo.repolist.GithubRepoViewModel" />
+            type="matrixsystems.feature.githubrepo.ui.repolist.RepoListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -37,7 +37,7 @@
                 android:id="@+id/recyclerview_repo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:recyclerViewAdapter="@{vm.githubRepoAdapter}" />
+                app:recyclerViewAdapter="@{vm.repoListAdapter}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -1,19 +1,19 @@
-package matrixsystems.feature.githubrepo.repolist
+package matrixsystems.feature.githubrepo.ui.repolist
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import matrixsystems.datasource.api.network.Resource
 import matrixsystems.datasource.model.GithubRepo
-import matrixsystems.datasource.repo.GithubRepoRepository
+import matrixsystems.feature.githubrepo.repo.GithubRepoRepository
 import matrixsystems.core.ui.loader.LoaderHelper
 import javax.inject.Inject
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
  */
-internal class GithubRepoViewModel @Inject constructor(
+internal class RepoListViewModel @Inject constructor(
     private val githubRepoRepository: GithubRepoRepository,
-    val loaderHelper: LoaderHelper, val githubRepoAdapter: GithubRepoAdapter
+    val loaderHelper: LoaderHelper, val repoListAdapter: RepoListAdapter
 ) : ViewModel() {
 
     // FOR DATA

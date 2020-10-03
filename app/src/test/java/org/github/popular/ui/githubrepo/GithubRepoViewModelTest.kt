@@ -3,7 +3,7 @@ package org.github.popular.ui.githubrepo
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import matrixsystems.feature.githubrepo.repolist.GithubRepoViewModel
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListViewModel
 import org.github.popular.repository.api.network.Resource
 import org.github.popular.repository.api.network.Status
 import org.github.popular.repository.model.GithubRepo
@@ -36,7 +36,7 @@ class GithubRepoViewModelTest {
     private lateinit var apiRepoObserver: Observer<Resource<List<GithubRepo>?>>
 
     @Mock
-    lateinit var viewModel: GithubRepoViewModel
+    lateinit var listViewModel: RepoListViewModel
 
     @Before
     fun setUp() {
@@ -45,13 +45,13 @@ class GithubRepoViewModelTest {
     @Test
     fun givenServerResponse200_whenFetch_shouldReturnSuccess() {
         Mockito.doReturn(MockitoUtils.getMutableLiveDataOfResource<List<GithubRepo>?>(Status.SUCCESS))
-            .`when`(viewModel)
+            .`when`(listViewModel)
             .repos
 
-        viewModel.repos.observeForever(apiRepoObserver)
-        viewModel.fetchGithubRepos(true)
+        listViewModel.repos.observeForever(apiRepoObserver)
+        listViewModel.fetchGithubRepos(true)
         Mockito.verify(apiRepoObserver).onChanged(Resource(Status.SUCCESS))
-        viewModel.repos.removeObserver(apiRepoObserver)
+        listViewModel.repos.removeObserver(apiRepoObserver)
         //assert(viewModel.repos.value?.status == Status.LOADING)
     }
 
@@ -60,16 +60,16 @@ class GithubRepoViewModelTest {
     fun givenServerResponseError_whenFetch_shouldReturnError() {
         val errorMessage = "Error Message For You"
         Mockito.doThrow(RuntimeException(errorMessage))
-            .`when`(viewModel)
+            .`when`(listViewModel)
             .repos
-        viewModel.repos.observeForever(apiRepoObserver)
-        viewModel.fetchGithubRepos(true)
+        listViewModel.repos.observeForever(apiRepoObserver)
+        listViewModel.fetchGithubRepos(true)
         Mockito.verify(apiRepoObserver).onChanged(
             Resource.error(
                 RuntimeException(errorMessage).toString()
             )
         )
-        viewModel.repos.removeObserver(apiRepoObserver)
+        listViewModel.repos.removeObserver(apiRepoObserver)
     }
 
 }

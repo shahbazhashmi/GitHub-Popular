@@ -1,4 +1,4 @@
-package matrixsystems.feature.githubrepo.repolist
+package matrixsystems.feature.githubrepo.ui.repolist
 
 import android.content.Context
 import android.graphics.Color
@@ -24,8 +24,8 @@ import kotlin.properties.Delegates
 /**
  * Created by Shahbaz Hashmi on 2020-03-07.
  */
-class GithubRepoAdapter @Inject constructor(val context: Context) :
-    RecyclerView.Adapter<GithubRepoAdapter.RepoHolder>() {
+class RepoListAdapter @Inject constructor(val context: Context) :
+    RecyclerView.Adapter<RepoListAdapter.RepoHolder>() {
 
     private val TAG = "GithubRepoAdapter"
 

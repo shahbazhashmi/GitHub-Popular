@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
-import matrixsystems.feature.githubrepo.di.modules.GithubRepoModule
 import org.github.popular.app.AppController
-import matrixsystems.feature.githubrepo.repolist.GithubRepoAdapter
 import javax.inject.Singleton
 
 /**

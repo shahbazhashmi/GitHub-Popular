@@ -1,4 +1,4 @@
-package matrixsystems.feature.githubrepo.repolist
+package matrixsystems.feature.githubrepo.ui.repolist
 
 import android.os.Bundle
 import android.util.Log
@@ -8,32 +8,32 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import matrixsystems.core.CoreUtil
+import matrixsystems.utils.CoreUtil
 import matrixsystems.core.extensions.getViewModel
 import matrixsystems.core.ui.BaseActivity
 import matrixsystems.feature.githubrepo.R
-import matrixsystems.feature.githubrepo.databinding.ActivityGithubRepoBinding
+import matrixsystems.feature.githubrepo.databinding.ActivityRepoListBinding
 
 
-class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private val LIST_POSITION = "list_position"
 
     private val TAG = "GithubRepoActivity"
 
     private val githubRepoViewModel by lazy {
-        getViewModel<GithubRepoViewModel>()
+        getViewModel<RepoListViewModel>()
     }
 
     private val recyclerViewLayoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(this)
     }
 
-    lateinit var binding: ActivityGithubRepoBinding
+    lateinit var binding: ActivityRepoListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_github_repo)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_repo_list)
         binding.vm = githubRepoViewModel
         setSupportActionBar(binding.toolbar as Toolbar)
         title = getString(R.string.txt_trending)
@@ -43,8 +43,8 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
             // scroll to existing position which exist before rotation.
             binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))
             // set selected position
-            githubRepoViewModel.githubRepoAdapter.selectedPosition =
-                savedInstanceState.getInt(githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION)
+            githubRepoViewModel.repoListAdapter.selectedPosition =
+                savedInstanceState.getInt(githubRepoViewModel.repoListAdapter.SELECTED_LIST_POSITION)
         }
         attachDataChangeListener()
         githubRepoViewModel.loaderHelper.setRetryListener {
@@ -84,7 +84,7 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
                         } else {
                             githubRepoViewModel.loaderHelper.dismiss()
                         }
-                        githubRepoViewModel.githubRepoAdapter.setData(it.data!!)
+                        githubRepoViewModel.repoListAdapter.setData(it.data!!)
                     }
                 }
                 it.status.isError() -> {
@@ -122,8 +122,8 @@ class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener 
         ) // get current recycle view position here.
         // selected / expanded positon.
         savedInstanceState.putInt(
-            githubRepoViewModel.githubRepoAdapter.SELECTED_LIST_POSITION,
-            githubRepoViewModel.githubRepoAdapter.selectedPosition
+            githubRepoViewModel.repoListAdapter.SELECTED_LIST_POSITION,
+            githubRepoViewModel.repoListAdapter.selectedPosition
         ) // get current recycle view selected position here.
         super.onSaveInstanceState(savedInstanceState)
     }

@@ -1,4 +1,4 @@
-package matrixsystems.core
+package matrixsystems.utils
 
 import android.app.Activity
 import android.content.Context

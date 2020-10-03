@@ -9,8 +9,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import matrixsystems.feature.githubrepo.repolist.GithubRepoActivity
-import matrixsystems.feature.githubrepo.repolist.GithubRepoAdapter
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListActivity
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListAdapter
 import org.github.popular.R
 import org.github.popular.clickChildViewWithId
 import org.github.popular.waitId
@@ -27,8 +27,8 @@ import org.junit.runner.RunWith
 class GithubRepoActivityBehaviorTest {
 
     @get:Rule
-    var activityRule: ActivityTestRule<GithubRepoActivity> =
-        ActivityTestRule(GithubRepoActivity::class.java)
+    var listActivityRule: ActivityTestRule<RepoListActivity> =
+        ActivityTestRule(RepoListActivity::class.java)
 
     @Test
     fun loadData_sameActivity() {
@@ -57,7 +57,7 @@ class GithubRepoActivityBehaviorTest {
     @Test
     fun selectListItem_sameActivity() {
         onView(withId(R.id.recyclerview_repo)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<GithubRepoAdapter.RepoHolder>(
+            RecyclerViewActions.actionOnItemAtPosition<RepoListAdapter.RepoHolder>(
                 0,
                 clickChildViewWithId(R.id.row_parent_lt)
             )

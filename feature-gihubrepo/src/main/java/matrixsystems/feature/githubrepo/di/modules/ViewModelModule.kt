@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import matrixsystems.core.di.base.ViewModelKey
-import matrixsystems.feature.githubrepo.repolist.GithubRepoViewModel
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListViewModel
 
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
@@ -14,6 +14,6 @@ import matrixsystems.feature.githubrepo.repolist.GithubRepoViewModel
 internal abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(GithubRepoViewModel::class)
-    abstract fun bindGithubRepoViewModel(gitRepoViewModel: GithubRepoViewModel): ViewModel
+    @ViewModelKey(RepoListViewModel::class)
+    abstract fun bindGithubRepoViewModel(gitRepoListViewModel: RepoListViewModel): ViewModel
 }

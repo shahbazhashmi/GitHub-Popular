@@ -1,4 +1,4 @@
-package matrixsystems.core
+package matrixsystems.utils
 
 import android.view.View
 import androidx.databinding.BindingAdapter
