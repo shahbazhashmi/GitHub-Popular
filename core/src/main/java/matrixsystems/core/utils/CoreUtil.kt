@@ -1,4 +1,4 @@
-package matrixsystems.utils
+package matrixsystems.core.utils
 
 import android.app.Activity
 import android.content.Context
@@ -11,7 +11,7 @@ import android.widget.Toast
 /**
  * Created by Shahbaz Hashmi on 2020-03-08.
  */
-object CoreUtil {
+class CoreUtil {
 
     fun showToast(
         context: Context?,

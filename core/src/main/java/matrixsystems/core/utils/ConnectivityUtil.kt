@@ -1,4 +1,4 @@
-package matrixsystems.utils
+package matrixsystems.core.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -6,7 +6,7 @@ import android.net.ConnectivityManager
 /**
  * Created by Shahbaz Hashmi on 2020-03-07.
  */
-object ConnectivityUtil {
+class ConnectivityUtil {
 
     fun isConnected(context: Context): Boolean {
         val connectivityManager =

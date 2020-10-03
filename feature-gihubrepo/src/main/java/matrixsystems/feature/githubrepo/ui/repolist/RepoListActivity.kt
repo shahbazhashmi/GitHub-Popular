@@ -8,18 +8,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import matrixsystems.utils.CoreUtil
+import matrixsystems.core.utils.CoreUtil
 import matrixsystems.core.extensions.getViewModel
 import matrixsystems.core.ui.BaseActivity
 import matrixsystems.feature.githubrepo.R
 import matrixsystems.feature.githubrepo.databinding.ActivityRepoListBinding
+import javax.inject.Inject
 
 
 class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private val LIST_POSITION = "list_position"
 
-    private val TAG = "GithubRepoActivity"
+    private val TAG = "RepoListActivity"
 
     private val githubRepoViewModel by lazy {
         getViewModel<RepoListViewModel>()
@@ -30,6 +31,9 @@ class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     lateinit var binding: ActivityRepoListBinding
+
+    @Inject
+    lateinit var coreUtil: CoreUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +95,7 @@ class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     Log.d(TAG, it.errorMessage.toString())
                     if (binding.swipeContainer.isRefreshing) {
                         binding.swipeContainer.isRefreshing = false
-                        CoreUtil.showToast(
+                        coreUtil.showToast(
                             this,
                             "${getString(R.string.txt_something_went_wrong)} - ${getString(R.string.txt_alien_blocking_signal)}",
                             false
