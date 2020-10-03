@@ -38,6 +38,7 @@ object Versions {
     val constraint_layout = "2.0.1"
     val support_test = "1.0.2"
     val material = "1.2.1"
+    val multidex = "1.0.3"
 }
 
 object Deps {
@@ -85,5 +86,6 @@ object Deps {
     val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     val androidx_core_ktx = "androidx.core:core-ktx:${Versions.core_ktx}"
+    val multidex = "com.android.support:multidex:${Versions.multidex}"
 
 }

@@ -29,6 +29,7 @@ dependencies {
     kapt Deps.dagger_compiler
     kapt Deps.dagger_android_processor
 
+    implementation Deps.multidex
     implementation Deps.androidx_recyclerview
     implementation Deps.androidx_recyclerview_selection
     implementation Deps.androidx_cardview

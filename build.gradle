@@ -60,6 +60,7 @@ allprojects {
                 if(module.name.startsWith('feature')) {
                     sourceSets {
                         test.java.srcDirs += ["${project(':core').projectDir}/src/test/java/matrixsystems/core/testutils"]
+                        test.resources.srcDirs += ["${project(':core').projectDir}/src/test/resources"]
                         androidTest.java.srcDirs += ["${project(':core').projectDir}/src/androidTest/java/matrixsystems/core/testutils"]
                     }
                 }
