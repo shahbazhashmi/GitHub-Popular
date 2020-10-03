@@ -9,8 +9,6 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        buildConfigField "String", "BASE_URL", '"https://github-trending-api.now.sh/"'
-        buildConfigField("int", "CACHE_TIMEOUT", (2 * 60 * 60 * 1000).toString())
     }
     buildTypes {
         release {
@@ -24,7 +22,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':core')
+    api project(':datasource')
 
     kapt Deps.androidx_room_compiler
     kapt Deps.databinding_compiler
@@ -44,6 +42,7 @@ dependencies {
     implementation Deps.androidx_lifecycle_extensions
     implementation Deps.androidx_lifecycle_livedata_ktx
     implementation Deps.androidx_lifecycle_viewmodel_ktx
+    implementation Deps.androidx_lifecycle_extensions
     implementation Deps.material
     implementation Deps.retrofit
     implementation Deps.retrofit_converter_gson
@@ -57,7 +56,6 @@ dependencies {
     implementation Deps.androidx_swiperefreshlayout
     implementation Deps.androidx_appcompat
     implementation Deps.androidx_constraintlayout
-    implementation Deps.androidx_lifecycle_extensions
 
     testImplementation Deps.nharmaan_mockito_kotlin
     testImplementation Deps.kotlinx_coroutines_test

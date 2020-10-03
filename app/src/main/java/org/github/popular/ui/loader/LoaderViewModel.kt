@@ -1,9 +1,8 @@
 package org.github.popular.ui.loader
 
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
-import org.github.popular.repository.api.network.Status
+import matrixsystems.datasource.api.network.Status
 
 
 /**

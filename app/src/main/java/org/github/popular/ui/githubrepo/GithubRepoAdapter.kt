@@ -12,11 +12,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import kotlinx.android.synthetic.main.row_github_repo.view.*
+import matrixsystems.core.CenteredImageSpan
+import matrixsystems.core.extensions.autoNotify
+import matrixsystems.core.extensions.inflate
+import matrixsystems.datasource.model.GithubRepo
 import org.github.popular.R
-import org.github.popular.repository.model.GithubRepo
-import org.github.popular.utils.CenteredImageSpan
-import org.github.popular.utils.extensions.autoNotify
-import org.github.popular.utils.extensions.inflate
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

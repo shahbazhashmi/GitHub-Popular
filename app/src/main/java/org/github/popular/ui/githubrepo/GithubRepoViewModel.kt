@@ -1,12 +1,10 @@
 package org.github.popular.ui.githubrepo
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.github.popular.repository.api.network.Resource
-import org.github.popular.repository.model.GithubRepo
-import org.github.popular.repository.repo.GithubRepoRepository
+import matrixsystems.datasource.api.network.Resource
+import matrixsystems.datasource.model.GithubRepo
+import matrixsystems.datasource.repo.GithubRepoRepository
 import org.github.popular.ui.loader.LoaderHelper
 import javax.inject.Inject
 

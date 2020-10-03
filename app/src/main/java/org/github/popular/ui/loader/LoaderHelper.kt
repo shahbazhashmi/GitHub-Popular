@@ -1,6 +1,6 @@
 package org.github.popular.ui.loader
 
-import org.github.popular.repository.api.network.Status
+import matrixsystems.datasource.api.network.Status
 
 
 /**

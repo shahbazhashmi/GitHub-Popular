@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import matrixsystems.core.extensions.getViewModel
+import matrixsystems.core.ui.BaseActivity
 import org.github.popular.R
 import org.github.popular.databinding.ActivityGithubRepoBinding
-import org.github.popular.ui.BaseActivity
 import org.github.popular.utils.AppUtil
-import org.github.popular.utils.extensions.getViewModel
 
 
 class GithubRepoActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {

@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="org.github.popular.repository.api.network.Status" />
+        <import type="matrixsystems.datasource.api.network.Status" />
 
         <variable
             name="vm"

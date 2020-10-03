@@ -1,3 +1,4 @@
+include ':datasource'
 include ':core'
 include ':app'
 rootProject.name='GitHub-Popular'
