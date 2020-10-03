@@ -1,4 +1,4 @@
-package org.github.popular.ui.githubrepo
+package matrixsystems.feature.githubrepo
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
@@ -9,12 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
+import matrixsystems.feature.githubrepo.extensions.clickChildViewWithId
+import matrixsystems.feature.githubrepo.extensions.waitId
+import matrixsystems.feature.githubrepo.extensions.withCustomConstraints
 import matrixsystems.feature.githubrepo.ui.repolist.RepoListActivity
 import matrixsystems.feature.githubrepo.ui.repolist.RepoListAdapter
-import org.github.popular.R
-import org.github.popular.clickChildViewWithId
-import org.github.popular.waitId
-import org.github.popular.withCustomConstraints
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +23,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class GithubRepoActivityBehaviorTest {
+class RepoListActivityBehaviorTest {
 
     @get:Rule
     var listActivityRule: ActivityTestRule<RepoListActivity> =

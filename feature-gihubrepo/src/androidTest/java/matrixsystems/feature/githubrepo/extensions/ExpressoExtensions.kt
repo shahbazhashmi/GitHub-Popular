@@ -1,4 +1,4 @@
-package org.github.popular
+package matrixsystems.feature.githubrepo.extensions
 
 import android.view.View
 import androidx.test.espresso.PerformException
