@@ -23,37 +23,5 @@ dependencies {
 
     api project(':feature-gihubrepo')
 
-    kapt Deps.androidx_room_compiler
-    kapt Deps.databinding_compiler
-    kapt Deps.dagger_compiler
-    kapt Deps.dagger_android_processor
-
     implementation Deps.multidex
-    implementation Deps.androidx_recyclerview
-    implementation Deps.androidx_recyclerview_selection
-    implementation Deps.androidx_cardview
-    implementation Deps.kotlinx_coroutines_android
-    implementation Deps.kotlinx_coroutines_core
-    implementation Deps.androidx_room_runtime
-    implementation Deps.androidx_room
-    implementation Deps.arch_lifecycle_common_java8
-    implementation Deps.arch_lifecycle_extensions
-    implementation Deps.androidx_lifecycle_common_java8
-    implementation Deps.androidx_lifecycle_extensions
-    implementation Deps.androidx_lifecycle_livedata_ktx
-    implementation Deps.androidx_lifecycle_viewmodel_ktx
-    implementation Deps.androidx_lifecycle_extensions
-    implementation Deps.material
-    implementation Deps.retrofit
-    implementation Deps.retrofit_converter_gson
-    implementation Deps.okhttp
-    implementation Deps.okhttp_logging_interceptor
-    implementation Deps.dagger_core
-    implementation Deps.dagger_android
-    implementation Deps.dagger_support
-    implementation Deps.circle_imageview
-    implementation Deps.coil
-    implementation Deps.androidx_swiperefreshlayout
-    implementation Deps.androidx_appcompat
-    implementation Deps.androidx_constraintlayout
 }

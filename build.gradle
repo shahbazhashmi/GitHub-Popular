@@ -65,6 +65,15 @@ allprojects {
                         androidTest.java.srcDirs += ["${project(':core').projectDir}/src/androidTest/java/matrixsystems/core/testutils"]
                     }
                 }
+
+                dependencies {
+                    /**
+                     * Dagger
+                     */
+                    kapt Deps.databinding_compiler
+                    kapt Deps.dagger_compiler
+                    kapt Deps.dagger_android_processor
+                }
             }
         }
     }
