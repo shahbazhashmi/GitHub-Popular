@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import org.github.popular.di.base.ViewModelFactory
-import org.github.popular.di.base.ViewModelKey
-import org.github.popular.ui.githubrepo.GithubRepoViewModel
+import matrixsystems.core.di.base.ViewModelFactory
+import matrixsystems.core.di.base.ViewModelKey
+import org.github.popular.ui.main.MainViewModel
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
@@ -18,8 +18,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(GithubRepoViewModel::class)
-    abstract fun bindGithubRepoViewModel(countriesViewModel: GithubRepoViewModel): ViewModel
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
 
     /**
      * Binds ViewModels factory to provide ViewModels.

@@ -2,7 +2,7 @@ package org.github.popular.di.modules
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import org.github.popular.ui.githubrepo.GithubRepoActivity
+import org.github.popular.ui.main.MainActivity
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.
@@ -18,5 +18,5 @@ abstract class ActivityModule {
      * Marking Activities to be available to contributes for Android Injector
      */
     @ContributesAndroidInjector
-    abstract fun contributeGitHubRepoActivity(): GithubRepoActivity
+    abstract fun contributeMainActivity(): MainActivity
 }
