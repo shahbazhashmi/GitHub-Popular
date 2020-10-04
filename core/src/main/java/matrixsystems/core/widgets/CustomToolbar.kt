@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import matrixsystems.core.R
 
 /**
@@ -45,10 +47,10 @@ class CustomToolbar @JvmOverloads constructor(
             a.recycle()
         }
         if (textAppearanceStyleResId > 0) {
-            titleView.setTextAppearance(context, textAppearanceStyleResId)
+            TextViewCompat.setTextAppearance(titleView, textAppearanceStyleResId)
         }
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
-        titleView.setTextColor(resources.getColor(R.color.app_black))
+        titleView.setTextColor(ContextCompat.getColor(context, R.color.app_black))
         addView(
             titleView,
             LayoutParams(
