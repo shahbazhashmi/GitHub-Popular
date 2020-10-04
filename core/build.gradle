@@ -44,14 +44,23 @@ dependencies {
     /**
      * testing dependencies
      */
-    testApi Deps.kotlinx_coroutines_test
-    testApi Deps.arch_core_testing
-    testApi Deps.junit
-    testApi Deps.nharmaan_mockito_kotlin
-    androidTestApi Deps.mockito_android
-    androidTestApi Deps.support_test_runner
-    androidTestApi Deps.support_test_rules
-    androidTestApi Deps.androidx_test_ext_junit
-    androidTestApi Deps.androidx_espresso
-    androidTestApi Deps.espresso_contrib
+    testImplementation Deps.kotlinx_coroutines_test
+    testImplementation Deps.arch_core_testing
+    testImplementation Deps.junit
+    testImplementation Deps.nharmaan_mockito_kotlin
+    androidTestImplementation Deps.mockito_android
+    androidTestImplementation Deps.support_test_runner
+    androidTestImplementation Deps.support_test_rules
+    androidTestImplementation Deps.androidx_test_ext_junit
+    androidTestImplementation Deps.androidx_espresso
+    androidTestImplementation Deps.espresso_contrib
+}
+
+/**
+ * to provide test dependencies
+ * to required modules
+ */
+configurations {
+    coreTestDependencies.extendsFrom testImplementation
+    coreAndroidTestDependencies.extendsFrom androidTestImplementation
 }
