@@ -3,6 +3,7 @@ package org.github.popular.di.components
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import matrixsystems.feature.githubrepo.di.modules.GithubRepoModule
 import org.github.popular.app.AppController
 import org.github.popular.di.modules.AppModule
 import javax.inject.Singleton
@@ -16,7 +17,7 @@ import javax.inject.Singleton
  * AppModule::class is loading all modules for app
  */
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, GithubRepoModule::class])
 interface AppComponent {
 
     @Component.Builder

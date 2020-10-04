@@ -1,0 +1,66 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+
+    api Deps.kotlin_stdlib
+    api Deps.androidx_recyclerview
+    api Deps.androidx_core_ktx
+    api Deps.androidx_appcompat
+    api Deps.arch_lifecycle_common_java8
+    api Deps.arch_lifecycle_extensions
+    api Deps.androidx_lifecycle_common_java8
+    api Deps.androidx_lifecycle_extensions
+    api Deps.androidx_lifecycle_livedata_ktx
+    api Deps.androidx_lifecycle_viewmodel_ktx
+    api Deps.androidx_constraintlayout
+
+    /**
+     * dagger
+     */
+    api Deps.dagger_core
+    api Deps.dagger_android
+    api Deps.dagger_support
+
+    /**
+     * testing dependencies
+     */
+    testImplementation Deps.kotlinx_coroutines_test
+    testImplementation Deps.arch_core_testing
+    testImplementation Deps.junit
+    testImplementation Deps.nharmaan_mockito_kotlin
+    androidTestImplementation Deps.mockito_android
+    androidTestImplementation Deps.support_test_runner
+    androidTestImplementation Deps.support_test_rules
+    androidTestImplementation Deps.androidx_test_ext_junit
+    androidTestImplementation Deps.androidx_espresso
+    androidTestImplementation Deps.espresso_contrib
+}
+
+/**
+ * to provide test dependencies
+ * to required modules
+ */
+configurations {
+    coreTestDependencies.extendsFrom testImplementation
+    coreAndroidTestDependencies.extendsFrom androidTestImplementation
+}
