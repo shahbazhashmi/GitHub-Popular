@@ -27,23 +27,12 @@ dependencies {
     api project(':core')
 
     kapt Deps.androidx_room_compiler
-    kapt Deps.dagger_compiler
-    implementation Deps.dagger_core
     implementation Deps.retrofit
     implementation Deps.retrofit_converter_gson
     implementation Deps.okhttp
     implementation Deps.okhttp_logging_interceptor
     implementation Deps.kotlinx_coroutines_android
     implementation Deps.kotlinx_coroutines_core
-    implementation Deps.androidx_room_runtime
+    api Deps.androidx_room_runtime
     implementation Deps.androidx_room
-    implementation Deps.androidx_lifecycle_extensions
-    implementation Deps.androidx_lifecycle_livedata_ktx
-
-    implementation Deps.kotlin_stdlib
-    implementation Deps.androidx_core_ktx
-    implementation Deps.androidx_appcompat
-    testImplementation Deps.junit
-    androidTestImplementation Deps.androidx_test_ext_junit
-    androidTestImplementation Deps.androidx_espresso
 }

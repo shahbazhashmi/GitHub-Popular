@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    publishNonDefault true
     defaultConfig {
         versionCode 1
         versionName "1.0"
@@ -21,37 +22,17 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api project(':datasource')
-    kapt Deps.dagger_compiler
-    kapt Deps.dagger_android_processor
-    implementation Deps.dagger_core
-    implementation Deps.dagger_android
-    implementation Deps.kotlin_stdlib
-    implementation Deps.androidx_recyclerview
-    implementation Deps.androidx_core_ktx
-    implementation Deps.androidx_appcompat
-    implementation Deps.arch_lifecycle_common_java8
-    implementation Deps.arch_lifecycle_extensions
-    implementation Deps.androidx_lifecycle_common_java8
-    implementation Deps.androidx_lifecycle_extensions
-    implementation Deps.androidx_lifecycle_livedata_ktx
-    implementation Deps.androidx_lifecycle_viewmodel_ktx
-    implementation Deps.androidx_lifecycle_extensions
-    implementation Deps.circle_imageview
-    implementation Deps.androidx_swiperefreshlayout
-    implementation Deps.material
-    implementation Deps.coil
 
     /**
-     * testing dependencies
+     * get test dependencies
+     * from core module
      */
-    testImplementation Deps.kotlinx_coroutines_test
-    testImplementation Deps.arch_core_testing
-    testImplementation Deps.junit
-    testImplementation Deps.nharmaan_mockito_kotlin
-    androidTestImplementation Deps.mockito_android
-    androidTestImplementation Deps.support_test_runner
-    androidTestImplementation Deps.support_test_rules
-    androidTestImplementation Deps.androidx_test_ext_junit
-    androidTestImplementation Deps.androidx_espresso
-    androidTestImplementation Deps.espresso_contrib
+    testImplementation project(path: ':core', configuration: 'coreTestDependencies')
+    androidTestImplementation project(path: ':core', configuration: 'coreAndroidTestDependencies')
+
+
+    api Deps.androidx_swiperefreshlayout
+    implementation Deps.circle_imageview
+    implementation Deps.material
+    implementation Deps.coil
 }

@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.4.10'
+        kotlin_version = Versions.kotlin
     }
     repositories {
         google()
@@ -40,9 +40,9 @@ allprojects {
                     targetSdkVersion Config.targetSdk
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                 }
-
-                dataBinding {
-                    enabled true
+                buildFeatures{
+                    dataBinding = true
+                    viewBinding = true
                 }
                 compileOptions {
                     sourceCompatibility Config.javaVersion
@@ -64,6 +64,15 @@ allprojects {
                         test.resources.srcDirs += ["${project(':core').projectDir}/src/test/resources"]
                         androidTest.java.srcDirs += ["${project(':core').projectDir}/src/androidTest/java/matrixsystems/core/testutils"]
                     }
+                }
+
+                dependencies {
+                    /**
+                     * Dagger
+                     */
+                    kapt Deps.databinding_compiler
+                    kapt Deps.dagger_compiler
+                    kapt Deps.dagger_android_processor
                 }
             }
         }
