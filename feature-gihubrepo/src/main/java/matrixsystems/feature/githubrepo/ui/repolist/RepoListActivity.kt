@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import matrixsystems.core.utils.CoreUtil
 import matrixsystems.core.extensions.getViewModel
 import matrixsystems.core.ui.BaseActivity
+import matrixsystems.core.widgets.CustomToolbar
 import matrixsystems.feature.githubrepo.R
 import matrixsystems.feature.githubrepo.databinding.ActivityRepoListBinding
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_repo_list)
         binding.vm = githubRepoViewModel
-        setSupportActionBar(binding.toolbar as Toolbar)
+        setSupportActionBar(binding.toolbar.root as Toolbar)
         title = getString(R.string.txt_trending)
         binding.swipeContainer.setOnRefreshListener(this)
         binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager

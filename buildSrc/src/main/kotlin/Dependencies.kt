@@ -12,7 +12,7 @@ object Versions {
     val kotlin = "1.4.10"
     val lifecycle = "1.1.1"
     val room = "2.2.5"
-    val gradle = "3.5.3"
+    val gradle = "4.0.0"
     val retrofit = "2.9.0"
     val okhttp = "4.8.0"
     val dagger = "2.27"

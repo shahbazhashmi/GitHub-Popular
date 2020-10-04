@@ -38,6 +38,7 @@ dependencies {
     implementation Deps.androidx_lifecycle_extensions
     implementation Deps.circle_imageview
     implementation Deps.androidx_swiperefreshlayout
+    implementation Deps.androidx_constraintlayout
     implementation Deps.material
     implementation Deps.coil
 
