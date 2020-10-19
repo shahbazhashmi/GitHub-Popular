@@ -9,7 +9,7 @@ android {
         versionName "1.0"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField "String", "BASE_URL", '"https://github-trending-api.now.sh/"'
+        buildConfigField "String", "BASE_URL", '"https://api.github.com/users/shahbazhashmi/"'
         buildConfigField("int", "CACHE_TIMEOUT", (2 * 60 * 60 * 1000).toString())
     }
 
