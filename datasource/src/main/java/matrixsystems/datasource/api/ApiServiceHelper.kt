@@ -5,10 +5,6 @@ package matrixsystems.datasource.api
  */
 class ApiServiceHelper(val apiService: ApiService) {
 
-    suspend fun getRepos(
-        language: String = "",
-        since: String = "",
-        spokenLanguageCode: String = ""
-    ) = apiService.getRepos(language, since, spokenLanguageCode)
+    suspend fun getRepos() = apiService.getRepos()
 
 }

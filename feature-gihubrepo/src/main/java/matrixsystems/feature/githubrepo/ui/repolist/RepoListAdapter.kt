@@ -58,8 +58,8 @@ class RepoListAdapter @Inject constructor(val context: Context) :
         fun bind(position: Int) = with(itemView) {
             val isExpanded = selectedPosition == position
             val githubRepo = githubRepoList[position]
-            imageview_profile.load(githubRepo.avatar)
-            textview_username.text = githubRepo.author
+            imageview_profile.load(githubRepo.owner?.avatarUrl)
+            textview_username.text = githubRepo.fullName
             textview_reponame.text = githubRepo.name
 
             itemView.setOnClickListener {
@@ -89,11 +89,11 @@ class RepoListAdapter @Inject constructor(val context: Context) :
                 var starSpannable: SpannableString? = null
                 var forkSpannable: SpannableString? = null
 
-                if (!TextUtils.isEmpty(githubRepo.language) && !TextUtils.isEmpty(githubRepo.languageColor)) {
+                if (!TextUtils.isEmpty(githubRepo.language)) {
                     languageSpannable = SpannableString("\u25CF ${githubRepo.language}")
                     try {
                         languageSpannable.setSpan(
-                            ForegroundColorSpan(Color.parseColor(githubRepo.languageColor)),
+                            ForegroundColorSpan(Color.parseColor("#000000")),
                             0,
                             languageSpannable.length - githubRepo.language!!.length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -104,9 +104,12 @@ class RepoListAdapter @Inject constructor(val context: Context) :
 
                 }
 
-                if (githubRepo.stars != null) {
+                if (githubRepo.stargazersCount != null) {
                     starSpannable =
-                        getAttributeSpannableString(githubRepo.stars!!, R.drawable.star_yellow_16)
+                        getAttributeSpannableString(
+                            githubRepo.stargazersCount!!,
+                            R.drawable.star_yellow_16
+                        )
                 }
 
                 if (githubRepo.forks != null) {
