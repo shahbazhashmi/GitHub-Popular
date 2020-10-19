@@ -5,12 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import matrixsystems.datasource.db.githubrepo.DatabaseDao
-import matrixsystems.datasource.model.BuiltBy
 import matrixsystems.datasource.model.GithubRepo
-import java.lang.reflect.Type
-import java.util.*
+import matrixsystems.datasource.model.License
+import matrixsystems.datasource.model.Owner
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-04.
@@ -32,17 +30,28 @@ class BuiltByConverter {
     private val gson = Gson()
 
     @TypeConverter
-    fun stringToList(data: String?): List<BuiltBy?>? {
+    fun stringToLicense(data: String?): License? {
         if (data == null) {
-            return Collections.emptyList()
+            return null
         }
-        val listType: Type =
-            object : TypeToken<List<BuiltBy?>?>() {}.type
-        return gson.fromJson(data, listType)
+        return gson.fromJson(data, License::class.java)
     }
 
     @TypeConverter
-    fun ListToString(someObjects: List<BuiltBy?>?): String? {
+    fun licenseToString(someObjects: License?): String? {
+        return gson.toJson(someObjects)
+    }
+
+    @TypeConverter
+    fun stringToOwner(data: String?): Owner? {
+        if (data == null) {
+            return null
+        }
+        return gson.fromJson(data, Owner::class.java)
+    }
+
+    @TypeConverter
+    fun ownerToString(someObjects: Owner?): String? {
         return gson.toJson(someObjects)
     }
 }
