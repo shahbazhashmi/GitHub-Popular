@@ -1,4 +1,4 @@
-package matrixsystems.datasource.db.githubrepo;
+package matrixsystems.datasource.db.githubrepo
 
 import androidx.room.Dao
 import androidx.room.Insert

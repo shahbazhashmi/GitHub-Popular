@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import matrixsystems.core.SharedPreferenceManager
-import matrixsystems.core.utils.ConnectivityUtil
+import matrixsystems.core.constants.SystemVariables
 import matrixsystems.datasource.BuildConfig
 import matrixsystems.datasource.api.ApiServiceHelper
 import matrixsystems.datasource.api.network.NetworkAndDBBoundResource
@@ -21,7 +21,6 @@ class GithubRepoRepository @Inject constructor(
     private val databaseDaoHelper: DatabaseDaoHelper,
     private val apiServiceHelper: ApiServiceHelper,
     private val sharedPreferenceManager: SharedPreferenceManager,
-    private val connectivityUtil: ConnectivityUtil,
     private val context: Context?
 ) {
     private val TAG = "GithubRepoRepository"
@@ -44,7 +43,7 @@ class GithubRepoRepository @Inject constructor(
             }
 
             override fun shouldFetch(data: List<GithubRepo>?): Boolean {
-                if (context != null && connectivityUtil.isConnected(context) && sharedPreferenceManager.isLocalDataExpired(BuildConfig.CACHE_TIMEOUT.toLong())) {
+                if (context != null && SystemVariables.isInternetConnected && sharedPreferenceManager.isLocalDataExpired(BuildConfig.CACHE_TIMEOUT.toLong())) {
                     return true
                 }
                 if (!isDataAvailable(data)) {

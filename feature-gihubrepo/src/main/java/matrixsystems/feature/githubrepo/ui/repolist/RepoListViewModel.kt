@@ -1,11 +1,14 @@
 package matrixsystems.feature.githubrepo.ui.repolist
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import matrixsystems.core.model.Resource
+import matrixsystems.core.ui.BaseViewModel
+import matrixsystems.core.ui.loader.LoaderHelper
 import matrixsystems.datasource.model.GithubRepo
 import matrixsystems.feature.githubrepo.repo.GithubRepoRepository
-import matrixsystems.core.ui.loader.LoaderHelper
 import javax.inject.Inject
 
 /**
@@ -14,7 +17,7 @@ import javax.inject.Inject
 class RepoListViewModel @Inject constructor(
     private val githubRepoRepository: GithubRepoRepository,
     val loaderHelper: LoaderHelper, val repoListAdapter: RepoListAdapter
-) : ViewModel() {
+) : BaseViewModel() {
 
     // FOR DATA
     private val _repos = MediatorLiveData<Resource<List<GithubRepo>?>>()
@@ -22,12 +25,12 @@ class RepoListViewModel @Inject constructor(
     val repos: LiveData<Resource<List<GithubRepo>?>> get() = _repos
 
 
-    fun fetchGithubRepos(callApiForcefully: Boolean) = viewModelScope.launch {
+    fun fetchGithubRepos(callApiForcefully: Boolean) = launch {
         _repos.removeSource(reposSource)
-            reposSource = githubRepoRepository.getGithubRepos(callApiForcefully)
-            _repos.addSource(reposSource) {
-                _repos.value = it
-            }
+        reposSource = githubRepoRepository.getGithubRepos(callApiForcefully)
+        _repos.addSource(reposSource) {
+            _repos.value = it
+        }
     }
 
 }
