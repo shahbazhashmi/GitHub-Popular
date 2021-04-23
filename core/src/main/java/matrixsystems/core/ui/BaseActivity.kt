@@ -87,7 +87,6 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
     fun onBackPressedApp() {
         val manager = supportFragmentManager
-        // First entry in backstack is when MainActivity inserts HomepageFragment instance in onCreate.
         if (manager.backStackEntryCount == 1) {
             // If that's the only entry left, finish the app.
             this.finish()

@@ -1,7 +1,6 @@
 package matrixsystems.feature.githubrepo.ui.landing
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
