@@ -2,48 +2,53 @@ package matrixsystems.feature.githubrepo.ui.repolist
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import androidx.appcompat.widget.Toolbar
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import matrixsystems.core.utils.CoreUtil
 import matrixsystems.core.extensions.getViewModel
-import matrixsystems.core.ui.BaseActivity
-import matrixsystems.core.widgets.CustomToolbar
+import matrixsystems.core.ui.BaseFragment
+import matrixsystems.core.utils.CoreUtil
 import matrixsystems.feature.githubrepo.R
-import matrixsystems.feature.githubrepo.databinding.ActivityRepoListBinding
+import matrixsystems.feature.githubrepo.databinding.FragmentRepoListBinding
+import matrixsystems.feature.githubrepo.ui.landing.GithubRepoLandingActivity
 import javax.inject.Inject
 
 
-class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class RepoListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val LIST_POSITION = "list_position"
 
-    private val TAG = "RepoListActivity"
+    private val TAG = "RepoListFragment"
 
     private val githubRepoViewModel by lazy {
         getViewModel<RepoListViewModel>()
     }
 
-    private val recyclerViewLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(this)
-    }
+    private val recyclerViewLayoutManager: LinearLayoutManager
+       get() = LinearLayoutManager(requireContext())
 
-    lateinit var binding: ActivityRepoListBinding
+
+    lateinit var binding: FragmentRepoListBinding
 
     @Inject
     lateinit var coreUtil: CoreUtil
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_repo_list)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_repo_list, container, false)
         binding.vm = githubRepoViewModel
-        setSupportActionBar(binding.toolbar.root as Toolbar)
-        title = getString(R.string.txt_trending)
+        binding.lifecycleOwner = this
+        (activity as GithubRepoLandingActivity).setAppTitle(getString(R.string.txt_trending))
         binding.swipeContainer.setOnRefreshListener(this)
-        binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
+        binding.recyclerviewRepo.layoutManager = LinearLayoutManager(requireContext())
         if (savedInstanceState != null) {
             // scroll to existing position which exist before rotation.
             binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))
@@ -56,20 +61,16 @@ class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             getGithubRepos()
         }
         getGithubRepos()
+        return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_toolbar, menu)
-        return true
-    }
 
     private fun getGithubRepos(callApiForcefully: Boolean = false) {
         githubRepoViewModel.fetchGithubRepos(callApiForcefully)
     }
 
     private fun attachDataChangeListener() {
-        githubRepoViewModel.repos.observe(this, Observer {
+        githubRepoViewModel.repos.observe(viewLifecycleOwner, Observer {
             when {
                 it!!.status.isLoading() -> {
                     if (!binding.swipeContainer.isRefreshing) {
@@ -97,7 +98,7 @@ class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
                     if (binding.swipeContainer.isRefreshing) {
                         binding.swipeContainer.isRefreshing = false
                         coreUtil.showToast(
-                            this,
+                            requireActivity(),
                             "${getString(R.string.txt_something_went_wrong)} - ${getString(R.string.txt_alien_blocking_signal)}",
                             false
                         )
@@ -131,5 +132,10 @@ class RepoListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
             githubRepoViewModel.repoListAdapter.selectedPosition
         ) // get current recycle view selected position here.
         super.onSaveInstanceState(savedInstanceState)
+    }
+
+
+    companion object {
+        fun getNewInstance() = RepoListFragment()
     }
 }

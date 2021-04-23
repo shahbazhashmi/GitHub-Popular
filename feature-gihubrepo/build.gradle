@@ -35,4 +35,5 @@ dependencies {
     implementation Deps.circle_imageview
     implementation Deps.material
     implementation Deps.coil
+    kaptAndroidTest Deps.databinding_compiler
 }

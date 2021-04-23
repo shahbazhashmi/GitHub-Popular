@@ -8,12 +8,15 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import matrixsystems.core.testutils.clickChildViewWithId
 import matrixsystems.core.testutils.waitId
 import matrixsystems.core.testutils.withCustomConstraints
-import matrixsystems.feature.githubrepo.ui.repolist.RepoListActivity
+import matrixsystems.feature.githubrepo.ui.landing.GithubRepoLandingActivity
+import matrixsystems.feature.githubrepo.ui.repolist.RepoListFragment
 import matrixsystems.feature.githubrepo.ui.repolist.RepoListAdapter
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,11 +26,11 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class RepoListActivityBehaviorTest {
+class GithubRepoLandingActivityBehaviorTest {
 
     @get:Rule
-    var listActivityRule: ActivityTestRule<RepoListActivity> =
-        ActivityTestRule(RepoListActivity::class.java)
+    var listFragmentRule: ActivityTestRule<GithubRepoLandingActivity> =
+        ActivityTestRule(GithubRepoLandingActivity::class.java)
 
     @Test
     fun loadData_sameActivity() {

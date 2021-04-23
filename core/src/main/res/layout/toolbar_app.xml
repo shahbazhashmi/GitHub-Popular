@@ -7,6 +7,6 @@
         android:background="@color/app_white"
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:theme="@style/ToolbarTheme" />
 
 </layout>

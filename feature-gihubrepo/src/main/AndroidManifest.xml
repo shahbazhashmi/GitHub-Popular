@@ -2,7 +2,7 @@
     package="matrixsystems.feature.githubrepo">
 
     <application>
-        <activity android:name="matrixsystems.feature.githubrepo.ui.repolist.RepoListActivity">
-        </activity>
+        <activity
+            android:name="matrixsystems.feature.githubrepo.ui.landing.GithubRepoLandingActivity" />
     </application>
 </manifest>
