@@ -9,7 +9,7 @@ import matrixsystems.feature.githubrepo.ui.repolist.RepoListAdapter
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
  */
-@Module(includes = [DataSourceModule::class, ActivityModule::class, ViewModelModule::class])
+@Module(includes = [DataSourceModule::class, ActivityModule::class, ViewModelModule::class, FragmentModule::class])
 class GithubRepoModule {
 
     /**

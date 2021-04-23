@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.Provides
 import matrixsystems.core.SharedPreferenceManager
 import matrixsystems.core.ui.loader.LoaderHelper
-import matrixsystems.core.utils.ConnectivityUtil
 import matrixsystems.core.utils.CoreUtil
 import javax.inject.Singleton
 
@@ -27,10 +26,6 @@ class CoreModule {
     @Provides
     @Singleton
     fun provideCoreUtil() = CoreUtil()
-
-    @Provides
-    @Singleton
-    fun provideConnectivityUtil() = ConnectivityUtil()
 
 
     /**
