@@ -19,10 +19,10 @@ import matrixsystems.core.constants.AppConstants;
 
 public class ConnectionStateMonitor extends LiveData<Boolean> {
 
-    private Context mContext;
+    private final Context mContext;
     private ConnectivityManager.NetworkCallback networkCallback = null;
     private NetworkReceiver networkReceiver;
-    private ConnectivityManager connectivityManager;
+    private final ConnectivityManager connectivityManager;
 
     public ConnectionStateMonitor(Context context) {
         mContext = context;
@@ -65,7 +65,7 @@ public class ConnectionStateMonitor extends LiveData<Boolean> {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     class NetworkCallback extends ConnectivityManager.NetworkCallback {
 
-        private ConnectionStateMonitor mConnectionStateMonitor;
+        private final ConnectionStateMonitor mConnectionStateMonitor;
 
         public NetworkCallback(ConnectionStateMonitor connectionStateMonitor) {
             mConnectionStateMonitor = connectionStateMonitor;

@@ -6,5 +6,4 @@ import javax.inject.Inject
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
  */
-class MainViewModel @Inject constructor() : BaseViewModel() {
-}
+class MainViewModel @Inject constructor() : BaseViewModel()

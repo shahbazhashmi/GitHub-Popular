@@ -19,7 +19,7 @@ import javax.inject.Inject
  */
 abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
-    val TAG = "BaseActivity"
+    private val TAG = "BaseActivity"
 
     val TRANSACTION_DEFAULT = "default"
 
@@ -33,7 +33,7 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
     abstract val contentMain: Int?
 
-    fun addFragment(fragment: Fragment?, addToBackstack: Boolean) {
+    fun addFragment(fragment: Fragment?, addToBackstack: Boolean, backStackTag: String?) {
         try {
             if (contentMain == null) {
                 throw NullPointerException("Container not implemented in parent activity")
@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
             val ft = supportFragmentManager.beginTransaction()
             ft.add(contentMain!!, fragment)
             if (addToBackstack) {
-                ft.addToBackStack(fragment.activity?.localClassName)
+                ft.addToBackStack(backStackTag)
             }
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
             ft.commit()
@@ -54,7 +54,7 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
     }
 
-    fun replaceFragment(fragment: Fragment?, resId: Int, addToBackstack: Boolean) {
+    fun replaceFragment(fragment: Fragment?, addToBackstack: Boolean, backStackTag: String?) {
         try {
             if (contentMain == null) {
                 throw NullPointerException("Container not implemented in parent activity")
@@ -63,9 +63,9 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
                 throw NullPointerException("Fragment is null")
             }
             val ft = supportFragmentManager.beginTransaction()
-            ft.replace(resId, fragment)
+            ft.replace(contentMain!!, fragment)
             if (addToBackstack) {
-                ft.addToBackStack(fragment.activity?.localClassName)
+                ft.addToBackStack(backStackTag)
             }
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
             ft.commit()
@@ -107,7 +107,7 @@ abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
 
 
     fun clearBackStack() {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
 

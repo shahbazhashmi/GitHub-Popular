@@ -28,9 +28,9 @@ class RepoListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         getViewModel<RepoListViewModel>()
     }
 
-    private val recyclerViewLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(requireContext())
-    }
+    private val recyclerViewLayoutManager: LinearLayoutManager
+       get() = LinearLayoutManager(requireContext())
+
 
     lateinit var binding: FragmentRepoListBinding
 
@@ -48,7 +48,7 @@ class RepoListFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.lifecycleOwner = this
         (activity as GithubRepoLandingActivity).setAppTitle(getString(R.string.txt_trending))
         binding.swipeContainer.setOnRefreshListener(this)
-        binding.recyclerviewRepo.layoutManager = recyclerViewLayoutManager
+        binding.recyclerviewRepo.layoutManager = LinearLayoutManager(requireContext())
         if (savedInstanceState != null) {
             // scroll to existing position which exist before rotation.
             binding.recyclerviewRepo.scrollToPosition(savedInstanceState.getInt(LIST_POSITION))

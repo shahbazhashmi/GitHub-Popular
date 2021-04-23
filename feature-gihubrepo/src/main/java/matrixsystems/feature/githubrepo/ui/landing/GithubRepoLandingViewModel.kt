@@ -6,5 +6,4 @@ import javax.inject.Inject
 /**
  * Created by Shahbaz Hashmi on 23/04/21.
  */
-class GithubRepoLandingViewModel @Inject constructor() : BaseViewModel() {
-}
+class GithubRepoLandingViewModel @Inject constructor() : BaseViewModel()

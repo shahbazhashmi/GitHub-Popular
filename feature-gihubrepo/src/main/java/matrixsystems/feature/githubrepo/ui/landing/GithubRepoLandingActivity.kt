@@ -1,6 +1,7 @@
 package matrixsystems.feature.githubrepo.ui.landing
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -15,6 +16,8 @@ import matrixsystems.feature.githubrepo.ui.repolist.RepoListFragment
  */
 class GithubRepoLandingActivity : BaseActivity() {
 
+    val TAG = "GithubRepoLandingActivity"
+
     private val githubRepoLandingViewModel by lazy {
         getViewModel<GithubRepoLandingViewModel>()
     }
@@ -24,12 +27,28 @@ class GithubRepoLandingActivity : BaseActivity() {
     override val contentMain: Int
         get() = R.id.content_main
 
+    val toolbar by lazy {
+        binding.toolbar.root as Toolbar
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_github_repo_landing)
         binding.vm = githubRepoLandingViewModel
-        setSupportActionBar(binding.toolbar.root as Toolbar)
-        addFragment(RepoListFragment.getNewInstance(), true)
+        setSupportActionBar(toolbar)
+        attachNavIconListener()
+        addFragment(RepoListFragment.getNewInstance(), true, TAG)
+    }
+
+    private fun attachNavIconListener() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount > 1) {
+                supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                toolbar.setNavigationOnClickListener { onBackPressed() }
+            } else {
+                supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            }
+        }
     }
 
     fun setAppTitle(titleString: String) {

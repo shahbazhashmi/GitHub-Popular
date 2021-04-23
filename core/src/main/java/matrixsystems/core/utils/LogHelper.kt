@@ -8,7 +8,7 @@ import android.util.Log
 object LogHelper {
 
     // todo - it should be based on build type
-    val isLogEnabled = true;
+    val isLogEnabled = true
 
     fun i(tag: String, message: String) {
         if (isLogEnabled)
