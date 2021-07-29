@@ -12,3 +12,11 @@ It also shows basic information of the repository i.e. language (with color), nu
 
 
 <img src="demo_gif.gif?raw=true" width="350">
+
+<br/>
+<br/>
+
+### Modules Dependency Diagram
+
+
+<img src="dependency_diagram.png">
