@@ -4,10 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import matrixsystems.core.constants.Status
-import matrixsystems.core.model.Resource
 import matrixsystems.core.testutils.MockTestCoroutineRule
 import matrixsystems.core.testutils.MockitoUtils
 import matrixsystems.datasource.model.GithubRepo
+import matrixsystems.datasource.model.Resource
 import matrixsystems.feature.githubrepo.ui.repolist.RepoListViewModel
 import org.junit.Before
 import org.junit.Rule
