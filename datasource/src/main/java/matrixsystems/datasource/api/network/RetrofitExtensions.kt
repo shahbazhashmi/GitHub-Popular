@@ -1,6 +1,6 @@
 package matrixsystems.datasource.api.network
 
-import matrixsystems.core.model.Resource
+import matrixsystems.datasource.model.Resource
 import retrofit2.Response
 import retrofit2.Retrofit
 

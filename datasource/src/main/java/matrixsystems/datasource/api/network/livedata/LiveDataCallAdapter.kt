@@ -1,8 +1,8 @@
 package matrixsystems.datasource.api.network.livedata
 
 import androidx.lifecycle.LiveData
-import matrixsystems.core.model.Resource
 import matrixsystems.datasource.api.network.toResource
+import matrixsystems.datasource.model.Resource
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback

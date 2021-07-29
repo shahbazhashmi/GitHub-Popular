@@ -1,6 +1,7 @@
-package matrixsystems.core.model
+package matrixsystems.datasource.model
 
 import matrixsystems.core.constants.Status
+
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-06.

@@ -21,7 +21,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    api project(':datasource')
+    implementation project(':datasource')
+    implementation project(':core')
 
     /**
      * get test dependencies

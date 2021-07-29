@@ -1,4 +1,4 @@
-package matrixsystems.core
+package matrixsystems.datasource
 
 import android.content.SharedPreferences
 import javax.inject.Inject

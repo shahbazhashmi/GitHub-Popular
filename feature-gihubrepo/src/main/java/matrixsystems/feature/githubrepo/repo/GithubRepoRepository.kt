@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import matrixsystems.core.SharedPreferenceManager
 import matrixsystems.core.constants.SystemVariables
 import matrixsystems.datasource.BuildConfig
+import matrixsystems.datasource.SharedPreferenceManager
 import matrixsystems.datasource.api.ApiServiceHelper
 import matrixsystems.datasource.api.network.NetworkAndDBBoundResource
-import matrixsystems.core.model.Resource
 import matrixsystems.datasource.db.DatabaseDaoHelper
 import matrixsystems.datasource.model.GithubRepo
+import matrixsystems.datasource.model.Resource
 import javax.inject.Inject
 
 /**

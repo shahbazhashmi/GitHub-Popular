@@ -6,7 +6,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
-import matrixsystems.core.model.Resource
+import matrixsystems.datasource.model.Resource
 import kotlin.coroutines.coroutineContext
 
 /**
@@ -81,7 +81,7 @@ abstract class NetworkAndDBBoundResource<ResultType, RequestType> {
 
     @MainThread
     private fun setValue(newValue: Resource<ResultType>) {
-        Log.d(TAG, "Resource: "+newValue)
+        Log.d(TAG, "Resource: $newValue")
         if (result.value != newValue) result.postValue(newValue)
     }
 

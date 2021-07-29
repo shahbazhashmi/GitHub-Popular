@@ -1,6 +1,7 @@
 package matrixsystems.datasource.di.modules
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
  */
-@Module(includes = [CoreModule::class])
+@Module
 class DataSourceModule {
     /**
      * Provides ApiServices client for Retrofit
@@ -53,4 +54,21 @@ class DataSourceModule {
     @Provides
     @Singleton
     fun providesApiServiceHelper(apiService: ApiService) = ApiServiceHelper(apiService)
+
+    /**
+     * Provides Preferences object with MODE_PRIVATE
+     */
+    @Provides
+    @Singleton
+    fun provideSharedPreference(context: Context) =
+        context.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
+
+
+    /**
+     * Provides SharedPreferenceManager object
+     */
+    @Provides
+    @Singleton
+    fun provideSharedPreferenceManager(sharedPreferences: SharedPreferences) =
+        matrixsystems.datasource.SharedPreferenceManager(sharedPreferences)
 }
