@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 import matrixsystems.core.constants.SystemVariables
 import matrixsystems.datasource.BuildConfig
 import matrixsystems.datasource.SharedPreferenceManager
-import matrixsystems.datasource.api.ApiServiceHelper
+import matrixsystems.feature.githubrepo.data.api.GithubRepoApiServiceHelper
 import matrixsystems.datasource.api.network.NetworkAndDBBoundResource
 import matrixsystems.datasource.db.DatabaseDaoHelper
 import matrixsystems.datasource.model.GithubRepo
@@ -19,7 +19,7 @@ import javax.inject.Inject
  */
 class GithubRepoRepository @Inject constructor(
     private val databaseDaoHelper: DatabaseDaoHelper,
-    private val apiServiceHelper: ApiServiceHelper,
+    private val apiServiceHelper: GithubRepoApiServiceHelper,
     private val sharedPreferenceManager: SharedPreferenceManager,
     private val context: Context?
 ) {

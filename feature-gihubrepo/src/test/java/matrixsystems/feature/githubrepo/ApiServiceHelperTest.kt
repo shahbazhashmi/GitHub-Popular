@@ -1,8 +1,9 @@
 package matrixsystems.feature.githubrepo
 
 import kotlinx.coroutines.runBlocking
-import matrixsystems.datasource.api.ApiServiceHelper
+import matrixsystems.feature.githubrepo.data.api.GithubRepoApiServiceHelper
 import matrixsystems.datasource.utils.DataSourceUtil
+import matrixsystems.feature.githubrepo.data.api.GithubRepoApiService
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -12,11 +13,14 @@ import org.junit.Test
  */
 class ApiServiceHelperTest {
 
-    lateinit var apiServiceHelper: ApiServiceHelper
+    lateinit var apiServiceHelper: GithubRepoApiServiceHelper
 
     @Before
     fun setup() {
-        apiServiceHelper = ApiServiceHelper(DataSourceUtil.getApiService())
+        apiServiceHelper = GithubRepoApiServiceHelper(DataSourceUtil.getApiService(
+            GithubRepoApiService::class.java,
+            BuildConfig.BASE_URL
+        ) as GithubRepoApiService)
     }
 
     @Test

@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "BASE_URL", '"https://api.github.com/users/shahbazhashmi/"'
     }
 
     buildTypes {
@@ -23,6 +24,9 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':datasource')
     implementation project(':core')
+
+    implementation Deps.retrofit
+    implementation Deps.retrofit_converter_gson
 
     /**
      * get test dependencies
