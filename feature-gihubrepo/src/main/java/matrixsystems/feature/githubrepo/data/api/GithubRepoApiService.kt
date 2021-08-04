@@ -1,7 +1,7 @@
 package matrixsystems.feature.githubrepo.data.api
 
-import matrixsystems.datasource.model.GithubRepo
 import matrixsystems.datasource.model.Resource
+import matrixsystems.feature.githubrepo.data.models.GithubRepo
 import retrofit2.http.GET
 
 /**

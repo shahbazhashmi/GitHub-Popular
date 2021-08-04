@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import matrixsystems.core.ui.BaseViewModel
 import matrixsystems.core.ui.loader.LoaderHelper
-import matrixsystems.datasource.model.GithubRepo
 import matrixsystems.datasource.model.Resource
+import matrixsystems.feature.githubrepo.data.models.GithubRepo
 import matrixsystems.feature.githubrepo.repo.GithubRepoRepository
 import javax.inject.Inject
 

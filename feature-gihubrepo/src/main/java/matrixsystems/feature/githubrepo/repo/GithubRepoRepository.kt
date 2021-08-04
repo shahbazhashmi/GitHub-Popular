@@ -5,22 +5,22 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import matrixsystems.core.constants.SystemVariables
-import matrixsystems.datasource.BuildConfig
-import matrixsystems.datasource.SharedPreferenceManager
+import matrixsystems.feature.githubrepo.data.GithubRepoSharedPreferenceManager
 import matrixsystems.feature.githubrepo.data.api.GithubRepoApiServiceHelper
 import matrixsystems.datasource.api.network.NetworkAndDBBoundResource
-import matrixsystems.datasource.db.DatabaseDaoHelper
-import matrixsystems.datasource.model.GithubRepo
+import matrixsystems.feature.githubrepo.data.db.GithubRepoDatabaseDaoHelper
 import matrixsystems.datasource.model.Resource
+import matrixsystems.feature.githubrepo.BuildConfig.CACHE_TIMEOUT
+import matrixsystems.feature.githubrepo.data.models.GithubRepo
 import javax.inject.Inject
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-05.
  */
 class GithubRepoRepository @Inject constructor(
-    private val databaseDaoHelper: DatabaseDaoHelper,
+    private val githubRepoDatabaseDaoHelper: GithubRepoDatabaseDaoHelper,
     private val apiServiceHelper: GithubRepoApiServiceHelper,
-    private val sharedPreferenceManager: SharedPreferenceManager,
+    private val githubRepoSharedPreferenceManager: GithubRepoSharedPreferenceManager,
     private val context: Context?
 ) {
     private val TAG = "GithubRepoRepository"
@@ -35,15 +35,15 @@ class GithubRepoRepository @Inject constructor(
             override suspend fun saveCallResults(items: List<GithubRepo>?) {
                 withContext(Dispatchers.IO) {
                     if (items != null && items.isNotEmpty()) {
-                        sharedPreferenceManager.setLastUpdatedTimestamp()
-                        databaseDaoHelper.deleteAllRepos()
-                        databaseDaoHelper.insertRepos(items)
+                        githubRepoSharedPreferenceManager.setLastUpdatedTimestamp()
+                        githubRepoDatabaseDaoHelper.deleteAllRepos()
+                        githubRepoDatabaseDaoHelper.insertRepos(items)
                     }
                 }
             }
 
             override fun shouldFetch(data: List<GithubRepo>?): Boolean {
-                if (context != null && SystemVariables.isInternetConnected && sharedPreferenceManager.isLocalDataExpired(BuildConfig.CACHE_TIMEOUT.toLong())) {
+                if (context != null && SystemVariables.isInternetConnected && githubRepoSharedPreferenceManager.isLocalDataExpired(CACHE_TIMEOUT.toLong())) {
                     return true
                 }
                 if (!isDataAvailable(data)) {
@@ -58,7 +58,7 @@ class GithubRepoRepository @Inject constructor(
                 data != null && data.isNotEmpty()
 
             override suspend fun loadFromDb(): List<GithubRepo> = withContext(Dispatchers.IO) {
-                databaseDaoHelper.getAllRepos()
+                githubRepoDatabaseDaoHelper.getAllRepos()
             }
 
             override suspend fun createCall(): Resource<List<GithubRepo>> =

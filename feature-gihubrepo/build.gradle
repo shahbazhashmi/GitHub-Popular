@@ -10,6 +10,7 @@ android {
         versionName "1.0"
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "BASE_URL", '"https://api.github.com/users/shahbazhashmi/"'
+        buildConfigField("int", "CACHE_TIMEOUT", (2 * 60 * 60 * 1000).toString())
     }
 
     buildTypes {
@@ -27,6 +28,7 @@ dependencies {
 
     implementation Deps.retrofit
     implementation Deps.retrofit_converter_gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     /**
      * get test dependencies
@@ -41,4 +43,8 @@ dependencies {
     implementation Deps.material
     implementation Deps.coil
     kaptAndroidTest Deps.databinding_compiler
+
+    kapt Deps.androidx_room_compiler
+    api Deps.androidx_room_runtime
+    implementation Deps.androidx_room
 }

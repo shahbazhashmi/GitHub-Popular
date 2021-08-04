@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.row_github_repo.view.*
 import matrixsystems.core.CenteredImageSpan
 import matrixsystems.core.extensions.autoNotify
 import matrixsystems.core.extensions.inflate
-import matrixsystems.datasource.model.GithubRepo
 import matrixsystems.feature.githubrepo.R
+import matrixsystems.feature.githubrepo.data.models.GithubRepo
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

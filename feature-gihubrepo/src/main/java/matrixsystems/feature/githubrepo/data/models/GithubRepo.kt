@@ -1,11 +1,11 @@
-package matrixsystems.datasource.model
+package matrixsystems.feature.githubrepo.data.models
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName;
 
 
 /**
