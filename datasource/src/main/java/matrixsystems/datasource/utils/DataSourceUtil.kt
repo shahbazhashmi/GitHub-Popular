@@ -1,7 +1,5 @@
 package matrixsystems.datasource.utils
 
-import matrixsystems.datasource.BuildConfig
-import matrixsystems.datasource.api.ApiService
 import matrixsystems.datasource.api.network.resource.ResourceCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,9 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by Shahbaz Hashmi on 03/10/20.
  */
-// todo - provide it using dagger
 object DataSourceUtil {
-    fun getApiService() : ApiService {
+    fun getApiService(classs: Class<*>, baseUrl: String): Any {
         val logging = HttpLoggingInterceptor()
         // set your desired log level
         logging.level = HttpLoggingInterceptor.Level.BODY
@@ -24,11 +21,11 @@ object DataSourceUtil {
         httpClient.addInterceptor(logging) // <-- this is the important line!
 
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(ResourceCallAdapterFactory())
             .client(httpClient.build())
             .build()
-            .create(ApiService::class.java)
+            .create(classs)
     }
 }

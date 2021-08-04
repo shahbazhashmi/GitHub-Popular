@@ -1,4 +1,4 @@
-package matrixsystems.datasource
+package matrixsystems.feature.githubrepo.data
 
 import android.content.SharedPreferences
 import javax.inject.Inject
@@ -7,7 +7,7 @@ import javax.inject.Inject
 /**
  * Created by Shahbaz Hashmi on 2020-03-08.
  */
-class SharedPreferenceManager @Inject constructor(val sharedPreferences: SharedPreferences) {
+class GithubRepoSharedPreferenceManager @Inject constructor(val sharedPreferences: SharedPreferences) {
 
     val KEY_CACHE_TIMOUT = "cache_timeout"
 

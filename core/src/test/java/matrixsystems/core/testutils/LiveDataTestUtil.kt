@@ -3,7 +3,7 @@ package matrixsystems.core.testutils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import matrixsystems.core.constants.Status
-import matrixsystems.core.model.Resource
+import matrixsystems.datasource.model.Resource
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException

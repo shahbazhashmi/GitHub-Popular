@@ -9,8 +9,8 @@ android {
         versionName "1.0"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField "String", "BASE_URL", '"https://api.github.com/users/shahbazhashmi/"'
-        buildConfigField("int", "CACHE_TIMEOUT", (2 * 60 * 60 * 1000).toString())
+        buildConfigField("String", "DB_NAME", '"github_popular_db"')
+        buildConfigField("String", "SP_NAME", '"github_popular_sp"')
     }
 
     buildTypes {
@@ -25,13 +25,11 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':core')
 
-    kapt Deps.androidx_room_compiler
+
     implementation Deps.retrofit
     implementation Deps.retrofit_converter_gson
     implementation Deps.okhttp
     implementation Deps.okhttp_logging_interceptor
     implementation Deps.kotlinx_coroutines_android
     implementation Deps.kotlinx_coroutines_core
-    api Deps.androidx_room_runtime
-    implementation Deps.androidx_room
 }

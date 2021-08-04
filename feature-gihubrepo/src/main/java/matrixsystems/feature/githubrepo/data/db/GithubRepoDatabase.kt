@@ -1,23 +1,22 @@
-package matrixsystems.datasource.db
+package matrixsystems.feature.githubrepo.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
-import matrixsystems.datasource.db.githubrepo.DatabaseDao
-import matrixsystems.datasource.model.GithubRepo
-import matrixsystems.datasource.model.License
-import matrixsystems.datasource.model.Owner
+import matrixsystems.feature.githubrepo.data.models.GithubRepo
+import matrixsystems.feature.githubrepo.data.models.License
+import matrixsystems.feature.githubrepo.data.models.Owner
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-04.
  */
 @Database(entities = [GithubRepo::class], exportSchema = false, version = 1)
 @TypeConverters(BuiltByConverter::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class GithubRepoDatabase : RoomDatabase() {
 
-    abstract fun githubRepoDao(): DatabaseDao
+    abstract fun githubRepoDao(): GithubRepoDatabaseDao
 
 }
 

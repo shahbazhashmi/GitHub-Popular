@@ -1,17 +1,17 @@
-package matrixsystems.datasource.db.githubrepo
+package matrixsystems.feature.githubrepo.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import matrixsystems.datasource.model.GithubRepo
+import matrixsystems.feature.githubrepo.data.models.GithubRepo
 
 
 /**
  * Created by Shahbaz Hashmi on 2020-03-04.
  */
 @Dao
-interface DatabaseDao {
+interface GithubRepoDatabaseDao {
 
     @Query("SELECT COUNT(*) FROM github_repo")
     suspend fun getRepoCount(): Int

@@ -2,7 +2,7 @@ package matrixsystems.core.testutils
 
 import androidx.lifecycle.MutableLiveData
 import matrixsystems.core.constants.Status
-import matrixsystems.core.model.Resource
+import matrixsystems.datasource.model.Resource
 
 /**
  * Created by Shahbaz Hashmi on 02/10/20.
